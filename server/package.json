@@ -1,0 +1,31 @@
+{
+  "name": "final-project-template-server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "ts-node-esm server.ts",
+    "dev": "nodemon server.ts",
+    "lint": "eslint . --ext ts,js --report-unused-disable-directives --max-warnings 0"
+  },
+  "dependencies": {
+    "argon2": "^0.29.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^9.0.0",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/node": "^20.2.5",
+    "@types/pg": "^8.10.1",
+    "nodemon": "^2.0.16"
+  },
+  "nodemonConfig": {
+    "execMap": {
+      "ts": "ts-node-esm",
+      "js": "ts-node-esm"
+    }
+  }
+}

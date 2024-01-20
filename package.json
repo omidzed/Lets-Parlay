@@ -1,0 +1,50 @@
+{
+  "name": "final-project-template",
+  "version": "2.0.0",
+  "private": true,
+  "description": "A full stack JavaScript solo project.",
+  "type": "module",
+  "scripts": {
+    "start": "NODE_ENV=production npm start --prefix server",
+    "build": "npm run build --prefix client",
+    "db:import": "sh database/import.sh",
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "dev": "npm-run-all --parallel --print-label dev:*",
+    "install:client": "npm install --prefix client",
+    "install:server": "npm install --prefix server",
+    "install:env": "test -f server/.env || cp server/.env.example server/.env",
+    "postinstall": "npm-run-all --parallel install:*",
+    "lint:client": "npm run lint --prefix client",
+    "lint:server": "npm run lint --prefix server",
+    "lint": "npm-run-all --parallel lint:*",
+    "prepare": "husky install",
+    "deploy": "git push --force origin main:pub"
+  },
+  "dependencies": {
+    "husky": "^8.0.3",
+    "npm-run-all": "^4.1.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "@learningfuze/lfz-config": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-html": "^7.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.33.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "lint-staged": "^13.2.1",
+    "markuplint": "^3.7.0",
+    "prettier": "^2.8.7",
+    "stylelint": "^15.4.0",
+    "stylelint-config-recommended": "^11.0.0",
+    "stylelint-config-standard": "^32.0.0"
+  }
+}

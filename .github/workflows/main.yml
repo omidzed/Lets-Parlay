@@ -1,0 +1,43 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - pub
+
+  # Allow deploy to be triggered manually
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_APP_NAME: ${{ secrets.AWS_APP_NAME }}
+      AWS_ENV_NAME: ${{ secrets.AWS_ENV_NAME }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Generate deployment package
+        run: |
+          NODE_ENV=production npm install
+          npm run build
+          sed -i '/install:client/d' package.json
+          sed -i '/install:env/d' package.json
+          sed -i '/prepare/d' package.json
+          zip -r deploy.zip .platform client/dist server database package.json package-lock.json \
+            -x "*/.env*" "*/node_modules/*"
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          application_name: ${{ env.AWS_APP_NAME }}
+          environment_name: ${{ env.AWS_ENV_NAME }}
+          version_label: ${{ github.sha }}
+          use_existing_version_if_available: true
+          region: ${{ env.AWS_REGION }}
+          deployment_package: deploy.zip
