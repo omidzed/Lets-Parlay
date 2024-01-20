@@ -1,11 +1,10 @@
-import './App.css';
+import { NavBar } from './NavBar';
 import { EventsCarousel } from './EventsCarousel';
-import { HomePage } from './HomePage';
 
-export default function App() {
+export function HomePage() {
   return (
     <>
-      <HomePage />
+      <NavBar />
       <EventsCarousel />
     </>
   );
