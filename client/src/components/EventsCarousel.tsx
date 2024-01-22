@@ -1,7 +1,7 @@
 import { RotatingBanner } from './RotatingBanner';
 
 export function EventsCarousel() {
-  const posters = ['/images/ufc298.webp', '/images/ufc299.jpg'];
+  const posters = ['/images/ufc298.webp', '/images/ufc299.png'];
 
   // const wrapperStyling = ' bg-[#17191A] ';
 

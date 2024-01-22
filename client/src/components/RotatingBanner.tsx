@@ -12,7 +12,7 @@ export function RotatingBanner({ posters }: RotatingBannerProps) {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setIndex((index) => (index + 1) % posters.length);
-    }, 5000);
+    }, 7000);
 
     return () => clearInterval(intervalId);
   }, [posters.length]);
@@ -29,12 +29,12 @@ export function RotatingBanner({ posters }: RotatingBannerProps) {
     <div className="relative flex justify-center">
       <Banner index={index} posters={posters} />
       <div
-        className="text-white absolute  left-40 top-1/2 transform -translate-y-1/2 z-10"
+        className="text-white absolute  left-96 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer"
         onClick={handlePrevClick}>
         <RxChevronLeft />
       </div>
       <div
-        className="text-white absolute  right-40 top-1/2 transform -translate-y-1/2 z-10"
+        className="text-white absolute right-96 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer"
         onClick={handleNextClick}>
         <RxChevronRight />
       </div>
