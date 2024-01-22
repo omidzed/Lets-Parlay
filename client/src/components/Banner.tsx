@@ -4,5 +4,5 @@ type BannerProps = {
 };
 
 export function Banner({ posters, index }: BannerProps) {
-  return <img src={posters[index]} />;
+  return <img className="w-1/2" src={posters[index]} />;
 }

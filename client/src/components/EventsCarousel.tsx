@@ -1,13 +1,12 @@
 import { RotatingBanner } from './RotatingBanner';
 
 export function EventsCarousel() {
-  const posters = [
-    '/images/ufc297.png',
-    '/images/ufc298.webp',
-    '/images/ufc299.jpg',
-  ];
+  const posters = ['/images/ufc298.webp', '/images/ufc299.jpg'];
+
+  // const wrapperStyling = ' bg-[#17191A] ';
+
   return (
-    <div className="react-carousel">
+    <div className="mt-16">
       <RotatingBanner posters={posters} />
     </div>
   );

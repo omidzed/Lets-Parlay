@@ -1,6 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
-  background-color: #090909;
+  background-color: #17191a;
   font-family: Inter, sans-serif;
   font-weight: 400;
   font-size: 2rem;
@@ -32,7 +36,7 @@ body {
   border-radius: 9px;
   background: #ff8300;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.3rem 2rem;
   font-size: 1.37rem;
   border: 0.1px solid #ff8300;
   margin-left: 1rem;
@@ -49,10 +53,5 @@ body {
 }
 
 .nav-bar-buttons {
-  padding: 1rem;
   padding-right: 7rem;
-}
-
-.chevron-banner {
-  width: 20rem;
 }
