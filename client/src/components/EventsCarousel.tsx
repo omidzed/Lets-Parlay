@@ -1,3 +1,4 @@
+import React from 'react';
 import { RotatingBanner } from './RotatingBanner';
 
 export function EventsCarousel() {
