@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect, useState } from 'react';
 import { Banner } from './Banner';
 import { RxChevronRight, RxChevronLeft } from 'react-icons/rx';
