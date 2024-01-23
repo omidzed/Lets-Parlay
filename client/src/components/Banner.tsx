@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RxChevronLeft, RxChevronRight } from 'react-icons/rx';
 
 type BannerProps = {
