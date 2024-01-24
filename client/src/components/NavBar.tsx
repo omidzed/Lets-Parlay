@@ -1,4 +1,5 @@
 import React from 'react';
+// import { Modal } from './Modal';
 
 const styles = {
   appName: 'flex items-center cursor-pointer px-8 pl-[7rem]',
@@ -10,6 +11,10 @@ const styles = {
   join: 'rounded-lg bg-[#ff8300] border border-[#ff8300]',
 };
 
+// const handleJoin = () => {
+//   Modal;
+// };
+
 export function NavBar() {
   return (
     <div className="bg-neutral-800 h-20 flex items-center justify-between">
@@ -19,7 +24,11 @@ export function NavBar() {
       </div>
       <div className={styles.buttonsWrapper}>
         <button className={`${styles.button} ${styles.login}`}>LOGIN</button>
-        <button className={`${styles.button} ${styles.join}`}>JOIN</button>
+        <button
+          // onClick={handleJoin}
+          className={`${styles.button} ${styles.join}`}>
+          JOIN
+        </button>
       </div>
     </div>
   );

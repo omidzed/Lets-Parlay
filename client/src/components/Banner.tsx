@@ -26,8 +26,11 @@ export function Banner({ posters }: BannerProps) {
   }
 
   function handleNextClick() {
+    console.log('index', index);
+    console.log('posters', posters.length);
     index < posters.length - 1 ? setIndex(index + 1) : setIndex(0);
   }
+
   return (
     <div className="relative w-[67.66%] h-[35rem] overflow-hidden">
       <img className="w-full h-full object-contain" src={posters[index]} />
