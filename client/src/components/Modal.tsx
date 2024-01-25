@@ -1,27 +1,18 @@
-// import React from "react";
+import React from 'react';
+import { GrFormClose } from 'react-icons/gr';
 
-// export function Modal() {
-//   return (
-//     <>
-//       <button
-//         className="btn"
-//         onClick={() => document.getElementById('my_modal_1').showModal()}>
-//         open modal
-//       </button>
-//       <dialog id="my_modal_1" className="modal">
-//         <div className="modal-box">
-//           <h3 className="font-bold text-lg">Hello!</h3>
-//           <p className="py-4">
-//             Press ESC key or click the button below to close
-//           </p>
-//           <div className="modal-action">
-//             <form method="dialog">
-//               {/* if there is a button in form, it will close the modal */}
-//               <button className="btn">Close</button>
-//             </form>
-//           </div>
-//         </div>
-//       </dialog>
-//     </>
-//   );
-// }
+type ModalProps = {
+  toggleModal: () => void;
+  form: JSX.Element;
+};
+
+export function Modal({ toggleModal, form }: ModalProps) {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-80 z-40">
+      <div className="absolute z-50 w-1/3 rounded-md h-1/3 text-base px-4 py-4 bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <GrFormClose onClick={toggleModal} />
+        {form}
+      </div>
+    </div>
+  );
+}

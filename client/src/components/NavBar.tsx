@@ -1,35 +1,60 @@
-import React from 'react';
-// import { Modal } from './Modal';
-
-const styles = {
-  appName: 'flex items-center cursor-pointer px-8 pl-[7rem]',
-  parlay: 'text-white sm:text-lg md:text-xl xl:text-3xl 2xl:text-[2rem]',
-  lets: 'text-[#ff8300] pl-[7rem] sm:pl-[3rem] md:pl-[1rem]',
-  buttonsWrapper: 'flex items-center px-8 whitespace-nowrap pr-[7rem]',
-  button: 'text-white sm:text-sm md:text-lg xl:text-xl 2xl:py-1 px-8',
-  login: 'bg-neutral-800 border border-neutral-800 rounded-md',
-  join: 'rounded-lg bg-[#ff8300] border border-[#ff8300]',
-};
-
-// const handleJoin = () => {
-//   Modal;
-// };
+import React, { useState } from 'react';
+import { Modal } from './Modal';
+import { LoginForm } from './LoginForm';
+import { RegistrationForm } from './RegistrationForm';
 
 export function NavBar() {
+  const [modalType, setModalType] = useState('closed');
+
+  const registerModal = () => {
+    setModalType('register');
+  };
+
+  const loginModal = () => {
+    setModalType('login');
+  };
+
+  const toggleModal = () => {
+    setModalType('closed');
+  };
+
+  const styles = {
+    appName: 'flex items-center cursor-pointer px-8 pl-[7rem]',
+    parlay: 'text-white sm:text-lg md:text-xl xl:text-3xl 2xl:text-[2rem]',
+    lets: 'text-[#ff8300] pl-[7rem] sm:pl-[3rem] md:pl-[1rem]',
+    buttonsWrapper: 'flex items-center px-8 whitespace-nowrap pr-[7rem]',
+    button: 'text-white sm:text-sm md:text-lg xl:text-xl 2xl:py-1 px-8',
+    login: 'bg-neutral-800 border border-neutral-800 rounded-md',
+    join: 'rounded-lg bg-[#ff8300] border border-[#ff8300]',
+  };
+
   return (
-    <div className="bg-neutral-800 h-20 flex items-center justify-between">
-      <div className={styles.appName}>
-        <span className={styles.lets}>LETS</span>
-        <span className={styles.parlay}>PARLAY</span>
+    <>
+      <div className="bg-neutral-800 h-20 flex items-center justify-between">
+        <div className={styles.appName}>
+          <span className={styles.lets}>LETS</span>
+          <span className={styles.parlay}>PARLAY</span>
+        </div>
+        <div className={styles.buttonsWrapper}>
+          <button
+            className={`${styles.button} ${styles.login}`}
+            onClick={registerModal}>
+            LOGIN
+          </button>
+          <button
+            className={`${styles.button} ${styles.join}`}
+            onClick={loginModal}>
+            JOIN
+          </button>
+        </div>
       </div>
-      <div className={styles.buttonsWrapper}>
-        <button className={`${styles.button} ${styles.login}`}>LOGIN</button>
-        <button
-          // onClick={handleJoin}
-          className={`${styles.button} ${styles.join}`}>
-          JOIN
-        </button>
-      </div>
-    </div>
+      {modalType === 'login' && (
+        <Modal toggleModal={toggleModal} form={<LoginForm />} />
+      )}
+
+      {modalType === 'register' && (
+        <Modal toggleModal={toggleModal} form={<RegistrationForm />} />
+      )}
+    </>
   );
 }

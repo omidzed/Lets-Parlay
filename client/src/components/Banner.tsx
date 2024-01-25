@@ -17,7 +17,7 @@ export function Banner({ posters }: BannerProps) {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setIndex((index) => (index + 1) % posters.length);
-    }, 700000);
+    }, 5000);
 
     return () => clearInterval(intervalId);
   }, [posters.length]);
