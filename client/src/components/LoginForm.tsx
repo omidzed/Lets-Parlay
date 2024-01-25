@@ -28,7 +28,7 @@ export function LoginForm() {
   }
 
   return (
-    <div className="py-10">
+    <div className="py-6">
       <form
         onSubmit={handleSubmit}
         className="flex-col justify-center items-center gap-4 my-2">
@@ -39,27 +39,27 @@ export function LoginForm() {
             required
             name="username"
             type="text"
-            className="border-2 w-full input-b-color text-padding rounded-md input-b-radius mb-4 d-block"
+            className="border-2 w-full input-b-color text-padding rounded-md input-b-radius mb-4 h-10"
           />
 
-          <label className="margin-bottom-1 d-block">Password</label>
+          <label className="margin-bottom-1">Password</label>
           <input
             required
             name="password"
             type="password"
-            className="block border-2 rounded-md w-full "
+            className="block border-2 rounded-md w-full h-10"
           />
         </div>
 
         <div className="flex justify-center">
           <input
-            className="mt-10 mb-8 border-2-orange-500 bg-orange-500 text-white px-16 py-4 rounded-md cursor-pointer"
+            className="my-7 border-2-orange-500 bg-orange-500 text-white px-16 py-4 rounded-md cursor-pointer"
             type="submit"
             value="LOGIN"
           />
         </div>
       </form>
-      <p className="text-md text-center mt-4 font-bold">New to LETsPARLAY?</p>
+      <p className="text-md text-center mt-2 font-bold">New to LETsPARLAY?</p>
       <a className="flex justify-center font-bold text-lg text-orange-500 underline cursor-pointer w-100">
         Register new Account
       </a>
