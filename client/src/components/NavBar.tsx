@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from './Modal';
-import { LoginForm } from './LoginForm';
 import { RegistrationForm } from './RegistrationForm';
+import { LoginForm } from './LoginForm';
 
 export function NavBar() {
   const [modalType, setModalType] = useState('closed');
@@ -32,18 +32,18 @@ export function NavBar() {
     <>
       <div className="bg-neutral-800 h-20 flex items-center justify-between">
         <div className={styles.appName}>
-          <span className={styles.lets}>LETS</span>
+          <span className={styles.lets}>LETs</span>
           <span className={styles.parlay}>PARLAY</span>
         </div>
         <div className={styles.buttonsWrapper}>
           <button
             className={`${styles.button} ${styles.login}`}
-            onClick={registerModal}>
+            onClick={loginModal}>
             LOGIN
           </button>
           <button
             className={`${styles.button} ${styles.join}`}
-            onClick={loginModal}>
+            onClick={registerModal}>
             JOIN
           </button>
         </div>

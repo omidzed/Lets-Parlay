@@ -6,7 +6,7 @@ export function RegistrationForm() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
-      setIsLoading(true);
+      setIsLoading(!isLoading);
       const formData = new FormData(event.currentTarget);
       const userData = Object.fromEntries(formData.entries());
       const req = {
@@ -14,59 +14,58 @@ export function RegistrationForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData),
       };
-      const res = await fetch('/api/auth/sign-up', req);
+      const res = await fetch('/api/auth/login', req);
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
       }
-      const newUser = await res.json();
-      console.log('Registered', newUser);
+      const user = await res.json();
+      console.log('Logged in', user);
     } catch (err) {
-      alert(`Error registering user: ${err}`);
+      alert(`Error logging in: ${err}`);
     } finally {
       setIsLoading(false);
     }
   }
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="column-full d-flex justify-between">
-          <h1>Register</h1>
-        </div>
-      </div>
-      <form onSubmit={handleSubmit}>
-        <div className="row margin-bottom-1">
-          <div className="column-half">
-            <label className="margin-bottom-1 d-block">
-              Username
-              <input
-                required
-                name="username"
-                type="text"
-                className="input-b-color text-padding input-b-radius purple-outline input-height margin-bottom-2 d-block width-100"
-              />
-            </label>
-            <label className="margin-bottom-1 d-block">
-              Password
-              <input
-                required
-                name="password"
-                type="password"
-                className="input-b-color text-padding input-b-radius purple-outline input-height margin-bottom-2 d-block width-100"
-              />
-            </label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="column-full d-flex justify-between">
-            <button
-              disabled={isLoading}
-              className="input-b-radius text-padding purple-background white-text">
-              Register
-            </button>
-          </div>
+    <div className="px-8">
+      <form
+        onSubmit={handleSubmit}
+        className="flex-col justify-center items-center my-10">
+        <label className="mt-4 pb-1 d-block rounded-md">Name</label>
+
+        <input
+          required
+          name="name"
+          type="text"
+          className="border-2 w-full input-b-color text-padding input-b-radius rounded-sm input-height mb-4"
+        />
+
+        <label className="mb-2 d-block">Username</label>
+        <input
+          className="border-2 block w-full items-center rounded-sm"
+          name="username"
+          type="text"
+        />
+
+        <label className="block mt-4">Password</label>
+        <input
+          className="block border-2 rounded-md w-full "
+          name="password"
+          type="password"
+        />
+        <div className="flex justify-center">
+          <input
+            className="mt-6 border-2-orange-500 bg-orange-500 text-white px-4 py-1 rounded-md cursor-pointer"
+            type="submit"
+            value="Create Account"
+          />
         </div>
       </form>
+      <p className="text-sm text-center mt-4">Already have an account?</p>
+      <a className="flex justify-center text-md text-orange-500 underline cursor-pointer">
+        Sign In
+      </a>
     </div>
   );
 }
