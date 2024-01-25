@@ -49,11 +49,19 @@ export function NavBar() {
         </div>
       </div>
       {modalType === 'login' && (
-        <Modal toggleModal={toggleModal} form={<LoginForm />} />
+        <Modal
+          modalType={modalType}
+          toggleModal={toggleModal}
+          form={<LoginForm />}
+        />
       )}
 
       {modalType === 'register' && (
-        <Modal toggleModal={toggleModal} form={<RegistrationForm />} />
+        <Modal
+          modalType={modalType}
+          toggleModal={toggleModal}
+          form={<RegistrationForm />}
+        />
       )}
     </>
   );

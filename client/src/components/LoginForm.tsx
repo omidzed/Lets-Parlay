@@ -28,10 +28,10 @@ export function LoginForm() {
   }
 
   return (
-    <div className="px-8">
+    <div className="py-10">
       <form
         onSubmit={handleSubmit}
-        className="flex-col gap-4 justify-center items-center my-20">
+        className="flex-col justify-center items-center gap-4 my-2">
         <div>
           <label className="margin-bottom-1"> Username</label>
 
@@ -47,20 +47,20 @@ export function LoginForm() {
             required
             name="password"
             type="password"
-            className="block border-2                                                                                                                                                                                                                                   DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD                                                                                                                                                                                                                                                                                                                                                                                       DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               d w-full "
+            className="block border-2 rounded-md w-full "
           />
         </div>
 
         <div className="flex justify-center">
           <input
-            className="mt-6 border-2-orange-500 bg-orange-500 text-white px-4 py-1 rounded-md cursor-pointer"
+            className="mt-10 mb-8 border-2-orange-500 bg-orange-500 text-white px-16 py-4 rounded-md cursor-pointer"
             type="submit"
             value="LOGIN"
           />
         </div>
       </form>
-      <p className="text-sm text-center mt-4">New to LETsPARLAY?</p>
-      <a className="flex justify-center text-md text-orange-500 underline cursor-pointer w-100">
+      <p className="text-md text-center mt-4 font-bold">New to LETsPARLAY?</p>
+      <a className="flex justify-center font-bold text-lg text-orange-500 underline cursor-pointer w-100">
         Register new Account
       </a>
     </div>
