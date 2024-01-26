@@ -1,4 +1,4 @@
-import React, { type FormEvent, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,12 +14,12 @@ export function LoginForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData),
       };
-      const res = await fetch('/api/auth/sign-up', req);
+      const res = await fetch('/api/auth/login', req);
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
       }
-      const newUser = await res.json();
-      console.log('Registered', newUser);
+      const user = await res.json();
+      console.log('Registered', user);
     } catch (err) {
       alert(`Error registering user: ${err}`);
     } finally {
@@ -53,14 +53,14 @@ export function LoginForm() {
 
         <div className="flex justify-center">
           <input
-            className="my-7 border-2-orange-500 bg-orange-500 text-white px-16 py-4 rounded-md cursor-pointer"
+            className="my-7 border-2-blue-500 bg-[#3d86ec] text-white px-16 py-4 rounded-md cursor-pointer"
             type="submit"
             value="LOGIN"
           />
         </div>
       </form>
       <p className="text-md text-center mt-2 font-bold">New to LETsPARLAY?</p>
-      <a className="flex justify-center font-bold text-lg text-orange-500 underline cursor-pointer w-100">
+      <a className="flex justify-center font-bold text-lg text-[#3d86ec] underline cursor-pointer w-100">
         Register new Account
       </a>
     </div>

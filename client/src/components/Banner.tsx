@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RxChevronLeft, RxChevronRight } from 'react-icons/rx';
 
 type BannerProps = {
@@ -32,7 +32,7 @@ export function Banner({ posters }: BannerProps) {
   }
 
   return (
-    <div className="relative w-[67.66%] h-[35rem] overflow-hidden">
+    <div className="relative w-[67.66%] h-3/5 overflow-hidden">
       <img className="w-full h-full object-contain" src={posters[index]} />
       <div className="group">
         <RxChevronLeft

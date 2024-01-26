@@ -1,4 +1,4 @@
-import React, { type FormEvent, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 
 export function RegistrationForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +14,8 @@ export function RegistrationForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData),
       };
-      const res = await fetch('/api/auth/login', req);
+
+      const res = await fetch('/api/auth/sign-up', req);
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
       }
@@ -57,14 +58,14 @@ export function RegistrationForm() {
         />
         <div className="flex justify-center">
           <input
-            className="mt-6 border-2-orange-500 bg-orange-500 text-white px-12 py-4 rounded-md cursor-pointer"
+            className="mt-6 border-2-[#3d86ec] bg-[#3d86ec] text-white px-12 py-4 rounded-md cursor-pointer"
             type="submit"
             value="Create Account"
           />
         </div>
       </form>
       <p className="text-md text-center">Already have an account?</p>
-      <a className="flex justify-center font-bold text-md text-orange-500 underline cursor-pointer">
+      <a className="flex justify-center font-bold text-md text-[#3d86ec] underline cursor-pointer">
         Sign In
       </a>
     </div>
