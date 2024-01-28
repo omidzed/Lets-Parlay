@@ -1,6 +1,6 @@
 import { type FormEvent, useState } from 'react';
 
-export function RegistrationForm() {
+export function RegistrationForm({ loginModal }) {
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -20,7 +20,7 @@ export function RegistrationForm() {
         throw new Error(`fetch Error ${res.status}`);
       }
       const user = await res.json();
-      console.log('Logged in', user);
+      console.log('Registered', user);
     } catch (err) {
       alert(`Error logging in: ${err}`);
     } finally {
@@ -65,7 +65,9 @@ export function RegistrationForm() {
         </div>
       </form>
       <p className="text-md text-center">Already have an account?</p>
-      <a className="flex justify-center font-bold text-md text-[#3d86ec] underline cursor-pointer">
+      <a
+        onClick={loginModal}
+        className="flex justify-center font-bold text-md text-[#3d86ec] underline cursor-pointer">
         Sign In
       </a>
     </div>

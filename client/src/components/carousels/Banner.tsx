@@ -6,10 +6,10 @@ type BannerProps = {
 };
 
 const chevronStyling =
-  'absolute top-1/2 transform -translate-y-1/2 z-50 group rounded-full  text-[#ffff] opacity-40 border-2 border-[#ffffff79] rounded-full group-hover:opacity-100 group-hover:text-[#ffffff] group-hover:border-[#ffffff] group-hover:bg-[#fffff0000] cursor-pointer';
+  'absolute top-1/2 transform -translate-y-1/2 z-50 group rounded-full  text-[#ffff] opacity-40 border-2 border-[#ffffff79] group-hover:opacity-100 group-hover:text-[#ffffff] group-hover:border-[#ffffff] group-hover:bg-[#fffff0000] cursor-pointer';
 
 const overlayStyling =
-  'absolute w-[2.9rem] h-full bg-white opacity-0 group-hover:bg-[#626262be] group-hover:opacity-70 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';
+  'absolute bg-white opacity-0 w-[2.9rem] h-full group-hover:bg-[#626262be] group-hover:opacity-70 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';
 
 export function Banner({ posters }: BannerProps) {
   const [index, setIndex] = useState(0);
@@ -26,30 +26,31 @@ export function Banner({ posters }: BannerProps) {
   }
 
   function handleNextClick() {
-    console.log('index', index);
-    console.log('posters', posters.length);
     index < posters.length - 1 ? setIndex(index + 1) : setIndex(0);
   }
 
   return (
-    <div className="relative w-[67.66%] h-3/5 overflow-hidden">
-      <img className="w-full h-full object-contain" src={posters[index]} />
+    <div className="relative w-[90%] 2xl:w-1/2 overflow-hidden">
+      <img
+        className="w-full h-full rounded-md object-contain"
+        src={posters[index]}
+      />
       <div className="group">
         <RxChevronLeft
-          className={`${chevronStyling} left-[3.2rem] `}
+          className={`${chevronStyling} left-2 `}
           onClick={handlePrevClick}
         />
         <div
-          className={`${overlayStyling} left-11`}
+          className={`${overlayStyling} h-full left-0`}
           onClick={handlePrevClick}></div>
       </div>
       <div className="group">
         <RxChevronRight
-          className={`${chevronStyling} right-[3.2rem]`}
+          className={`${chevronStyling} right-2`}
           onClick={handleNextClick}
         />
         <div
-          className={`${overlayStyling} right-11`}
+          className={`${overlayStyling} right-0`}
           onClick={handleNextClick}></div>
       </div>
     </div>

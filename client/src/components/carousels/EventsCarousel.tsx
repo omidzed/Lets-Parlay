@@ -14,7 +14,7 @@ export function EventsCarousel() {
   ];
 
   return (
-    <div className="mt-16">
+    <div className="mt-2">
       <RotatingBanner posters={posters} />
     </div>
   );

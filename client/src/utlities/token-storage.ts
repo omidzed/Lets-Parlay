@@ -1,17 +1,32 @@
+export type User = {
+  userId: number;
+  username: string;
+  hashedPassword: string;
+  name: string;
+};
+
+export type Token = {
+  token: string;
+  user: User;
+};
+
 /**
  * Stores the JWT token in local storage.
  * @param token The JWT token to store.
  */
-export const storeToken = (token: string): void => {
-  localStorage.setItem('token', token);
+export const storeToken = (token: Token): void => {
+  localStorage.setItem('token', JSON.stringify(token));
 };
-
 /**
+ *
  * Retrieves the JWT token from local storage.
  * @returns The JWT token or null if it doesn't exist.
  */
-export const getToken = (): string | null => {
-  return localStorage.getItem('token');
+export const getToken = (): Token | null => {
+  const tokenString = localStorage.getItem('token');
+  if (tokenString !== null) {
+    return JSON.parse(tokenString);
+  } else return null;
 };
 
 /**
