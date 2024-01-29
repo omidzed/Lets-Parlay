@@ -3,7 +3,11 @@ import { RegistrationForm } from './RegistrationForm';
 import { LoginForm } from './LoginForm';
 import { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { getToken, removeToken } from '../utlities/token-storage';
+import {
+  getToken,
+  removeToken,
+  hasToken as hasTokenV2,
+} from '../utlities/token-storage';
 
 export function NavBar() {
   const [modalType, setModalType] = useState('closed');
@@ -65,7 +69,7 @@ export function NavBar() {
           <p className={styles.lets}>LET$</p>
           <p className={styles.parlay}>PARLAY</p>
         </Link>
-        {getToken() !== null ? (
+        {hasTokenV2() ? (
           <div className="flex justify-center items-center">
             <button
               className={`${styles.button} ${styles.logout}`}

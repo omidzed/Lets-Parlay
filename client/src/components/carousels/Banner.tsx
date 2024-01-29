@@ -6,7 +6,7 @@ type BannerProps = {
 };
 
 const chevronStyling =
-  'absolute top-1/2 transform -translate-y-1/2 z-50 group rounded-full  text-[#ffff] opacity-40 border-2 border-[#ffffff79] group-hover:opacity-100 group-hover:text-[#ffffff] group-hover:border-[#ffffff] group-hover:bg-[#fffff0000] cursor-pointer';
+  'absolute top-1/2 transform -translate-y-1/2 z-35 group rounded-full  text-[#ffff] opacity-40 border-2 border-[#ffffff79] group-hover:opacity-100 group-hover:text-[#ffffff] group-hover:border-[#ffffff] group-hover:bg-[#fffff0000] cursor-pointer';
 
 const overlayStyling =
   'absolute bg-white opacity-0 w-[2.9rem] h-full group-hover:bg-[#626262be] group-hover:opacity-70 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';

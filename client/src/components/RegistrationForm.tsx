@@ -40,25 +40,25 @@ export function RegistrationForm({ loginModal }) {
           required
           name="name"
           type="text"
-          className="border-2 w-full text-padding rounded-md h-10 "
+          className="border-2 w-full text-padding rounded-md h-9 "
         />
 
-        <label>Username</label>
+        <label className="mt-2">Username</label>
         <input
-          className="border-2  w-full items-center rounded-md h-10 "
+          className="border-2  w-full items-center rounded-md h-9 "
           name="username"
           type="text"
         />
 
         <label>Password</label>
         <input
-          className="block border-2 rounded-md w-full h-10 "
+          className="block border-2 rounded-md w-full h-9 "
           name="password"
           type="password"
         />
         <div className="flex justify-center">
           <input
-            className="mt-6 border-2-[#3d86ec] bg-[#3d86ec] text-white px-12 py-4 rounded-md cursor-pointer"
+            className="mt-5 border-blue-600 bg-blue-600 text-white px-8 py-3 rounded-md cursor-pointer"
             type="submit"
             value="Create Account"
           />

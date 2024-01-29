@@ -7,7 +7,11 @@ type LoginFormProps = {
   registerModal;
 };
 
-export function LoginForm({ onSubmit, hasToken }: LoginFormProps) {
+export function LoginForm({
+  onSubmit,
+  hasToken,
+  registerModal,
+}: LoginFormProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -63,16 +67,17 @@ export function LoginForm({ onSubmit, hasToken }: LoginFormProps) {
 
         <div className="flex justify-center">
           <input
-            className="my-7 border-2-blue-500 bg-[#3d86ec] text-white px-16
+            className="mt-7 mb-5 border-2-blue-600 bg-blue-600 text-white px-16
             py-4 rounded-md cursor-pointer"
             type="submit"
             value="LOGIN"
           />
         </div>
       </form>
-      <p className="text-md text-center mt-2 font-bold">New to LETsPARLAY?</p>
+      <p className="text-sm text-center font-bold">New to LETsPARLAY?</p>
       <a
-        className="flex justify-center font-bold text-lg text-[#3d86ec]
+        onClick={registerModal}
+        className="flex justify-center font-bold text-lg text-blue-600
         underline cursor-pointer w-100">
         Register new Account
       </a>

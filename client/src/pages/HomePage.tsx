@@ -5,7 +5,11 @@ export function HomePage() {
   return (
     <div>
       <EventsCarousel />
-      <BettingOddsTable />
+      <div className="flex-col justify-center items-center">
+        <BettingOddsTable />
+        <BettingOddsTable />
+        <BettingOddsTable />
+      </div>
     </div>
   );
 }
