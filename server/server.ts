@@ -14,10 +14,14 @@ type User = {
   userId: number;
   username: string;
   hashedPassword: string;
+  name: string;
+  funds: number;
 };
 type Auth = {
   username: string;
   password: string;
+  name: string;
+  funds: number;
 };
 
 type Bet = {
@@ -52,19 +56,19 @@ app.use(express.json());
 
 app.post('/api/auth/sign-up', async (req, res, next) => {
   try {
-    const { username, password } = req.body as Partial<Auth>;
-    if (!username || !password) {
+    const { username, password, name, funds } = req.body as Partial<Auth>;
+    if (!username || !password || !name || !funds) {
       throw new ClientError(400, 'username and password are required fields');
     }
 
     const sql = `
-      insert into "user" ("username", "hashedPassword")
-      values              ($1, $2)
+      insert into "user" ("username", "hashedPassword", "name", "funds")
+      values              ($1, $2, $3, $4)
       returning *;`;
 
     const hashedPassword = await argon2.hash(password);
     console.log(hashedPassword);
-    const params = [username, hashedPassword];
+    const params = [username, hashedPassword, name, funds];
     const result = await db.query<User>(sql, params);
     const [user] = result.rows;
     res.status(201).json(user);
@@ -81,7 +85,9 @@ app.post('/api/auth/login', async (req, res, next) => {
     }
     const sql = `
     select "userId",
-           "hashedPassword"
+           "hashedPassword",
+           "name",
+           "funds"
       from "user"
      where "username" = $1
   `;
@@ -91,11 +97,11 @@ app.post('/api/auth/login', async (req, res, next) => {
     if (!user) {
       throw new ClientError(401, 'invalid login');
     }
-    const { userId, hashedPassword } = user;
+    const { userId, hashedPassword, name, funds } = user;
     if (!(await argon2.verify(hashedPassword, password))) {
       throw new ClientError(401, 'invalid login');
     }
-    const payload = { userId, username };
+    const payload = { userId, username, name, funds };
     const token = jwt.sign(payload, hashKey);
     console.log(token);
     res.json({ token, user: payload });

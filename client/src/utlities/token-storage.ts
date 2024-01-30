@@ -1,4 +1,5 @@
 export type User = {
+  funds: any;
   userId: number;
   username: string;
   hashedPassword: string;
@@ -8,6 +9,7 @@ export type User = {
 export type Token = {
   token: string;
   user: User;
+  funds: number;
 };
 
 /**
@@ -22,12 +24,12 @@ export const storeToken = (token: Token): void => {
  * Retrieves the JWT token from local storage.
  * @returns The JWT token or null if it doesn't exist.
  */
-export const getToken = (): Token | null => {
+export function getToken(): Token | null {
   const tokenString = localStorage.getItem('token');
   if (tokenString !== null) {
     return JSON.parse(tokenString);
   } else return null;
-};
+}
 
 /**
  * Removes the JWT token from local storage.

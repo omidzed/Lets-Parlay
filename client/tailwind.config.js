@@ -8,6 +8,11 @@ export default {
   ],
   theme: {
     extend: {
+      fontSize: {
+        smaller: ['1rem', '0.2rem'],
+        bigger: '3rem',
+      },
+
       screens: {
         xs: '375px',
         // => @media (min-width: 375px) { ... }

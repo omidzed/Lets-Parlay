@@ -19,13 +19,14 @@ CREATE TABLE "events" (
 CREATE TABLE "user" (
   "userId" serial PRIMARY KEY,
   "name" text,
+  "funds" int,
   "username" text,
   "hashedPassword" text
 );
 
 CREATE TABLE "bets" (
   "betId" serial PRIMARY KEY,
-  "betAuthor" int,
+  "userId" int,
   "eventId" int,
   "betType" text,
   "betAmount" int
@@ -38,7 +39,7 @@ CREATE TABLE "outcomes" (
   "eventId" int
 );
 
-ALTER TABLE "bets" ADD FOREIGN KEY ("betAuthor") REFERENCES "user" ("userId");
+ALTER TABLE "bets" ADD FOREIGN KEY ("userId") REFERENCES "user" ("userId");
 
 ALTER TABLE "bets" ADD FOREIGN KEY ("eventId") REFERENCES "events" ("eventId");
 

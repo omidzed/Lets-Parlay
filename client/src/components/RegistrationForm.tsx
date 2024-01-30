@@ -35,6 +35,7 @@ export function RegistrationForm({ loginModal }) {
         className="flex-col justify-center items-center my-6">
         <label>Name</label>
 
+        <input name="funds" value={100000} type="hidden" />
         <input
           autoFocus
           required
