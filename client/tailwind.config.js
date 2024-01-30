@@ -9,7 +9,8 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        smaller: ['1rem', '0.2rem'],
+        smallest: '1.3rem',
+        smaller: '1.7rem',
         bigger: '3rem',
       },
 

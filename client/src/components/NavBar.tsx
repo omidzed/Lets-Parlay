@@ -47,7 +47,7 @@ export function NavBar() {
   };
 
   const styles = {
-    nav: 'flex justify-between items-center p-2 px-4 bg-zinc-800 mb-8',
+    nav: 'flex justify-between items-center p-8 px-14 bg-zinc-800 mb-8',
     appName: 'flex text-xl 2xl:text-5xl cursor-pointer',
     parlay: 'text-white',
     lets: 'text-red-600',
@@ -55,9 +55,10 @@ export function NavBar() {
     button: 'text-white text-sm lg:text-lg xl: 2xl:text-xl h-8 px-4',
     login: 'bg-black border border-black rounded-md',
     join: 'rounded-md bg-red-600 border border-red-600',
-    logout: 'text-xs rounded-md bg-blue-500 mr-2 h-12',
-    userName: 'text-smaller  text-white border',
-    funds: 'text-white text-smaller',
+    logout:
+      'flex justify-center items-center text-white text-smaller rounded-md bg-blue-500 px-6 py-4',
+    userName: 'text-smaller  text-white mr-2',
+    funds: 'text-white text-smallest py-3',
   };
 
   return (
@@ -68,18 +69,14 @@ export function NavBar() {
           <p className={styles.parlay}>PARLAY</p>
         </Link>
         {hasToken() ? (
-          <div className="flex justify-center items-center">
+          <div className="flex justify-between items-center">
             <div className="flex-col mr-4 justify-center items-center">
               <div>
                 <span className={styles.userName}>{name}</span>
-              </div>
-              <div>
-                <span className={styles.funds}>{formattedFunds}</span>
+                <span className={styles.funds}>({formattedFunds})</span>
               </div>
             </div>
-            <button
-              className={`${styles.button} ${styles.logout}`}
-              onClick={logOut}>
+            <button className={styles.logout} onClick={logOut}>
               LOGOUT
             </button>
           </div>
