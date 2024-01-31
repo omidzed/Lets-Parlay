@@ -57,8 +57,8 @@ export function NavBar() {
     logout:
       'tracking-widest flex mr-4 justify-center items-center text-white text-logout rounded-xl bg-blue-800 px-8 py-4',
     list: 'text-smallest text-white mr-6 text-right mt-2',
-    userName: 'text-smallest tracking-super text-white mr-2 text-right',
-    funds: 'text-logout text-smallest text-[#54D338]',
+    userName: 'text-xl tracking-widest text-white mr-2 text-right',
+    funds: 'text-xl text-[#54D338]',
   };
 
   return (
@@ -75,10 +75,8 @@ export function NavBar() {
           <div className="flex justify-between items-center">
             <div className="flex-col mr-4 justify-center items-center">
               <ul className={styles.list}>
-                <li key={name}>{name}</li>
-                <li key={funds} className={styles.funds}>
-                  {formattedFunds}
-                </li>
+                <li className={styles.userName}>{name}</li>
+                <li className={styles.funds}>{formattedFunds}</li>
               </ul>
             </div>
             <button className={styles.logout} onClick={logOut}>
@@ -98,7 +96,7 @@ export function NavBar() {
 
         {modalType === 'login' && (
           <Modal
-            modalType={modalType}
+            header="Welcome back!"
             toggleModal={toggleModal}
             form={
               <LoginForm
@@ -112,7 +110,7 @@ export function NavBar() {
 
         {modalType === 'register' && (
           <Modal
-            modalType={modalType}
+            header="Let's create your account!"
             toggleModal={toggleModal}
             form={<RegistrationForm loginModal={loginModal} />}
           />
