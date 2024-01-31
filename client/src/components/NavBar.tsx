@@ -48,7 +48,7 @@ export function NavBar() {
 
   const styles = {
     nav: 'flex justify-between items-center p-8 px-14 bg-zinc-800 mb-8',
-    appName: 'flex text-xl 2xl:text-5xl cursor-pointer',
+    appName: 'flex text-x3l 2xl:text-5xl cursor-pointer',
     parlay: 'text-white',
     lets: 'text-red-600',
     buttonsWrapper: 'flex items-center gap-2',
@@ -57,7 +57,7 @@ export function NavBar() {
     join: 'rounded-md bg-red-600 border border-red-600',
     logout:
       'flex justify-center items-center text-white text-smaller rounded-md bg-blue-500 px-6 py-4',
-    userName: 'text-smaller  text-white mr-2',
+    userName: 'text-smaller text-white mr-2',
     funds: 'text-white text-smallest py-3',
   };
 

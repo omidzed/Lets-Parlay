@@ -11,6 +11,7 @@ export function EventsCarousel() {
     '/images/2024-03-23.png',
     '/images/2024-03-30.png',
     '/images/2024-04-06.png',
+    '/images/UFC-300.jpg',
   ];
 
   return (

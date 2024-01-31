@@ -1,16 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+
 export default {
-  content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',
-    'node_modules/daisyui/dist/**/*.js',
-    'node_modules/react-daisyui/dist/**/*.js',
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       fontSize: {
         smallest: '1.3rem',
         smaller: '1.7rem',
+        odds: '1.2rem',
         bigger: '3rem',
       },
 
