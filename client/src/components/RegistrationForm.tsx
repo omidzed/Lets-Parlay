@@ -28,38 +28,27 @@ export function RegistrationForm({ loginModal }) {
     }
   }
 
+  const styling =
+    'block border-2 border-slate-200  input-b-color rounded-md input-b-radius mb-4 h-10 px-4';
+
   return (
-    <div className="px-8">
+    <div className="px-4">
       <form
         onSubmit={handleSubmit}
         className="flex-col justify-center items-center my-6">
         <label>Name</label>
 
         <input name="funds" value={100000} type="hidden" />
-        <input
-          autoFocus
-          required
-          name="name"
-          type="text"
-          className="border-2 w-full text-padding rounded-md h-9 "
-        />
+        <input autoFocus name="name" type="text" className={styling} />
 
         <label className="mt-2">Username</label>
-        <input
-          className="border-2  w-full items-center rounded-md h-9 "
-          name="username"
-          type="text"
-        />
+        <input className={styling} name="username" type="text" />
 
         <label>Password</label>
-        <input
-          className="block border-2 rounded-md w-full h-9 "
-          name="password"
-          type="password"
-        />
+        <input className={styling} name="password" type="password" />
         <div className="flex justify-center">
           <input
-            className="mt-5 border-blue-600 bg-blue-600 text-white px-8 py-3 rounded-md cursor-pointer"
+            className="mt-5 tracking-wider bg-blue-700 text-white px-5 py-6 rounded-md cursor-pointer"
             type="submit"
             value="Create Account"
           />

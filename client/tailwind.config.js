@@ -5,9 +5,10 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        smallest: '1.3rem',
+        logout: '1.2rem',
+        smallest: '0.9rem',
         smaller: '1.7rem',
-        odds: '1.2rem',
+        odds: '1.1rem',
         bigger: '3rem',
       },
 

@@ -30,9 +30,9 @@ export function Banner({ posters }: BannerProps) {
   }
 
   return (
-    <div className="relative w-[90%] 2xl:w-1/2 overflow-hidden">
+    <div className=" container relative w-full 2xl:w-[55%] overflow-hidden">
       <img
-        className="w-full h-full rounded-md object-contain"
+        className="w-full mx-auto h-full rounded-md object-contain"
         src={posters[index]}
       />
       <div className="group">

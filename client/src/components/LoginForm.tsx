@@ -46,38 +46,39 @@ export function LoginForm({
         onSubmit={handleSubmit}
         className="flex-col justify-center items-center gap-4 my-2">
         <div>
-          <label className="margin-bottom-1"> Username</label>
+          <label className="mb-1"> Username</label>
 
           <input
+            autoFocus
             required
             name="username"
             type="text"
-            className="border-2 w-full input-b-color text-padding rounded-md
-            input-b-radius mb-4 h-10"
+            className="block border-2 border-slate-200 input-b-color text-padding rounded-md
+            input-b-radius mb-4 h-10 px-4"
           />
 
-          <label className="margin-bottom-1">Password</label>
+          <label className="mb-1">Password</label>
           <input
             required
             name="password"
             type="password"
-            className="block border-2 rounded-md w-full h-10"
+            className="block border-2 rounded-md w-full h-10 px-4"
           />
         </div>
 
         <div className="flex justify-center">
           <input
-            className="mt-7 mb-5 border-2-blue-600 bg-blue-600 text-white px-16
+            className="tracking-wider mt-7 mb-5 border-2-blue-600 bg-blue-700 text-white px-8
             py-4 rounded-md cursor-pointer"
             type="submit"
             value="LOGIN"
           />
         </div>
       </form>
-      <p className="text-sm text-center font-bold">New to LETsPARLAY?</p>
+      <p className="text-md text-center">New to LET$PARLAY?</p>
       <a
         onClick={registerModal}
-        className="flex justify-center font-bold text-lg text-blue-600
+        className="flex justify-center font-bold text-md text-[#3d86ec]
         underline cursor-pointer w-100">
         Register new Account
       </a>

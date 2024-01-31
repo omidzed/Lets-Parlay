@@ -4,6 +4,7 @@ import { LoginForm } from './LoginForm';
 import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { getToken, removeToken, hasToken } from '../utlities/token-storage';
+import { Sling } from 'hamburger-react';
 
 export function NavBar() {
   const [modalType, setModalType] = useState('closed');
@@ -13,12 +14,10 @@ export function NavBar() {
   const name = token?.user.name;
   const funds = token?.user.funds;
 
-  // Convert to dollars and format as a string
   const fundsInDollars: string = token?.user.funds
     ? (funds / 100).toFixed(2)
     : '0.00';
 
-  // Format as currency
   const formattedFunds = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -47,23 +46,27 @@ export function NavBar() {
   };
 
   const styles = {
-    nav: 'flex justify-between items-center p-8 px-14 bg-zinc-800 mb-8',
-    appName: 'flex text-x3l 2xl:text-5xl cursor-pointer',
+    nav: 'flex justify-between items-center py-4 pr-20 bg-[#1F1F21] mb-8 pb-6',
+    appName: 'flex text-x3l 2xl:text-5xl ml-40 cursor-pointer pt-2',
     parlay: 'text-white',
     lets: 'text-red-600',
     buttonsWrapper: 'flex items-center gap-2',
-    button: 'text-white text-sm lg:text-lg xl: 2xl:text-xl h-8 px-4',
-    login: 'bg-black border border-black rounded-md',
-    join: 'rounded-md bg-red-600 border border-red-600',
+    login:
+      'tracking-widest text-white font-bold bg-black border border-black rounded-md px-8 py-4 text-logout',
+    join: 'tracking-widest text-white font-bold rounded-md bg-red-600 border border-red-600 px-8 py-4 text-logout',
     logout:
-      'flex justify-center items-center text-white text-smaller rounded-md bg-blue-500 px-6 py-4',
-    userName: 'text-smaller text-white mr-2',
-    funds: 'text-white text-smallest py-3',
+      'tracking-widest flex mr-4 justify-center items-center text-white text-logout rounded-xl bg-blue-800 px-8 py-4',
+    list: 'text-smallest text-white mr-6 text-right mt-2',
+    userName: 'text-smallest tracking-super text-white mr-2 text-right',
+    funds: 'text-logout text-smallest text-[#54D338]',
   };
 
   return (
     <div>
       <nav className={styles.nav}>
+        <div className="absolute">
+          <Sling color="#DC2625" direction="left" size={25} />
+        </div>
         <Link to={'/HomePage'} className={styles.appName}>
           <p className={styles.lets}>LET$</p>
           <p className={styles.parlay}>PARLAY</p>
@@ -71,10 +74,12 @@ export function NavBar() {
         {hasToken() ? (
           <div className="flex justify-between items-center">
             <div className="flex-col mr-4 justify-center items-center">
-              <div>
-                <span className={styles.userName}>{name}</span>
-                <span className={styles.funds}>({formattedFunds})</span>
-              </div>
+              <ul className={styles.list}>
+                <li key={name}>{name}</li>
+                <li key={funds} className={styles.funds}>
+                  {formattedFunds}
+                </li>
+              </ul>
             </div>
             <button className={styles.logout} onClick={logOut}>
               LOGOUT
@@ -82,14 +87,10 @@ export function NavBar() {
           </div>
         ) : (
           <div className={styles.buttonsWrapper}>
-            <button
-              className={`${styles.button} ${styles.login}`}
-              onClick={loginModal}>
+            <button className={styles.login} onClick={loginModal}>
               LOGIN
             </button>
-            <button
-              className={`${styles.button} ${styles.join}`}
-              onClick={registerModal}>
+            <button className={styles.join} onClick={registerModal}>
               JOIN
             </button>
           </div>
