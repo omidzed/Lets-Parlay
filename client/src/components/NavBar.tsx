@@ -50,7 +50,7 @@ export function NavBar() {
     appName: 'flex text-x3l 2xl:text-5xl ml-40 cursor-pointer pt-2',
     parlay: 'text-white',
     lets: 'text-red-600',
-    buttonsWrapper: 'flex items-center gap-2',
+    buttonsWrapper: 'flex-wrap gap-2',
     login:
       'tracking-widest text-white font-bold bg-black border border-black rounded-md px-8 py-4 text-logout',
     join: 'tracking-widest text-white font-bold rounded-md bg-red-600 border border-red-600 px-8 py-4 text-logout',

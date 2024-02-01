@@ -1,10 +1,42 @@
+import { useState } from 'react';
 import type { Event } from '../../pages/HomePage';
+import { Modal } from '../Modal';
+import { hasToken } from '../../utlities/token-storage';
 
 type Props = {
   events: Event[];
 };
 
+type BetProps = {
+  event: Event;
+};
+
+export function BetSlip({ event }: BetProps) {
+  return (
+    <div>
+      {event.outcomes[0].name}-{event.outcomes[0].moneyline}
+    </div>
+  );
+}
+
 export function OddsTable({ events }: Props) {
+  const [openedModal, setOpenedModal] = useState(false);
+  const [event, setEvent] = useState<Event>();
+
+  const betSlip = (event: Event) => {
+    if (!hasToken()) {
+      alert('You must be logged in to place bets!');
+      return;
+    }
+    setOpenedModal(true);
+    setEvent(event);
+  };
+
+  const closeModal = () => {
+    setOpenedModal(false);
+    setEvent(undefined);
+  };
+
   const formatDateTime = (dateTimeString: Date) => {
     return new Date(dateTimeString).toLocaleDateString('default', {
       month: '2-digit',
@@ -24,7 +56,7 @@ export function OddsTable({ events }: Props) {
       'flex text-smallest justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
   };
 
-  const odds = events.map((event) => {
+  const odds = events.map((event, index) => {
     const { commenceTime, outcomes } = event;
 
     const moneyline = outcomes[0].moneyline;
@@ -34,7 +66,7 @@ export function OddsTable({ events }: Props) {
     const nameTwo = outcomes[1].name;
 
     return (
-      <div className="flex justify-center mt-6 2xl: w-full h-56">
+      <div key={index} className="flex justify-center mt-6 2xl: w-full h-56">
         <div className="flex py-2 px-2  rounded-md bg-[#212123e3] w-[80%] h-46 mt-2">
           <div className="flex-col  w-2/5 text-white text-xl">
             <span className={style.thead}>{formattedDateTime}</span>
@@ -52,10 +84,14 @@ export function OddsTable({ events }: Props) {
           </div>
           <div className="flex-col gap-2 w-1/5 text-white text-xs">
             <span className={style.thead}>MONEYLINE</span>
-            <span className={`${style.boxStyling2} cursor-pointer`}>
+            <span
+              onClick={() => betSlip(event)}
+              className={`${style.boxStyling2} cursor-pointer`}>
               {moneyline}
             </span>
-            <span className={`${style.boxStyling2} cursor-pointer`}>
+            <span
+              onClick={() => betSlip(event)}
+              className={`${style.boxStyling2} cursor-pointer`}>
               {moneylineTwo}
             </span>
           </div>
@@ -68,5 +104,17 @@ export function OddsTable({ events }: Props) {
       </div>
     );
   });
-  return <div>{odds}</div>;
+  return (
+    <div>
+      {odds}
+
+      {openedModal && (
+        <Modal
+          header="Bet Slip"
+          toggleModal={closeModal}
+          form={<BetSlip event={event} />}
+        />
+      )}
+    </div>
+  );
 }

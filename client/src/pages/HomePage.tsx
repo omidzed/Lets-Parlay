@@ -3,6 +3,7 @@ import { OddsTable } from '../components/carousels/OddsTable';
 import { useEffect, useState } from 'react';
 
 export type Event = {
+  eventId: string;
   commenceTime: Date;
   outcomes: [
     { name: string; moneyline: number },
@@ -26,11 +27,13 @@ export function HomePage() {
         }
         const result = await response.json();
         const filteredData = result.map((event) => {
+          const eventId = event.id;
           const commenceTime = event.commence_time;
           const apiOutcomes =
             event.bookmakers?.[0]?.markets?.[0]?.outcomes || [];
           console.log('apiouts', apiOutcomes);
           return {
+            eventId,
             commenceTime,
             outcomes: [
               { name: apiOutcomes[0]?.name, moneyline: apiOutcomes[0]?.price },
@@ -38,8 +41,7 @@ export function HomePage() {
             ],
           };
         });
-
-        setData(filteredData);
+        setData(filteredData.slice(0, 64));
       } catch (error) {
         console.error(error);
         setError(error as Error);
