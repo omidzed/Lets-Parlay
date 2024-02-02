@@ -3,7 +3,7 @@ import { RegistrationForm } from './RegistrationForm';
 import { LoginForm } from './LoginForm';
 import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { getToken, removeToken, hasToken } from '../utlities/token-storage';
+import { getToken, removeToken, hasToken } from '../utilities/token-storage';
 import { Sling } from 'hamburger-react';
 
 export function NavBar() {
@@ -50,12 +50,12 @@ export function NavBar() {
     appName: 'flex text-x3l 2xl:text-5xl ml-40 cursor-pointer pt-2',
     parlay: 'text-white',
     lets: 'text-red-600',
-    buttonsWrapper: 'flex-wrap gap-2',
+    buttonsWrapper: 'flex border-orange-200 gap-4',
     login:
-      'tracking-widest text-white font-bold bg-black border border-black rounded-md px-8 py-4 text-logout',
-    join: 'tracking-widest text-white font-bold rounded-md bg-red-600 border border-red-600 px-8 py-4 text-logout',
+      'tracking-widest text-white font-bold bg-black border border-yellow-400 rounded-md px-8 py-4 text-logout',
+    join: 'tracking-widest text-white shadow-inner font-bold rounded-md bg-red-600 border border-yellow-400 px-8 py-4 text-logout',
     logout:
-      'tracking-widest flex mr-4 justify-center items-center text-white text-logout rounded-xl bg-blue-800 px-8 py-4',
+      'tracking-widest flex mr-4 justify-center items-center text-white text-logout rounded-lg bg-blue-800 px-8 py-4',
     list: 'text-smallest text-white mr-6 text-right mt-2',
     userName: 'text-xl tracking-widest text-white mr-2 text-right',
     funds: 'text-xl text-[#54D338]',

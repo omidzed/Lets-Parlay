@@ -20,9 +20,10 @@ export function RegistrationForm({ loginModal }) {
         throw new Error(`fetch Error ${res.status}`);
       }
       const user = await res.json();
+      alert(`Successfuly registered new user!`);
       console.log('Registered', user);
     } catch (err) {
-      alert(`Error logging in: ${err}`);
+      alert(`Error registering new user: ${err}`);
     } finally {
       setIsLoading(false);
     }

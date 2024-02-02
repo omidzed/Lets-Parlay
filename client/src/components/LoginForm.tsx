@@ -1,5 +1,5 @@
 import { type FormEvent, useState } from 'react';
-import { storeToken } from '../utlities/token-storage';
+import { storeToken } from '../utilities/token-storage';
 
 type LoginFormProps = {
   onSubmit: () => void;
@@ -33,7 +33,7 @@ export function LoginForm({
       storeToken(user);
       onSubmit();
     } catch (err) {
-      alert(`Error registering user: ${err}`);
+      alert(`Error logging in user: ${err}`);
     } finally {
       setIsLoading(false);
     }

@@ -8,12 +8,12 @@ drop schema "public" cascade;
 create schema "public";
 
 CREATE TABLE "events" (
-  "eventId" serial PRIMARY KEY,
-  "apiId" text,
-  "sportTitle" text,
-  "date" date,
-  "homeTeam" text,
-  "awayTeam" text
+  "eventId" text PRIMARY KEY,
+  "commenceTime" date,
+  "name-1" text,
+  "name-1-odds" int,
+  "name-2" text,
+  "name-2-odds" int
 );
 
 CREATE TABLE "user" (
@@ -27,22 +27,22 @@ CREATE TABLE "user" (
 CREATE TABLE "bets" (
   "betId" serial PRIMARY KEY,
   "userId" int,
-  "eventId" int,
+  "eventId" text,
   "betType" text,
   "betAmount" int
 );
 
 CREATE TABLE "outcomes" (
   "outComeId" serial PRIMARY KEY,
-  "name" text,
-  "price" int,
-  "eventId" int
+  "winner" text,
+  "completed" text,
+  "scores" text,
+  "payout" int,
+  "eventId" text
 );
 
 ALTER TABLE "bets" ADD FOREIGN KEY ("userId") REFERENCES "user" ("userId");
 
-ALTER TABLE "bets" ADD FOREIGN KEY ("eventId") REFERENCES "events" ("eventId");
-
-ALTER TABLE "outcomes" ADD FOREIGN KEY ("price") REFERENCES "bets" ("betId");
+-- ALTER TABLE "bets" ADD FOREIGN KEY ("eventId") REFERENCES "events" ("eventId");
 
 ALTER TABLE "outcomes" ADD FOREIGN KEY ("eventId") REFERENCES "events" ("eventId");

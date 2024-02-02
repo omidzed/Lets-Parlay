@@ -25,7 +25,7 @@ type Auth = {
 };
 
 type Bet = {
-  eventId: number;
+  eventId: string;
   betType: string;
   betAmount: number;
 };

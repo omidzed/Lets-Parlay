@@ -1,5 +1,5 @@
 import { EventsCarousel } from '../components/carousels/EventsCarousel';
-import { OddsTable } from '../components/carousels/OddsTable';
+import { OddsTable } from '../components/OddsTable';
 import { useEffect, useState } from 'react';
 
 export type Event = {
@@ -31,7 +31,6 @@ export function HomePage() {
           const commenceTime = event.commence_time;
           const apiOutcomes =
             event.bookmakers?.[0]?.markets?.[0]?.outcomes || [];
-          console.log('apiouts', apiOutcomes);
           return {
             eventId,
             commenceTime,
@@ -41,7 +40,7 @@ export function HomePage() {
             ],
           };
         });
-        setData(filteredData.slice(0, 64));
+        setData(filteredData.slice(0, 67));
       } catch (error) {
         console.error(error);
         setError(error as Error);

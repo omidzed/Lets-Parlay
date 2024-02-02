@@ -1,23 +1,13 @@
 import { useState } from 'react';
-import type { Event } from '../../pages/HomePage';
-import { Modal } from '../Modal';
-import { hasToken } from '../../utlities/token-storage';
+import type { Event } from '../pages/HomePage';
+import { Modal } from './Modal';
+import { hasToken } from '../utilities/token-storage';
+import { formatDateTime } from '../utilities/format-date-time';
+import { BetForm } from './BetForm';
 
 type Props = {
   events: Event[];
 };
-
-type BetProps = {
-  event: Event;
-};
-
-export function BetSlip({ event }: BetProps) {
-  return (
-    <div>
-      {event.outcomes[0].name}-{event.outcomes[0].moneyline}
-    </div>
-  );
-}
 
 export function OddsTable({ events }: Props) {
   const [openedModal, setOpenedModal] = useState(false);
@@ -30,20 +20,12 @@ export function OddsTable({ events }: Props) {
     }
     setOpenedModal(true);
     setEvent(event);
+    console.log('event', event);
   };
 
   const closeModal = () => {
     setOpenedModal(false);
     setEvent(undefined);
-  };
-
-  const formatDateTime = (dateTimeString: Date) => {
-    return new Date(dateTimeString).toLocaleDateString('default', {
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
   };
 
   const style = {
@@ -87,12 +69,12 @@ export function OddsTable({ events }: Props) {
             <span
               onClick={() => betSlip(event)}
               className={`${style.boxStyling2} cursor-pointer`}>
-              {moneyline}
+              {moneyline > 0 ? `+${moneyline}` : moneyline}
             </span>
             <span
               onClick={() => betSlip(event)}
               className={`${style.boxStyling2} cursor-pointer`}>
-              {moneylineTwo}
+              {moneylineTwo > 0 ? `+${moneylineTwo}` : moneylineTwo}
             </span>
           </div>
           <div className="flex-col w-1/5 text-white text-xs pr-2">
@@ -112,7 +94,7 @@ export function OddsTable({ events }: Props) {
         <Modal
           header="Bet Slip"
           toggleModal={closeModal}
-          form={<BetSlip event={event} />}
+          form={<BetForm event={event} />}
         />
       )}
     </div>
