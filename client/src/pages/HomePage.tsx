@@ -11,6 +11,11 @@ export type Event = {
   ];
 };
 
+export type Outcome = [
+  { name: string; moneyline: number },
+  { name: string; moneyline: number }
+];
+
 export function HomePage() {
   const [data, setData] = useState<Event[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>();

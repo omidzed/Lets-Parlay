@@ -6,10 +6,28 @@ import { getToken } from '../utilities/token-storage';
 
 type BetFormProps = {
   event: Event;
+  index: number;
 };
 
-export function BetForm({ event }: BetFormProps) {
+type Money = {
+  amount: number;
+  currency: string;
+};
+
+export function BetForm({ event, index }: BetFormProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [betAmount, setBetAmount] = useState<Money>({
+    amount: 0,
+    currency: 'USD',
+  });
+
+  function handleChange(value: string | undefined) {
+    const amountValue = value ? parseFloat(value) : 0;
+    setBetAmount((prevState) => ({
+      ...prevState,
+      amount: amountValue,
+    }));
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -38,43 +56,51 @@ export function BetForm({ event }: BetFormProps) {
       setIsLoading(false);
     }
   }
-
-  const betOdds = event.outcomes[0].moneyline;
-  const winnings = calculateWinnings(betOdds, 100);
-  console.log('winnings', winnings);
+  const selectedOutcome = event?.outcomes[index];
+  const betOdds = selectedOutcome?.moneyline ?? 0;
+  const winnings = selectedOutcome
+    ? (calculateWinnings(betOdds, betAmount.amount) + betAmount.amount).toFixed(
+        2
+      )
+    : '0.00';
 
   return (
-    <>
-      <ul>
-        <li>{event.outcomes[0].name}</li>
-        <li>
-          {event.outcomes[0].moneyline > 0
-            ? `+${event.outcomes[0].moneyline}`
-            : event.outcomes[0].moneyline}
-        </li>
-        <li>
-          <form
-            className="flex-col block justify-center items-center gap-2 my-2 p-2 mt-4"
-            onSubmit={handleSubmit}>
-            <input type="hidden" name="betType" value="moneyline" />
-            <input type="hidden" name="eventId" value={event.eventId} />
-            <label className="mr-4">Amount</label>
+    <div className="flex-col">
+      <div className="flex gap-2">
+        <span>{selectedOutcome.name}</span>
+        <span>{betOdds > 0 ? `+${betOdds}` : betOdds}</span>
+        {/* <span>{event.outcome[0].name}</span>
+        <span>{betOdds > 0 ? `+${betOdds}` : betOdds}</span> */}
+      </div>
+      <form
+        className="flex-col block justify-center items-center gap-2 my-2 p-2 mt-4"
+        onSubmit={handleSubmit}>
+        <input type="hidden" name="betType" value="moneyline" />
+        <input type="hidden" name="eventId" value={event.eventId} />
+        <div className="flex gap-2">
+          <label className="mr-0">Amount: </label>
+          <div>
+            <span className="mr-1">$</span>
             <CurrencyInput
+              className="bg-blue-200 rounded-md px-1 w-12"
               name="betAmount"
-              autoFocus
-              placeholder="0.00"
-              decimalsLimit={4}
+              type="money"
+              decimalsLimit={2}
+              value={betAmount.amount.toString()}
+              onValueChange={handleChange}
             />
-            <div> Expected Payout $ {winnings}</div>
-            <input
-              className="mt-7 block bg-blue-700 text-white px-8
+          </div>
+        </div>
+        <div className="flex gap-4">
+          <div className="font-bold">Payout:</div> <div>${winnings}</div>
+        </div>
+        <input
+          className="mt-7 block bg-blue-700 text-white px-8
             py-4 rounded-md cursor-pointer"
-              type="submit"
-              value="Submit"
-            />
-          </form>
-        </li>
-      </ul>
-    </>
+          type="submit"
+          value="Submit"
+        />
+      </form>
+    </div>
   );
 }

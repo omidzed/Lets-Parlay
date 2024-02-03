@@ -12,15 +12,18 @@ type Props = {
 export function OddsTable({ events }: Props) {
   const [openedModal, setOpenedModal] = useState(false);
   const [event, setEvent] = useState<Event>();
+  const [outcome, setOutcome] = useState<'moneyline' | 'moneylineTwo' | null>(
+    null
+  );
 
-  const betSlip = (event: Event) => {
+  const betSlip = (event: Event, outcome: 'moneyline' | 'moneylineTwo') => {
     if (!hasToken()) {
       alert('You must be logged in to place bets!');
       return;
     }
     setOpenedModal(true);
     setEvent(event);
-    console.log('event', event);
+    setOutcome(outcome);
   };
 
   const closeModal = () => {
@@ -39,8 +42,8 @@ export function OddsTable({ events }: Props) {
   };
 
   const odds = events.map((event, index) => {
-    const { commenceTime, outcomes } = event;
-
+    const { eventId, commenceTime, outcomes } = event;
+    eventId;
     const moneyline = outcomes[0].moneyline;
     const moneylineTwo = outcomes[1].moneyline;
     const formattedDateTime = formatDateTime(commenceTime);
@@ -67,12 +70,12 @@ export function OddsTable({ events }: Props) {
           <div className="flex-col gap-2 w-1/5 text-white text-xs">
             <span className={style.thead}>MONEYLINE</span>
             <span
-              onClick={() => betSlip(event)}
+              onClick={() => betSlip(event, 'moneyline')}
               className={`${style.boxStyling2} cursor-pointer`}>
               {moneyline > 0 ? `+${moneyline}` : moneyline}
             </span>
             <span
-              onClick={() => betSlip(event)}
+              onClick={() => betSlip(event, 'moneylineTwo')}
               className={`${style.boxStyling2} cursor-pointer`}>
               {moneylineTwo > 0 ? `+${moneylineTwo}` : moneylineTwo}
             </span>
@@ -90,11 +93,13 @@ export function OddsTable({ events }: Props) {
     <div>
       {odds}
 
-      {openedModal && (
+      {openedModal && event && (
         <Modal
-          header="Bet Slip"
+          header="BET SLIP"
           toggleModal={closeModal}
-          form={<BetForm event={event} />}
+          form={
+            <BetForm event={event} index={outcome === 'moneyline' ? 0 : 1} />
+          }
         />
       )}
     </div>
