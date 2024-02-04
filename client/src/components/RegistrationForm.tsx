@@ -30,13 +30,13 @@ export function RegistrationForm({ loginModal }) {
   }
 
   const styling =
-    'block border-2 border-slate-200  input-b-color rounded-md input-b-radius mb-4 h-10 px-4';
+    'block border-2 border-slate-400 bg-blue-200  input-b-color rounded-md input-b-radius mb-4 h-10 px-4';
 
   return (
     <div className="px-4">
       <form
         onSubmit={handleSubmit}
-        className="flex-col justify-center items-center my-6">
+        className="flex-col justify-center items-center my-6 m-8">
         <label>Name</label>
 
         <input name="funds" value={100000} type="hidden" />

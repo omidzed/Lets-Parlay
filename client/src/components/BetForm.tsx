@@ -65,25 +65,25 @@ export function BetForm({ event, index }: BetFormProps) {
     : '0.00';
 
   return (
-    <div className="flex-col justify-center items-center p-10">
-      <div className="flex gap-2">
+    <div className="flex-col justify-center items-center pr-12 py-10 pb-6 pl-16">
+      <div className="flex justify-center gap-2 mr-6">
         <span>{selectedOutcome.name}</span>
         <span className="font-bold">
           {betOdds > 0 ? `+${betOdds}` : betOdds}
         </span>
       </div>
-      <div className="flex">
+      <div className="flex-col">
         <form
-          className="flex-col block justify-center items-center gap-2 my-2 p-2 mt-4"
+          className="flex-col gap-10 block justify-end items-center my-2 p-2"
           onSubmit={handleSubmit}>
           <input type="hidden" name="betType" value="moneyline" />
           <input type="hidden" name="eventId" value={event.eventId} />
-          <div className="flex gap-2">
+          <div className="flex gap-2 justify-end mt-6 mb-2">
             <label className="font-bold">Amount : </label>
             <div>
               <span className="mr-1">$</span>
               <CurrencyInput
-                className="bg-blue-200 rounded-md px-1 w-12"
+                className="bg-blue-200 rounded-md px-1 w-16"
                 name="betAmount"
                 type="money"
                 decimalsLimit={2}
@@ -92,8 +92,12 @@ export function BetForm({ event, index }: BetFormProps) {
               />
             </div>
           </div>
-          <div className="flex gap-4">
-            <div className="font-bold">Payout :</div> <div>${winnings}</div>
+          <div className="flex gap-4 w-10">
+            <div className="font-bold whitespace-nowrap">Payout :</div>
+            <div className="flex">
+              <div className="mr-2">$</div>
+              {winnings}
+            </div>
           </div>
           <input
             className="mt-7 block bg-blue-700 text-white px-8

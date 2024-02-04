@@ -44,16 +44,15 @@ export function LoginForm({
       <form
         data-hastoken={hasToken}
         onSubmit={handleSubmit}
-        className="flex-col justify-center items-center gap-4 my-2">
+        className="flex-col justify-center items-center gap-4 my-2 m-8">
         <div>
           <label className="mb-1"> Username</label>
-
           <input
             autoFocus
             required
             name="username"
             type="text"
-            className="block border-2 border-slate-200 input-b-color text-padding rounded-md
+            className="block border-2 bg-blue-200 border-slate-400 input-b-color text-padding rounded-md
             input-b-radius mb-4 h-10 px-4"
           />
 
@@ -62,7 +61,7 @@ export function LoginForm({
             required
             name="password"
             type="password"
-            className="block border-2 rounded-md w-full h-10 px-4"
+            className="block border-2 bg-blue-200 border-slate-400 rounded-md w-full h-10 px-4"
           />
         </div>
 

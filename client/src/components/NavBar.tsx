@@ -25,6 +25,7 @@ export function NavBar() {
   function logOut() {
     removeToken();
     sethasUserToken(false);
+    toggleModal();
   }
 
   function login() {
@@ -45,9 +46,8 @@ export function NavBar() {
   };
 
   const styles = {
-    nav: 'flex justify-between items-center py-4 xs:pr-2 pr-20 bg-[#1F1F21] mb-8 pb-6',
-    appName:
-      'flex text-x3l 2xl:text-5xl ml-40 xs:ml-2 cursor-pointer pt-2 xs:text-xs',
+    nav: 'flex justify-between items-center py-4 pr-20 bg-[#1F1F21] mb-8 pb-6',
+    appName: 'flex  text-5xl ml-10 cursor-pointer pt-2 px-8',
     parlay: 'text-white',
     lets: 'text-red-600',
     buttonsWrapper: 'flex border-orange-200 gap-4',
@@ -55,10 +55,10 @@ export function NavBar() {
       'tracking-widest text-white font-bold bg-black border border-yellow-400 rounded-md px-8 py-4 text-logout',
     join: 'tracking-widest text-white shadow-inner font-bold rounded-md bg-red-600 border border-yellow-400 px-8 py-4 text-logout',
     logout:
-      'xs:text-sm tracking-widest flex xs:mr-0 mr-4 justify-center items-center text-white text-logout rounded-lg bg-blue-800 xs:px-3 xs:py-2 px-8 py-4',
+      'tracking-widest flex mr-4 justify-center items-center text-white text-logout rounded-lg bg-blue-800 px-8 py-4',
     list: 'text-smallest text-white mr-6 text-right mt-2',
-    userName: 'text-xl tracking-widest text-white mr-2 text-right xs:text-sm',
-    funds: 'text-xl text-[#54D338] xs:text-sm',
+    userName: 'text-xl tracking-widest text-white mr-2 text-right',
+    funds: 'text-xl text-[#54D338]',
   };
 
   return (
