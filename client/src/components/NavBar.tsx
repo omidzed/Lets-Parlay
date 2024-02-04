@@ -4,7 +4,6 @@ import { LoginForm } from './LoginForm';
 import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { getToken, removeToken, hasToken } from '../utilities/token-storage';
-// import { Sling } from 'hamburger-react';
 
 export function NavBar() {
   const [modalType, setModalType] = useState('closed');
