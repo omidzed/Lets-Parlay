@@ -7,7 +7,8 @@ type ModalProps = {
 };
 
 const styling =
-  'fixed z-50 rounded-lg  pb-8 text-base w-[20%] rounded-lg text-base pb-2 rounded-t-xl bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2';
+  'fixed z-50 min-h-max  min-w-max rounded-lg  pb-8 text-base rounded-lg text-base pb-2 rounded-t-xl bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2';
+
 export function Modal({ toggleModal, form, header }: ModalProps) {
   return (
     <div className="absolute">

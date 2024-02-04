@@ -61,7 +61,7 @@ export function HomePage() {
   return (
     <div className="flex-col justify-center items-center">
       <EventsCarousel />
-      <div className="flex-col w-[60%] items-center mx-auto">
+      <div className="flex-col xs:w-full w-[60%] items-center mx-auto">
         {isLoading && <p>Loading...</p>}
         {error && <p>Error: {error.message}</p>}
         <OddsTable events={data} />
