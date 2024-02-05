@@ -2,7 +2,6 @@ import { RotatingBanner } from './RotatingBanner';
 
 export function EventsCarousel() {
   const posters = [
-    '/images/2024-02-03.png',
     '/images/2024-02-10.png',
     '/images/2024-02-17.png',
     '/images/2024-02-24.png',
