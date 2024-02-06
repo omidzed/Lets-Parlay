@@ -7,8 +7,15 @@ import { useState, useEffect } from 'react';
 
 export function NavBar() {
   const [isAuthenticated, setIsAuthenticated] = useState(hasToken());
+  const [action, setAction] = useState<'sign-up' | 'sign-in'>('sign-in');
   const { openModal, closeModal } = useModal();
   const { setUser } = useUser();
+
+  const toggleAction = () => {
+    setAction((prevAction) =>
+      prevAction === 'sign-up' ? 'sign-in' : 'sign-up'
+    );
+  };
 
   useEffect(() => {
     setIsAuthenticated(hasToken());
@@ -28,9 +35,10 @@ export function NavBar() {
   const handleLogin = () => {
     openModal(
       <AuthForm
-        action="sign-in"
+        action={action}
         onSignIn={handleAuthSuccess}
         closeModal={closeModal}
+        toggleAction={toggleAction}
       />,
       'WELCOME BACK!'
     );
@@ -39,9 +47,10 @@ export function NavBar() {
   const handleRegister = () => {
     openModal(
       <AuthForm
-        action="sign-up"
+        action={action}
         onSignIn={handleAuthSuccess}
         closeModal={closeModal}
+        toggleAction={toggleAction}
       />,
       `Let's create your account!`
     );

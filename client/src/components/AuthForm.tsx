@@ -4,12 +4,19 @@ type Props = {
   action: 'sign-up' | 'sign-in';
   onSignIn: (auth: any) => void;
   closeModal: () => void;
+  toggleAction: () => void;
 };
 
-export const AuthForm = ({ action, onSignIn, closeModal }: Props) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+export const AuthForm = ({
+  action,
+  onSignIn,
+  closeModal,
+  toggleAction,
+}: Props) => {
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [name, setName] = useState<string>('');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [funds, setFunds] = useState('');
   const [error, setError] = useState('');
@@ -45,13 +52,17 @@ export const AuthForm = ({ action, onSignIn, closeModal }: Props) => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const styling =
-    'block border-2 border-slate-400 bg-blue-200  input-b-color rounded-md input-b-radius mb-4 h-10 px-4';
+    'block w-full border-2 border-slate-400 bg-blue-100 rounded-md mb-4 h-10 px-4';
 
   return (
     <div>
       <form
-        className="flex-col justify-center items-center my-6 m-8"
+        className="flex flex-col justify-center my-6 m-8 mb-0 py-10 px-24"
         onSubmit={handleSubmit}>
         {action === 'sign-up' && (
           <div>
@@ -75,30 +86,36 @@ export const AuthForm = ({ action, onSignIn, closeModal }: Props) => {
           required
         />
         <label className="mt-2">Password</label>
-        <input name="password" type="password" />
-        <input
-          className={styling}
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div className="relative">
+          <input
+            className={`${styling} w-full`}
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            className="absolute inset-y-0 right-0 px-3 flex items-center text-sm pb-4 leading-5"
+            onClick={togglePasswordVisibility}>
+            {showPassword ? 'Hide' : 'Show'}
+          </button>
+        </div>
 
         <div className="flex justify-center">
           <button
-            className="mt-5 tracking-wider bg-blue-700 text-white px-5 py-6 rounded-md cursor-pointer"
+            className=" tracking-wider bg-blue-700 mt-8 text-white px-6 py-4 rounded-md cursor-pointer"
             type="submit">
             {action === 'sign-up' ? 'Sign Up' : 'Sign In'}
           </button>
         </div>
-        {error && <p>{error}</p>}
+        {error && <p className="text-red-500 mt-8">{error}</p>}
       </form>
 
       {action === 'sign-in' && (
         <div>
           <p className="text-md text-center">New to LET$PARLAY?</p>
           <a
-            className="flex justify-center font-bold text-md text-[#3d86ec]
+            onClick={toggleAction}
+            className="flex mb-10 justify-center font-bold text-md text-[#3d86ec]
         underline cursor-pointer">
             Register new Account
           </a>
@@ -108,7 +125,9 @@ export const AuthForm = ({ action, onSignIn, closeModal }: Props) => {
       {action === 'sign-up' && (
         <div>
           <p className="text-md text-center">Already have an account?</p>
-          <a className="flex justify-center font-bold text-md text-[#3d86ec] underline cursor-pointer ">
+          <a
+            onClick={toggleAction}
+            className="flex justify-center font-bold text-md mb-4 text-[#3d86ec] underline cursor-pointer ">
             Sign In
           </a>
         </div>
