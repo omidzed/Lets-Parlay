@@ -6,7 +6,7 @@ import { events } from '../utilities/api-data';
 console.log('api data', events);
 export type Event = {
   eventId: string;
-  commenceTime: string;
+  commenceTime: Date;
   outcomes: [
     { name: string; moneyline: number },
     { name: string; moneyline: number }

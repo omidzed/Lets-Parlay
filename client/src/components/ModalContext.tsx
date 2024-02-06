@@ -1,36 +1,47 @@
-// import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 
-// // Define the context shape
-// interface ModalContextType {
-//   modalType: string;
-//   openModal: (type: string) => void;
-//   closeModal: () => void;
-// }
+type ModalContextType = {
+  isModalOpen: boolean;
+  modalContent: JSX.Element | null;
+  openModal: (content: JSX.Element, header: string) => void;
+  closeModal: () => void;
+  header: string;
+};
 
-// // Create the context with an empty initial value
-// const ModalContext = createContext<ModalContextType | undefined>(undefined);
+const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
-// // Define the provider component
-// export const ModalProvider: React.FC<{ children: ReactNode }> = ({
-//   children,
-// }) => {
-//   const [modalType, setModalType] = useState<string>('closed');
+// eslint-disable-next-line react-refresh/only-export-components
+export const useModal = () => {
+  const context = useContext(ModalContext);
+  if (context === undefined) {
+    throw new Error('useModal must be used within a ModalProvider');
+  }
+  return context;
+};
 
-//   const openModal = (type: string) => setModalType(type);
-//   const closeModal = () => setModalType('closed');
+export const ModalProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
+  const [header, setHeader] = useState<string>('');
 
-//   return (
-//     <ModalContext.Provider value={{ modalType, openModal, closeModal }}>
-//       {children}
-//     </ModalContext.Provider>
-//   );
-// };
+  const openModal = (content: JSX.Element, header: string) => {
+    setModalContent(content);
+    setHeader(header);
+    setIsModalOpen(true);
+  };
 
-// // Custom hook to use the modal context
-// export const useModal = (): ModalContextType => {
-//   const context = useContext(ModalContext);
-//   if (context === undefined) {
-//     throw new Error('useModal must be used within a ModalProvider');
-//   }
-//   return context;
-// };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalContent(null);
+    setHeader('');
+  };
+
+  return (
+    <ModalContext.Provider
+      value={{ isModalOpen, modalContent, openModal, closeModal, header }}>
+      {children}
+    </ModalContext.Provider>
+  );
+};

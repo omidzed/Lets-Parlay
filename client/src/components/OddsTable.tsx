@@ -1,34 +1,23 @@
-import { useState } from 'react';
 import type { Event } from '../pages/HomePage';
-import { Modal } from './Modal';
 import { hasToken } from '../utilities/token-storage';
 import { formatDateTime } from '../utilities/format-date-time';
 import { BetForm } from './BetForm';
+import { useModal } from './ModalContext';
 
 type Props = {
   events: Event[];
 };
 
 export function OddsTable({ events }: Props) {
-  const [openedModal, setOpenedModal] = useState(false);
-  const [event, setEvent] = useState<Event>();
-  const [outcome, setOutcome] = useState<'moneyline' | 'moneylineTwo' | null>(
-    null
-  );
+  const { openModal } = useModal();
 
   const betSlip = (event: Event, outcome: 'moneyline' | 'moneylineTwo') => {
     if (!hasToken()) {
       alert('You must be logged in to place bets!');
       return;
     }
-    setOpenedModal(true);
-    setEvent(event);
-    setOutcome(outcome);
-  };
-
-  const closeModal = () => {
-    setOpenedModal(false);
-    setEvent(undefined);
+    const outcomeIndex = outcome === 'moneyline' ? 0 : 1;
+    openModal(<BetForm event={event} index={outcomeIndex} />, 'Bet Slip');
   };
 
   const style = {
@@ -89,19 +78,5 @@ export function OddsTable({ events }: Props) {
       </div>
     );
   });
-  return (
-    <div>
-      {odds}
-
-      {openedModal && event && (
-        <Modal
-          header="BET SLIP"
-          toggleModal={closeModal}
-          form={
-            <BetForm event={event} index={outcome === 'moneyline' ? 0 : 1} />
-          }
-        />
-      )}
-    </div>
-  );
+  return <div>{odds}</div>;
 }
