@@ -4,7 +4,7 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "ts-node-esm server.ts",
+    "start": "node --loader ts-node/esm server.ts",
     "dev": "nodemon server.ts",
     "lint": "eslint . --ext ts,js --report-unused-disable-directives --max-warnings 0"
   },
@@ -24,8 +24,8 @@
   },
   "nodemonConfig": {
     "execMap": {
-      "ts": "ts-node-esm",
-      "js": "ts-node-esm"
+      "ts": "node --loader ts-node/esm",
+      "js": "node --loader ts-node/esm"
     }
   }
 }
