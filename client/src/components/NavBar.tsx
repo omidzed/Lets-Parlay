@@ -40,7 +40,7 @@ export function NavBar() {
         closeModal={closeModal}
         toggleAction={toggleAction}
       />,
-      'WELCOME BACK!'
+      'Welcome back!'
     );
   };
 
@@ -72,16 +72,16 @@ export function NavBar() {
   }).format(parseFloat(fundsInDollars));
 
   const styles = {
-    nav: 'flex justify-between items-center py-4 pr-20 bg-[#1F1F21] mb-8 pb-6',
-    appName: 'flex  text-5xl ml-10 cursor-pointer pt-2 px-8 xs:text-md',
+    nav: 'flex pr-6 justify-between items-center py-4 lg:pr-20 bg-[#1F1F21] mb-8 pb-6',
+    appName: 'text-logout flex lg:text-5xl lg:ml-10 cursor-pointer pt-2 px-8',
     parlay: 'text-white',
     lets: 'text-red-600',
-    buttonsWrapper: 'flex border-orange-200 gap-4',
+    buttonsWrapper: 'flex gap-2 border-orange-200 lg:gap-4',
     login:
-      'tracking-widest text-white font-bold bg-black border border-yellow-400 rounded-md px-8 py-4 text-logout',
-    join: 'tracking-widest text-white shadow-inner font-bold rounded-md bg-red-600 border border-yellow-400 px-8 py-4 text-logout',
+      'text-sm p-2 tracking-widest text-white font-bold bg-black border border-yellow-400 rounded-md lg:px-8 lg:py-4 lg:text-logout',
+    join: 'text-sm p-2 tracking-widest text-white shadow-inner font-bold rounded-md bg-red-600 border border-yellow-400 lg:px-8 lg:py-4 lg:text-logout',
     logout:
-      'tracking-widest flex mr-4 justify-center items-center text-white text-logout rounded-lg bg-blue-800 px-8 py-4',
+      'tracking-widest p-2 flex mr-4 justify-center items-center text-white text-logout rounded-lg bg-blue-800 px-8 py-4',
 
     list: 'text-smallest text-white mr-6 text-right mt-2',
     userName: 'text-xl tracking-widest text-white mr-2 text-right',

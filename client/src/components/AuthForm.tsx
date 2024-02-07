@@ -1,5 +1,7 @@
 import { useState, FormEvent } from 'react';
 
+const funds = 10000;
+
 type Props = {
   action: 'sign-up' | 'sign-in';
   onSignIn: (auth: any) => void;
@@ -17,8 +19,7 @@ export const AuthForm = ({
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [funds, setFunds] = useState('');
+
   const [error, setError] = useState('');
 
   const apiUrl = action === 'sign-up' ? '/api/auth/sign-up' : '/api/auth/login';
@@ -49,6 +50,7 @@ export const AuthForm = ({
       closeModal();
     } catch (error) {
       setError('Authentication failed. Please try again.');
+      alert('Error logging in user: Error: fetch Error 401');
     }
   };
 
@@ -94,6 +96,7 @@ export const AuthForm = ({
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
+            type="button"
             className="absolute inset-y-0 right-0 px-3 flex items-center text-sm pb-4 leading-5"
             onClick={togglePasswordVisibility}>
             {showPassword ? 'Hide' : 'Show'}

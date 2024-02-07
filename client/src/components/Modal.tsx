@@ -17,7 +17,7 @@ export function Modal() {
       <div className={styling}>
         <div className="flex justify-between bg-blue-700 rounded-t-lg py-2 px-4 border-blue-700-2">
           <div>
-            <p className="text-white text-lg ml-4 text-center">{header}</p>
+            <p className="text-white text-lg ml-8 text-center">{header}</p>
           </div>
           <GrFormClose color="white" size={24} onClick={closeModal} />
         </div>

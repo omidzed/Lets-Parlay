@@ -22,12 +22,12 @@ export function OddsTable({ events }: Props) {
 
   const style = {
     boxStyling:
-      'flex my-1 mt-1 text-odds drop-shadow-xl font-bold justify-center items-center rounded-md bg-[#2e2e31] h-[30%] text-red-600 ;',
+      'flex my-1 mt-1 text-xs md:text-odds drop-shadow-xl font-bold justify-center items-center rounded-md bg-[#2e2e31] h-[30%] text-red-600 ;',
     boxStyling2:
-      'flex m-2 mt-2 text-odds drop-shadow-xl justify-center items-center rounded-md bg-[#2e2e31] h-[28%] text-[#54D338] ;',
-    date: 'flex text-smallest justify-center items-center h-1/4 border-b-[1px]',
+      'flex text-xs m-2 mt-2 md:text-odds drop-shadow-xl justify-center items-center rounded-md bg-[#2e2e31] h-[28%] text-[#54D338] ;',
+    date: 'text-xs flex md:text-smallest justify-center items-center h-1/4 border-b-[1px]',
     thead:
-      'flex text-smallest justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
+      'flex text-tiny md:text-smallest justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
   };
 
   const odds = events.map((event, index) => {
@@ -40,14 +40,14 @@ export function OddsTable({ events }: Props) {
     const nameTwo = outcomes[1].name;
 
     return (
-      <div key={index} className="flex justify-center mt-6 2xl: w-full h-56">
-        <div className="flex py-2 px-2  rounded-md bg-[#212123e3] w-[80%] h-46 mt-2">
+      <div key={index} className="flex justify-center mt-6 w-full lg:h-56">
+        <div className="flex py-2 px-2  rounded-md bg-[#212123e3] md:w-[80%] lg:h-46 mt-2">
           <div className="flex-col  w-2/5 text-white text-xl">
             <span className={style.thead}>{formattedDateTime}</span>
-            <span className="flex text-lg justify-center items-center h-1/3 ">
+            <span className="flex text-xs md:text-lg justify-center items-center h-1/3 ">
               {nameOne}
             </span>
-            <span className="flex text-lg justify-center items-center h-1/3">
+            <span className="flex text-xs md:text-lg justify-center items-center h-1/3">
               {nameTwo}
             </span>
           </div>
@@ -69,7 +69,7 @@ export function OddsTable({ events }: Props) {
               {moneylineTwo > 0 ? `+${moneylineTwo}` : moneylineTwo}
             </span>
           </div>
-          <div className="flex-col w-1/5 text-white text-xs pr-2">
+          <div className="flex-col w-1/5 text-white text-tiny pr-2">
             <span className={style.thead}>TOTAL</span>
             <span className={style.boxStyling2}></span>
             <span className={style.boxStyling2}></span>

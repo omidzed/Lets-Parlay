@@ -5,6 +5,7 @@ export default {
   theme: {
     extend: {
       fontSize: {
+        tiny: '0.5rem',
         logout: '1.2rem',
         smallest: '0.9rem',
         smaller: '1.7rem',

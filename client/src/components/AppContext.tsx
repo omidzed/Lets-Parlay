@@ -3,7 +3,7 @@ import type { Auth, User } from '../utilities';
 
 export type AppContextValues = {
   user: User | undefined;
-  setUser: (user: User | undefined) => void; // Now accepts a User object or undefined
+  setUser: (user: User | undefined) => void;
   token: string | undefined;
   handleSignIn: (auth: Auth) => void;
   handleSignOut: () => void;
