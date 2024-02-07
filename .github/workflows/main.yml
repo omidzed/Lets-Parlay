@@ -20,6 +20,11 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
       - name: Generate deployment package
         run: |
           NODE_ENV=production npm install
