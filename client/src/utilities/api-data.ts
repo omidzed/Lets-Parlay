@@ -1,4 +1,5 @@
-const apiData = `{
+const events = [
+  {
     eventId: 'aac4c5f2e3f6c8a20e6227adbf146f4d',
     commenceTime: '2024-02-10T21:10:00Z',
     outcomes: [
@@ -936,6 +937,6 @@ const apiData = `{
       },
     ],
   },
-]`;
+];
 
-export default apiData;
+export default events;

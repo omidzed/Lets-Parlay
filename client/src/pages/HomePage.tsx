@@ -1,7 +1,7 @@
 import { EventsCarousel } from '../components/carousels/EventsCarousel';
 import { OddsTable } from '../components/OddsTable';
 import { useEffect, useState } from 'react';
-import { events } from '../utilities/api-data';
+import events from '../utilities/api-data';
 
 console.log('api data', events);
 export type Event = {
@@ -19,7 +19,7 @@ export type Outcome = [
 ];
 
 export function HomePage() {
-  const [data, setData] = useState<Event[]>([]);
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState<boolean>();
   const [error, setError] = useState<Error | null>(null);
 
