@@ -4,8 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import { About } from './pages/About';
 import { NotFound } from './pages/NotFound';
 import { HomePage } from './pages/HomePage';
-// import { Bets } from "./pages/Bets";
-// import { History } from './pages/History';
+import { Bets } from './pages/Bets';
 import { ModalProvider } from './components/ModalContext';
 import { Modal } from './components/Modal';
 import { Auth, User } from './utilities';
@@ -19,7 +18,6 @@ function App() {
   const [isAuthorizing, setIsAuthorizing] = useState(true);
 
   useEffect(() => {
-    // If user logged in previously on this browser, authorize them
     const auth = localStorage.getItem(tokenKey);
     if (auth) {
       const a = JSON.parse(auth);
@@ -53,8 +51,7 @@ function App() {
           <Route path="/" element={<NavBar />}>
             <Route index element={<HomePage />} />
             <Route path="about" element={<About />} />
-            {/* <Route path="bets" element={<Bets />} />
-            <Route path="history" element={<History />} /> */}
+            <Route path="bets" element={<Bets />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

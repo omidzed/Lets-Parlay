@@ -4,10 +4,12 @@ import { useModal } from './ModalContext';
 import { useUser } from './useUser';
 import { AuthForm } from './AuthForm';
 import { useState, useEffect } from 'react';
+import { Sling } from 'hamburger-react';
 
 export function NavBar() {
   const [isAuthenticated, setIsAuthenticated] = useState(hasToken());
   const [action, setAction] = useState<'sign-up' | 'sign-in'>('sign-in');
+  const [isOpen, setOpen] = useState(false);
   const { openModal, closeModal } = useModal();
   const { setUser } = useUser();
 
@@ -92,7 +94,13 @@ export function NavBar() {
     <div>
       <nav className={styles.nav}>
         <div className="absolute">
-          {/* <Sling color="#DC2625" direction="left" size={25} /> */}
+          <Sling
+            toggled={isOpen}
+            toggle={setOpen}
+            color="#DC2625"
+            size={15}
+            direction="left"
+          />
         </div>
         <Link to={'/'} className={styles.appName}>
           <p className={styles.lets}>LET$</p>

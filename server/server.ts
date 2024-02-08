@@ -67,7 +67,6 @@ app.post('/api/auth/sign-up', async (req, res, next) => {
       returning *;`;
 
     const hashedPassword = await argon2.hash(password);
-    console.log(hashedPassword);
     const params = [username, hashedPassword, name, funds];
     const result = await db.query<User>(sql, params);
     const [user] = result.rows;
@@ -103,7 +102,6 @@ app.post('/api/auth/login', async (req, res, next) => {
     }
     const payload = { userId, username, name, funds };
     const token = jwt.sign(payload, hashKey);
-    console.log(token);
     res.json({ token, user: payload });
   } catch (err) {
     next(err);
@@ -117,7 +115,7 @@ app.get('/api/bets', authMiddleware, async (req, res, next) => {
         where "userId" = $1
         order by "betId" desc;
     `;
-    const result = await db.query<User>(sql, [req.user?.userId]);
+    const result = await db.query<Bet>(sql, [req.user?.userId]);
     res.status(201).json(result.rows);
   } catch (err) {
     next(err);
