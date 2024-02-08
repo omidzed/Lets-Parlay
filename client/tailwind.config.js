@@ -10,7 +10,7 @@ export default {
         smallest: '0.9rem',
         smaller: '1.7rem',
         odds: '1.1rem',
-        bigger: '3rem',
+        bigger: '1.5rem',
       },
 
       screens: {
