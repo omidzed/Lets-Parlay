@@ -80,14 +80,14 @@ export function NavBar() {
     lets: 'text-red-600',
     buttonsWrapper: 'flex gap-2 border-orange-200 lg:gap-4',
     login:
-      'text-sm p-2 tracking-widest text-white font-bold bg-black border border-yellow-400 rounded-md lg:px-8 lg:py-4 lg:text-logout',
-    join: 'text-sm p-2 tracking-widest text-white shadow-inner font-bold rounded-md bg-red-600 border border-yellow-400 lg:px-8 lg:py-4 lg:text-logout',
+      'text-sm p-2 tracking-widest text-white font-bold bg-black border border-white rounded-md md:px-8 md:py-5 md:text-logout',
+    join: 'text-sm p-2 tracking-widest text-white font-bold rounded-md bg-red-600 border border-white md:px-8 md:py-5 md:text-logout',
     logout:
-      'tracking-widest p-2 flex mr-4 justify-center items-center text-white text-logout rounded-lg bg-blue-800 px-8 py-4',
+      'text-sm tracking-widest text-white border border-white p-2 mr-4  md:text-logout rounded-lg bg-blue-800 md:px-8 md:py-5',
 
     list: 'text-smallest text-white mr-6 text-right mt-2',
-    userName: 'text-xl tracking-widest text-white mr-2 text-right',
-    funds: 'text-xl text-[#54D338]',
+    userName: 'text-bigger tracking-widest text-white mr-2 text-right',
+    funds: 'text-sm md:text-xl text-[#54D338]',
   };
 
   return (

@@ -27,16 +27,18 @@ CREATE TABLE "user" (
 CREATE TABLE "bets" (
   "betId" serial PRIMARY KEY,
   "userId" int,
-  "eventId" text,
+  "completed" text,
+  "dateTime" text,
+  "pick" text,
   "betType" text,
   "betAmount" int
 );
 
 CREATE TABLE "outcomes" (
   "outComeId" serial PRIMARY KEY,
-  "winner" text,
   "completed" text,
-  "scores" text,
+  "winner" text,
+  "winMethod" text,
   "payout" int,
   "eventId" text
 );
