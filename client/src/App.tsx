@@ -52,6 +52,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="about" element={<About />} />
             <Route path="bets" element={<Bets />} />
+            {/* <Route path="rankings" element={<Rankings />} /> */}
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

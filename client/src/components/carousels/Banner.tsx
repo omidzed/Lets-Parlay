@@ -4,12 +4,13 @@ import { RxChevronLeft, RxChevronRight } from 'react-icons/rx';
 type BannerProps = {
   posters: string[];
 };
+//  group-hover:bg-[#FFD700]group-hover:bg-[#626262be]
 
 const chevronStyling =
-  'absolute top-1/2 transform -translate-y-1/2 z-35 group rounded-full  text-[#ffff] opacity-40 border-2 border-[#ffffff79] group-hover:opacity-100 group-hover:text-[#ffffff] group-hover:border-[#ffffff] group-hover:bg-[#fffff0000] cursor-pointer';
+  'absolute top-1/2  transform -translate-y-1/2 z-35 group rounded-full  text-[#ffff] opacity-40 border-2 border-[#ffffff79] group-hover:opacity-100 group-hover:text-[#ffffff] group-hover:border-[#ffffff] group-hover:bg-[#fffff0000] cursor-pointer';
 
 const overlayStyling =
-  'absolute bg-white opacity-0 w-[2.9rem] h-full group-hover:bg-[#626262be] group-hover:opacity-70 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';
+  'absolute bg-white opacity-0 w-[2.9rem] h-full  group-hover:opacity-10 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';
 
 export function Banner({ posters }: BannerProps) {
   const [index, setIndex] = useState(0);
@@ -17,7 +18,7 @@ export function Banner({ posters }: BannerProps) {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setIndex((index) => (index + 1) % posters.length);
-    }, 5000);
+    }, 50000);
 
     return () => clearInterval(intervalId);
   }, [posters.length]);
@@ -41,7 +42,7 @@ export function Banner({ posters }: BannerProps) {
           onClick={handlePrevClick}
         />
         <div
-          className={`${overlayStyling} h-full left-0`}
+          className={`${overlayStyling} h-full left-0 bg-[gold-to-azure-gradient]`}
           onClick={handlePrevClick}></div>
       </div>
       <div className="group">

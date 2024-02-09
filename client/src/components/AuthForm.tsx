@@ -1,7 +1,5 @@
 import { useState, FormEvent } from 'react';
 
-const funds = 10000;
-
 type Props = {
   action: 'sign-up' | 'sign-in';
   onSignIn: (auth: any) => void;
@@ -29,7 +27,7 @@ export const AuthForm = ({
 
     const userData =
       action === 'sign-up'
-        ? { username, password, name, funds: Number(funds) }
+        ? { username, password, name }
         : { username, password };
 
     try {
@@ -59,79 +57,85 @@ export const AuthForm = ({
   };
 
   const styling =
-    'block w-full border-2 border-slate-400 bg-blue-100 rounded-md mb-4 h-10 px-4';
+    'block w-full border-2 border-slate-400 bg-blue-100 rounded-md mb-1 h-10 px-4';
 
   return (
     <div>
       <form
-        className="flex flex-col justify-center my-6 m-8 mb-0 py-10 px-24"
+        className="flex flex-col justify-center my-6 m-8 px-4  md:px-14 py-6"
         onSubmit={handleSubmit}>
-        {action === 'sign-up' && (
-          <div>
-            <label className="mt-2">Name</label>
-            <input
-              className={styling}
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-            <input name="funds" value={100000} type="hidden" />
-          </div>
-        )}
-        <label className="mt-2">Username</label>
-        <input
-          className={styling}
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <label className="mt-2">Password</label>
-        <div className="relative">
+        <div className="mb-4 mt-2">
+          {action === 'sign-up' && (
+            <div>
+              <label>Name</label>
+              <input
+                className={styling}
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+              <input name="funds" value={100000} type="hidden" />
+            </div>
+          )}
+          <label>Username</label>
           <input
-            className={`${styling} w-full`}
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            className={styling}
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
           />
-          <button
-            type="button"
-            className="absolute inset-y-0 right-0 px-3 flex items-center text-sm pb-4 leading-5"
-            onClick={togglePasswordVisibility}>
-            {showPassword ? 'Hide' : 'Show'}
-          </button>
+          <label>Password</label>
+          <div className="relative">
+            <input
+              className={`${styling} w-full`}
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 px-3 flex items-center text-xs leading-5"
+              onClick={togglePasswordVisibility}>
+              {showPassword ? 'Hide' : 'Show'}
+            </button>
+          </div>
         </div>
 
         <div className="flex justify-center">
           <button
-            className=" tracking-wider bg-blue-700 mt-8 text-white px-6 py-4 rounded-md cursor-pointer"
+            className=" tracking-wider w-full bg-blue-700 mt-8 text-white px-6 py-4 rounded-md cursor-pointer"
             type="submit">
-            {action === 'sign-up' ? 'Sign Up' : 'Sign In'}
+            {action === 'sign-up' ? 'REGISTER' : 'LOGIN'}
           </button>
         </div>
         {error && <p className="text-red-500 mt-8">{error}</p>}
+        <div className="flex justify-center mt-2">
+          <button
+            className="bg-gray-500 w-full text-white px-6 py-4 rounded-md cursor-pointer"
+            onClick={() => onSignIn({ user: 'guest' })}>
+            Guest Check-In
+          </button>
+        </div>
       </form>
 
-      {action === 'sign-in' && (
+      {action === 'sign-in' ? (
         <div>
-          <p className="text-md text-center">New to LET$PARLAY?</p>
+          <p className="text-md text-center">NOT A MEMBER YET?</p>
           <a
-            onClick={toggleAction}
-            className="flex mb-10 justify-center font-bold text-md text-[#3d86ec]
-        underline cursor-pointer">
-            Register new Account
+            onClick={() => toggleAction()}
+            className="flex tracking-wide text-logout mb-10 justify-center items-center font-bold text-md text-[#3d86ec] underline cursor-pointer">
+            JOIN NOW
           </a>
         </div>
-      )}
-
-      {action === 'sign-up' && (
-        <div>
-          <p className="text-md text-center">Already have an account?</p>
+      ) : (
+        <div className=" flex flex-col justify-center items center">
+          <p className="text-md text-center">ALREADY HAVE AN ACCOUNT?</p>
           <a
-            onClick={toggleAction}
-            className="flex justify-center font-bold text-md mb-4 text-[#3d86ec] underline cursor-pointer ">
-            Sign In
+            onClick={() => toggleAction()}
+            className="tracking-wide font-bold text-center text-md mb-4 text-[#3d86ec] underline cursor-pointer">
+            SIGN IN
           </a>
         </div>
       )}
