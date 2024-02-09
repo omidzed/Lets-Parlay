@@ -17,7 +17,6 @@ import { Sling } from 'hamburger-react';
 
 export function NavBar() {
   const [isAuthenticated, setIsAuthenticated] = useState(hasToken());
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [action, setAction] = useState<'sign-up' | 'sign-in'>(undefined);
   const [isOpen, setOpen] = useState(false);
   const { openModal, closeModal } = useModal();
@@ -75,6 +74,8 @@ export function NavBar() {
     style: 'currency',
     currency: 'USD',
   }).format(parseFloat(fundsInDollars));
+
+  action;
 
   const styles = {
     nav: 'flex pr-6 justify-between items-center py-8 lg:pr-20 bg-[#1F1F21] mb-8 pb-6',
