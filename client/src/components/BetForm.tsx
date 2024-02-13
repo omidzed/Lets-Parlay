@@ -1,5 +1,5 @@
 import type { Event } from '../pages/HomePage';
-import { type FormEvent, useState } from 'react';
+import { type FormEvent, useState, useEffect } from 'react';
 import { calculateWinnings } from '../utilities/payout-calculator';
 import CurrencyInput from 'react-currency-input-field';
 import { getToken } from '../utilities/token-storage';
@@ -7,6 +7,9 @@ import { getToken } from '../utilities/token-storage';
 type BetFormProps = {
   event: Event;
   index: number;
+  pick: string;
+  dateTime: string;
+  completed: boolean;
 };
 
 type Money = {
@@ -14,8 +17,15 @@ type Money = {
   currency: string;
 };
 
-export function BetForm({ event, index }: BetFormProps) {
+export function BetForm({
+  event,
+  index,
+  pick,
+  dateTime,
+  completed,
+}: BetFormProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isGuest, setIsGuest] = useState(!getToken());
   const [betAmount, setBetAmount] = useState<Money>({
     amount: 0,
     currency: 'USD',
@@ -31,31 +41,49 @@ export function BetForm({ event, index }: BetFormProps) {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const token = getToken();
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    if (!isGuest && token) {
+      headers['Authorization'] = `Bearer ${getToken().token}`;
+    }
+    const formData = new FormData(event.currentTarget);
+    const userData = Object.fromEntries(formData.entries());
+    const req = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        ...userData,
+        completed,
+        dateTime,
+        pick,
+      }),
+    };
+
     try {
-      setIsLoading(!isLoading);
-      const formData = new FormData(event.currentTarget);
-      const userData = Object.fromEntries(formData.entries());
-      const req = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${getToken().token}`,
-        },
-        body: JSON.stringify(userData),
-      };
       const res = await fetch('/api/bets', req);
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
       }
-      const user = await res.json();
+
+      if (isGuest) {
+        const guestFunds = parseFloat(
+          localStorage.getItem('guestFunds') || '100000'
+        );
+        const fundsMinusBet = guestFunds - betAmount.amount;
+        localStorage.setItem('guestFunds', fundsMinusBet.toString());
+      }
+
       alert('Bet placed successfully!');
-      console.log('Bet placed successfully!', user);
     } catch (err) {
+      console.error('Error placing bet:', err);
       alert(`Error placing bet: ${err}`);
     } finally {
       setIsLoading(false);
     }
   }
+
   const selectedOutcome = event?.outcomes[index];
   const betOdds = selectedOutcome?.moneyline ?? 0;
   const winnings = selectedOutcome
@@ -63,6 +91,14 @@ export function BetForm({ event, index }: BetFormProps) {
         2
       )
     : '0.00';
+
+  useEffect(() => {
+    const checkAuthStatus = () => {
+      const token = getToken();
+      setIsGuest(!token);
+    };
+    checkAuthStatus();
+  }, []);
 
   return (
     <div className="flex-col justify-center items-center pr-12 py-10 pb-6 pl-16">
@@ -77,7 +113,7 @@ export function BetForm({ event, index }: BetFormProps) {
           className="flex-col gap-10 block justify-end items-center my-2 p-2"
           onSubmit={handleSubmit}>
           <input type="hidden" name="betType" value="moneyline" />
-          <input type="hidden" name="eventId" value={event.eventId} />
+          <input type="hidden" name="completed" value="false" />
           <div className="flex gap-2 justify-end mt-6 mb-2">
             <label className="font-bold">Amount : </label>
             <div>
@@ -100,10 +136,12 @@ export function BetForm({ event, index }: BetFormProps) {
             </div>
           </div>
           <input
-            className="mt-7 block bg-blue-700 text-white px-8
-            py-4 rounded-md cursor-pointer"
+            className={`mt-7 block ${
+              isLoading ? 'bg-blue-400' : 'bg-blue-700'
+            } text-white px-8 py-4 rounded-md cursor-pointer`}
             type="submit"
-            value="SUBMIT"
+            value={isLoading ? 'Betting...' : 'SUBMIT'}
+            disabled={isLoading}
           />
         </form>
       </div>

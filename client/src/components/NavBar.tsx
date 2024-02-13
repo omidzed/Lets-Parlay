@@ -19,6 +19,11 @@ export function NavBar() {
   const [isAuthenticated, setIsAuthenticated] = useState(hasToken());
   const [action, setAction] = useState<'sign-up' | 'sign-in'>(undefined);
   const [isOpen, setOpen] = useState(false);
+  const [funds, setFunds] = useState<string>(() => {
+    const tokenData = getToken();
+    return tokenData ? (tokenData.user.funds / 100).toFixed(2) : '1000.00';
+  });
+
   const { openModal, closeModal } = useModal();
   const { setUser } = useUser();
 
@@ -43,7 +48,15 @@ export function NavBar() {
   };
 
   useEffect(() => {
-    setIsAuthenticated(hasToken());
+    if (isAuthenticated) {
+      const tokenData = getToken();
+      const fundsFromToken = tokenData?.user.funds
+        ? (tokenData.user.funds / 100).toFixed(2)
+        : '1000.00';
+      setFunds(fundsFromToken);
+    } else {
+      setFunds('1000.00');
+    }
   }, [isAuthenticated]);
 
   const handleAuthSuccess = (data) => {
@@ -55,7 +68,6 @@ export function NavBar() {
 
   const token = getToken();
   const name = token?.user.name;
-  const funds = token?.user.funds;
 
   const handleLogin = () => handleOpenModal('sign-in');
   const handleRegister = () => handleOpenModal('sign-up');
@@ -66,48 +78,44 @@ export function NavBar() {
     setIsAuthenticated(false);
   };
 
-  const fundsInDollars: string = token?.user.funds
-    ? (funds / 100).toFixed(2)
-    : '0.00';
-
   const formattedFunds = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-  }).format(parseFloat(fundsInDollars));
+  }).format(parseFloat(funds));
 
   action;
 
   const styles = {
-    nav: 'flex pr-6 justify-between items-center py-8 lg:pr-20 bg-[#1F1F21] mb-8 pb-6',
+    nav: 'flex pr-2 justify-between items-center py-8 md:pr-20 bg-[#1F1F21] mb-8 pb-6',
     appName:
-      'text-logout flex items-center lg:text-5xl lg:ml-20 cursor-pointer pt-2 px-8',
+      'text-smallest flex items-center ml-4 md:text-5xl md:ml-20 cursor-pointer md:pt-2 md:px-8',
     parlay: 'text-gray-400 italic',
     let: 'text-red-600 italic mr-1',
-    s: 'text-yellow-300 text-2xl mr-1 font-light',
-    buttonsWrapper: 'flex items-center gap-2 border-orange-200 lg:gap-4',
+    s: 'text-yellow-300 text-4xl mr-1 font-light',
+    buttonsWrapper: 'flex items-center gap-1 border-orange-200 md:gap-4',
     login:
-      'text-sm p-2 tracking-widest text-white bg-black border border-white rounded-md md:px-8 md:py-4 md:text-custom',
-    join: 'text-sm p-2 tracking-widest text-white  rounded-md bg-red-600 border border-white md:px-8 md:py-4 md:text-custom',
+      'text-sm p-2  tracking-widest text-white bg-black border border-white rounded-md md:px-9 md:py-5 md:text-custom',
+    join: 'text-sm  p-2 tracking-widest text-white  rounded-md bg-red-600 border border-white md:px-10 md:py-5 md:text-custom',
     logout:
-      'text-sm tracking-wider text-white border border-white mr-4  md:text-custom rounded-lg bg-blue-800 md:px-8 md:py-4',
+      'text-xs p-2 md:tracking-wider text-white border border-white md:mr-4  md:text-custom rounded-lg bg-blue-800 md:px-8 md:py-4',
 
     list: 'text-smallest text-white mr-6 text-right mt-2',
-    userName: 'text-bigger tracking-widest text-white mr-2 text-right',
-    funds: 'flex justify-end items-end text-sm md:text-xl text-[#54D338]',
+    userName:
+      'text-sm md:text-username md:tracking-widest text-white mr-2 text-left',
+    funds: 'flex text-xs md:text-xl text-[#54D338]',
   };
 
   return (
     <div>
       <nav className={styles.nav}>
-        <div className="absolute"></div>
         <Link to={'/'} className={styles.appName}>
           <p className={styles.let}>LET</p>
-          <p className={styles.s}>{' $$ '}</p>
+          <p className={styles.s}>{' $ '}</p>
           <p className={styles.parlay}>PARLAY</p>
         </Link>
         {hasToken() ? (
           <div className="flex justify-between items-center">
-            <div className="flex-col mr-4 justify-center items-center">
+            <div className="flex-col md:mr-4">
               <ul className={styles.list}>
                 <li className={styles.userName}>{name}</li>
                 <li className={styles.funds}>{formattedFunds}</li>
@@ -121,7 +129,7 @@ export function NavBar() {
               toggled={isOpen}
               toggle={setOpen}
               color="#FFFFFF"
-              size={18}
+              size={10}
               direction="left"
             />
           </div>
@@ -138,7 +146,7 @@ export function NavBar() {
               toggled={isOpen}
               toggle={setOpen}
               color="#FFFFFF"
-              size={20}
+              size={10}
               direction="left"
             />
           </div>

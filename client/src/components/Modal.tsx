@@ -31,9 +31,9 @@ export function Modal() {
     <div className="absolute">
       <div
         onClick={closeModal}
-        className="fixed inset-0 bg-black bg-opacity-80 z-40"></div>
+        className="fixed inset-0 bg-black bg-opacity-60 z-40"></div>
       <div className={styling}>
-        <div className="flex justify-between bg-blue-700 rounded-t-lg py-2 px-4 border-blue-700-2">
+        <div className="flex justify-between bg-blue-800 rounded-t-lg py-2 px-4 border-blue-700-2">
           <p className="text-white text-lg ml-8 text-center">{header}</p>
 
           <button onClick={closeModal} aria-label="Close modal">

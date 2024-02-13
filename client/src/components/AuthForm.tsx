@@ -17,6 +17,7 @@ export const AuthForm = ({
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
+  const [funds, setFunds] = useState<number>(100000);
 
   const [error, setError] = useState('');
 
@@ -27,7 +28,7 @@ export const AuthForm = ({
 
     const userData =
       action === 'sign-up'
-        ? { username, password, name }
+        ? { username, password, name, funds }
         : { username, password };
 
     try {
@@ -43,6 +44,7 @@ export const AuthForm = ({
 
       if (action === 'sign-in') {
         onSignIn(data);
+        setFunds(100000);
       }
 
       closeModal();
@@ -54,6 +56,22 @@ export const AuthForm = ({
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleGuestCheckIn = () => {
+    const guestData = {
+      username: 'guest$user',
+      name: 'Guest',
+      funds: 100000,
+      password: 'pass1234',
+    };
+    localStorage.setItem('isGuest', 'true');
+    localStorage.setItem('guestData', JSON.stringify(guestData));
+    onSignIn({
+      user: guestData,
+      token: 'guest-session',
+    });
+    closeModal();
   };
 
   const styling =
@@ -114,7 +132,7 @@ export const AuthForm = ({
         <div className="flex justify-center mt-2">
           <button
             className="bg-gray-500 w-full text-white px-6 py-4 rounded-md cursor-pointer"
-            onClick={() => onSignIn({ user: 'guest' })}>
+            onClick={handleGuestCheckIn}>
             Guest Check-In
           </button>
         </div>

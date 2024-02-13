@@ -26,7 +26,22 @@ export function HomePage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        setData(events.slice(0, 67));
+        const results = events.slice(0, 67);
+        const filteredData = results.map((event) => {
+          const commenceTime = event.commence_time;
+          const apiOutcomes =
+            event.bookmakers?.[0]?.markets?.[0]?.outcomes || [];
+          console.log('apiouts', apiOutcomes);
+          return {
+            commenceTime,
+            outcomes: [
+              { name: apiOutcomes[0]?.name, moneyline: apiOutcomes[0]?.price },
+              { name: apiOutcomes[1]?.name, moneyline: apiOutcomes[1]?.price },
+            ],
+          };
+        });
+
+        setData(filteredData);
       } catch (error) {
         console.error(error);
         setError(error as Error);

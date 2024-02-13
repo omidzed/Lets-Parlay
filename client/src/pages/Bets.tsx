@@ -5,11 +5,13 @@ type Bet = {
   eventId: string;
   betType: string;
   betAmount: number;
+  pick: string;
+  completed: boolean;
+  dateTime: string;
 };
 
 export function Bets() {
   const [bets, setBets] = useState<Bet[]>([]);
-  6;
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,9 +33,17 @@ export function Bets() {
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
       }
-      const bets = await res.json();
-      setBets(bets);
-      console.log('bets', bets);
+      const betsData = await res.json();
+      const formattedBets: Bet[] = betsData.map((bet: any) => ({
+        eventId: bet.eventId,
+        betType: bet.betType,
+        betAmount: bet.betAmount,
+        pick: bet.pick,
+        dateTime: bet.dateTime,
+        completed: bet.completed,
+      }));
+      setBets(formattedBets);
+      console.log('bets', formattedBets);
     } catch (err) {
       setError('Failed to fetch bets');
       console.error(err);
@@ -49,18 +59,44 @@ export function Bets() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
+  const styling =
+    'flex gap-8 text-odds md:text-xl justify-between items-center ';
+
   return (
-    <div className="flex justify-center">
-      <ul className="flex-col ">
+    <div className="flex gap-4 justify-center">
+      <ul className="flex gap-14">
         {bets.map((bet) => (
           <li
             key={bet.eventId}
-            className="flex text-white text-smaller w-[60%] h-44 p-6  rounded-md bg-[#212123e3]  mt-8">
-            Event ID: {bet.eventId} - Bet Type: {bet.betType} - Amount:
-            {bet.betAmount}
+            className="flex flex-col text-white text-sm   p-6 rounded-md bg-[#212123e3] mt-8">
+            <div className={styling}>
+              <div className={styling}> Amount: </div>
+              <div className={styling}>
+                <p>$</p>
+                {bet.betAmount}
+              </div>
+            </div>
+            <div className={styling}>
+              <div className={styling}> Bet Type:</div>
+              <div className={styling}>{bet.betType}</div>
+            </div>
+            <div className={styling}>
+              <div className={styling}> Pick:</div>
+              <div className={styling}>{bet.pick}</div>
+            </div>
+            <div className={styling}>
+              <div className={styling}> Date/Time:</div>
+              <div className={styling}>{bet.dateTime}</div>
+            </div>
+            <div className={styling}>
+              <div className={styling}> Completed:</div>
+              <div className={styling}>{bet.completed.toString()}</div>
+            </div>
           </li>
         ))}
       </ul>
     </div>
   );
 }
+
+// If you or someone you know has a gambling problem and wants help, call 1-800-GAMBLER

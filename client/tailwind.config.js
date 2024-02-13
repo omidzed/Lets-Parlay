@@ -17,11 +17,12 @@ export default {
       }),
       fontSize: {
         tiny: '0.5rem',
-        custom: '1.2rem',
-        smallest: '0.9rem',
+        custom: '1.1rem',
+        smallest: '.9rem',
         smaller: '1.7rem',
-        odds: '1.1rem',
-        bigger: '1.5rem',
+        odds: '1.3rem',
+        bigger: '1.2rem',
+        username: '1.65rem',
       },
 
       screens: {

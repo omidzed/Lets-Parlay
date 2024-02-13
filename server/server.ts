@@ -7,7 +7,6 @@ import {
   ClientError,
   defaultMiddleware,
   errorMiddleware,
-  authMiddleware,
 } from './lib/index.js';
 
 type User = {
@@ -25,7 +24,9 @@ type Auth = {
 };
 
 type Bet = {
-  eventId: string;
+  pick: string;
+  dateTime: string;
+  completed: boolean;
   betType: string;
   betAmount: number;
 };
@@ -108,91 +109,61 @@ app.post('/api/auth/login', async (req, res, next) => {
   }
 });
 
-app.get('/api/bets', authMiddleware, async (req, res, next) => {
+app.post('/api/auth/guest', (req, res) => {
+  const payload = { username: 'guest$user', name: 'Guest', funds: 100000 };
+  const token = jwt.sign(payload, hashKey, { expiresIn: '1h' });
+
+  res.json({ token, user: payload });
+});
+
+app.get('/api/bets', async (req, res, next) => {
   try {
-    const sql = `
+    let sql = `
       select * from "bets"
-        where "userId" = $1
         order by "betId" desc;
     `;
-    const result = await db.query<Bet>(sql, [req.user?.userId]);
-    res.status(201).json(result.rows);
+    const queryParams: any[] = [];
+
+    const token = req.headers.authorization?.split(' ')[1]; // Extract token from authorization header
+    if (token) {
+      // Apply authMiddleware if user is logged in
+      const userId = req.user?.userId; // Get userId from req.user
+      if (userId) {
+        sql += ` where "userId" = $1`;
+        queryParams.push(userId);
+      }
+    }
+
+    const result = await db.query<Bet>(sql, queryParams);
+    res.status(200).json(result.rows);
   } catch (err) {
     next(err);
   }
 });
 
-app.post('/api/bets', authMiddleware, async (req, res, next) => {
+app.post('/api/bets', async (req, res, next) => {
   try {
-    const { eventId, betType, betAmount } = req.body as Partial<Bet>;
-    if (!eventId || !betType || !betAmount) {
-      throw new ClientError(
-        400,
-        'eventId, betType, and betAmount are required fields'
-      );
+    const { pick, dateTime, completed, betType, betAmount } =
+      req.body as Partial<Bet>;
+    if (!betType || betAmount === null) {
+      throw new ClientError(400, 'betType, and betAmount are required fields');
     }
     const sql = `
-      insert into "bets" ("userId", "eventId", "betType", "betAmount")
-        values ($1, $2, $3, $4)
+      insert into "bets" ("userId", "dateTime", "completed", "pick", "betType", "betAmount")
+        values ($1, $2, $3, $4, $5, $6)
         returning *;
     `;
-    const params = [req.user?.userId, eventId, betType, betAmount];
+    const params = [
+      req.user?.userId,
+      dateTime,
+      completed,
+      pick,
+      betType,
+      betAmount,
+    ];
     const result = await db.query<Bet>(sql, params);
     const [bet] = result.rows;
     res.status(201).json(bet);
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.put('/api/bets/:betId', authMiddleware, async (req, res, next) => {
-  try {
-    const betId = Number(req.params.betId);
-    const { eventId, betType, betAmount } = req.body as Partial<Bet>;
-    if (!Number.isInteger(betId) || !eventId || !betType || !betAmount) {
-      throw new ClientError(
-        400,
-        'eventId, betType, and betAmount are required fields'
-      );
-    }
-    const sql = `
-      update "bets"
-        set "eventId" = $1,
-            "betType" = $2,
-            "betAmount" = $3
-        where "betId" = $4 and "userId" = $5
-        returning *;
-    `;
-    const params = [eventId, betType, betAmount, betId, req.user?.userId];
-    const result = await db.query<Bet>(sql, params);
-    const [bet] = result.rows;
-    if (!bet) {
-      throw new ClientError(404, `Bet with id ${betId} not found`);
-    }
-    res.status(201).json(bet);
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.delete('/api/bets/:betId', authMiddleware, async (req, res, next) => {
-  try {
-    const betId = Number(req.params.betId);
-    if (!Number.isInteger(betId)) {
-      throw new ClientError(400, 'betId must be an integer');
-    }
-    const sql = `
-      delete from "bets"
-        where "betId" = $1 and "userId" = $2
-        returning *;
-    `;
-    const params = [betId, req.user?.userId];
-    const result = await db.query<Bet>(sql, params);
-    const [deleted] = result.rows;
-    if (!deleted) {
-      throw new ClientError(404, `Bet with id ${betId} not found`);
-    }
-    res.sendStatus(204);
   } catch (err) {
     next(err);
   }
