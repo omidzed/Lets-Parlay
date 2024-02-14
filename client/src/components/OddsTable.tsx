@@ -40,7 +40,7 @@ export function OddsTable({ events }: Props) {
       'flex text-xs h-8 m-2 mt-2 md:text-custom drop-shadow-xl justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338] ;',
     date: 'text-xs flex md:text-smallest justify-center items-center h-1/4 border-b-[1px]',
     thead:
-      'flex text-tiny md:text-smallest justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
+      'flex text-tiny md:text-thead justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
   };
 
   const handleClick = (name: string) => {
@@ -93,9 +93,9 @@ export function OddsTable({ events }: Props) {
             </span>
           </div>
           <div className="flex-col w-1/5 text-white text-tiny pr-2">
-            <span className={style.thead}>TOTAL ROUNDS</span>
-            <span className={style.boxStyling2}>O 2.5</span>
-            <span className={style.boxStyling2}>U 2.5</span>
+            <span className={style.thead}>ROUNDS +/-</span>
+            <span className={style.boxStyling2}>Over 2.5</span>
+            <span className={style.boxStyling2}>Under 2.5</span>
           </div>
         </div>
       </div>

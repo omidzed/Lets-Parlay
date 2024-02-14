@@ -1,5 +1,4 @@
 import { NavBar } from './components/NavBar';
-import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { About } from './pages/About';
 import { NotFound } from './pages/NotFound';
@@ -7,44 +6,41 @@ import { HomePage } from './pages/HomePage';
 import { Bets } from './pages/Bets';
 import { ModalProvider } from './components/ModalContext';
 import { Modal } from './components/Modal';
-import { Auth, User } from './utilities';
 import { UserProvider } from './components/AppContext';
 
-const tokenKey = 'react-context-jwt';
-
 function App() {
-  const [user, setUser] = useState<User>();
-  const [token, setToken] = useState<string>();
-  const [isAuthorizing, setIsAuthorizing] = useState(true);
+  // const [user, setUser] = useState<User>();
+  // // const [token, setToken] = useState<string>();
+  // const [isAuthorizing, setIsAuthorizing] = useState(true);
 
-  useEffect(() => {
-    const auth = localStorage.getItem(tokenKey);
-    if (auth) {
-      const a = JSON.parse(auth);
-      setUser(a.user);
-      setToken(a.token);
-    }
-    setIsAuthorizing(false);
-  }, []);
+  // useEffect(() => {
+  //   const auth = localStorage.getItem(tokenKey);
+  //   if (auth) {
+  //     const a = JSON.parse(auth);
+  //     setUser(a.user);
+  //     setToken(a.token);
+  //   }
+  //   setIsAuthorizing(false);
+  // }, []);
 
-  if (isAuthorizing) return null;
+  // if (isAuthorizing) return null;
 
-  function handleSignIn(auth: Auth) {
-    localStorage.setItem(tokenKey, JSON.stringify(auth));
-    setUser(auth.user);
-    setToken(auth.token);
-  }
+  // function handleSignIn(auth: Auth) {
+  //   localStorage.setItem(tokenKey, JSON.stringify(auth));
+  //   setUser(auth.user);
+  //   setToken(auth.token);
+  // }
 
-  function handleSignOut() {
-    localStorage.removeItem(tokenKey);
-    setUser(undefined);
-    setToken(undefined);
-  }
+  // function handleSignOut() {
+  //   localStorage.removeItem(tokenKey);
+  //   setUser(undefined);
+  //   setToken(undefined);
+  // const { funds, setFunds } = useContext(AppContext);
 
-  const contextValue = { user, setUser, token, handleSignIn, handleSignOut };
+  //   const contextValue = { user, setUser, token, funds, setFunds, handleSignIn, handleSignOut };
 
   return (
-    <UserProvider value={contextValue}>
+    <UserProvider>
       <ModalProvider>
         <Modal />
         <Routes>

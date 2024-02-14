@@ -1,8 +1,8 @@
 import type { Event } from '../pages/HomePage';
-import { type FormEvent, useState, useEffect } from 'react';
+import { type FormEvent, useState, useContext } from 'react';
 import { calculateWinnings } from '../utilities/payout-calculator';
 import CurrencyInput from 'react-currency-input-field';
-import { getToken } from '../utilities/token-storage';
+import { AppContext } from './AppContext';
 
 type BetFormProps = {
   event: Event;
@@ -25,11 +25,13 @@ export function BetForm({
   completed,
 }: BetFormProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [isGuest, setIsGuest] = useState(!getToken());
   const [betAmount, setBetAmount] = useState<Money>({
     amount: 0,
     currency: 'USD',
   });
+
+  const { funds, setFunds, token } = useContext(AppContext);
+  const isGuest = localStorage.getItem('isGuest') === 'true';
 
   function handleChange(value: string | undefined) {
     const amountValue = value ? parseFloat(value) : 0;
@@ -41,13 +43,14 @@ export function BetForm({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const token = getToken();
+    setIsLoading(true);
+
+    const authHeader = token ? `Bearer ${token}` : '';
     const headers = {
       'Content-Type': 'application/json',
+      ...(token && { Authorization: authHeader }),
     };
-    if (!isGuest && token) {
-      headers['Authorization'] = `Bearer ${getToken().token}`;
-    }
+
     const formData = new FormData(event.currentTarget);
     const userData = Object.fromEntries(formData.entries());
     const req = {
@@ -68,11 +71,8 @@ export function BetForm({
       }
 
       if (isGuest) {
-        const guestFunds = parseFloat(
-          localStorage.getItem('guestFunds') || '100000'
-        );
-        const fundsMinusBet = guestFunds - betAmount.amount;
-        localStorage.setItem('guestFunds', fundsMinusBet.toString());
+        const fundsAfterBet = funds - betAmount.amount * 100;
+        setFunds(fundsAfterBet);
       }
 
       alert('Bet placed successfully!');
@@ -91,14 +91,6 @@ export function BetForm({
         2
       )
     : '0.00';
-
-  useEffect(() => {
-    const checkAuthStatus = () => {
-      const token = getToken();
-      setIsGuest(!token);
-    };
-    checkAuthStatus();
-  }, []);
 
   return (
     <div className="flex-col justify-center items-center pr-12 py-10 pb-6 pl-16">

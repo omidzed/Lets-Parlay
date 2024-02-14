@@ -17,6 +17,7 @@ export default {
       }),
       fontSize: {
         tiny: '0.5rem',
+        thead: '1rem',
         custom: '1.1rem',
         smallest: '.9rem',
         smaller: '1.7rem',
