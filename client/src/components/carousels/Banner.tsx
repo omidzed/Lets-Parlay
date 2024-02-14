@@ -4,7 +4,6 @@ import { RxChevronLeft, RxChevronRight } from 'react-icons/rx';
 type BannerProps = {
   posters: string[];
 };
-//  group-hover:bg-[#FFD700]group-hover:bg-[#626262be]
 
 const chevronStyling =
   'absolute top-1/2  transform -translate-y-1/2 z-35 group rounded-full  text-[#ffff] opacity-40 border-2 border-[#ffffff79] group-hover:opacity-100 group-hover:text-[#ffffff] group-hover:border-[#ffffff] group-hover:bg-[#fffff0000] cursor-pointer';
@@ -18,7 +17,7 @@ export function Banner({ posters }: BannerProps) {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setIndex((index) => (index + 1) % posters.length);
-    }, 50000);
+    }, 4000);
 
     return () => clearInterval(intervalId);
   }, [posters.length]);

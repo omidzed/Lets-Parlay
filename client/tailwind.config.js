@@ -16,7 +16,7 @@ export default {
         'gold-to-azure-gradient': `linear-gradient(to right, rgba(255, 215, 0, 0.75), rgba(0, 127, 255, 0.75))`, // Adjust opacity as needed
       }),
       fontSize: {
-        tiny: '0.5rem',
+        tiny: '0.6rem',
         thead: '1rem',
         custom: '1.1rem',
         smallest: '.9rem',
@@ -24,6 +24,7 @@ export default {
         odds: '1.3rem',
         bigger: '1.2rem',
         username: '1.65rem',
+        rounds: '.4rem',
       },
 
       screens: {
