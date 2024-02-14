@@ -43,6 +43,12 @@ export function OddsTable({ events }: Props) {
       'flex text-tiny md:text-smallest justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
   };
 
+  const handleClick = (name: string) => {
+    const hyphenatedName = name.toLowerCase().replace(/\s+/g, '-');
+    const url = `https://www.ufc.com/athlete/${hyphenatedName}`;
+    window.open(url, '_blank');
+  };
+
   const odds = events.map((event, index) => {
     const { commenceTime, outcomes } = event;
 
@@ -57,10 +63,14 @@ export function OddsTable({ events }: Props) {
         <div className="flex w-[90%] h-36 py-2 px-2  rounded-md bg-[#212123e3] md:w-[80%] md:h-56 mt-2">
           <div className="flex-col  w-2/5 text-white text-xl">
             <span className={style.thead}>{formattedDateTime}</span>
-            <span className="flex text-xs md:text-custom justify-center items-center h-1/3 ">
+            <span
+              onClick={() => handleClick(nameOne)}
+              className="flex text-xs md:text-custom justify-center items-center h-1/3 cursor-pointer">
               {nameOne}
             </span>
-            <span className="flex text-xs md:text-custom justify-center items-center h-1/3">
+            <span
+              onClick={() => handleClick(nameTwo)}
+              className="flex text-xs md:text-custom justify-center items-center h-1/3 cursor-pointer">
               {nameTwo}
             </span>
           </div>

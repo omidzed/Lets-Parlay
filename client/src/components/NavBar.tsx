@@ -4,12 +4,12 @@ import { useModal } from './ModalContext';
 import { useUser } from './useUser';
 import { AuthForm } from './AuthForm';
 import { useState, useEffect } from 'react';
-import { Sling } from 'hamburger-react';
+//import { Sling } from 'hamburger-react';
 
 export function NavBar() {
   const [isAuthenticated, setIsAuthenticated] = useState(hasToken());
   const [action, setAction] = useState<'sign-up' | 'sign-in'>(undefined);
-  const [isOpen, setOpen] = useState(false);
+  //const [isOpen, setOpen] = useState(false);
   const [funds, setFunds] = useState<string>(() => {
     const tokenData = getToken();
     return tokenData ? (tokenData.user.funds / 100).toFixed(2) : '1000.00';
@@ -90,8 +90,7 @@ export function NavBar() {
     logout:
       'text-sm p-2 md:tracking-wider text-white border border-white md:mr-4  md:text-custom rounded-lg bg-blue-800 md:px-8 md:py-4',
     list: 'text-smallest text-white mr-6 text-right mt-2',
-    userName:
-      'text-sm md:text-username md:tracking-widest text-white mr-2 text-left',
+    userName: 'text-sm md:text-xl md:tracking-widest text-white mr-2 text-left',
     funds: 'flex text-xs md:text-xl text-[#54D338]',
   };
 
@@ -114,13 +113,13 @@ export function NavBar() {
             <button className={styles.logout} onClick={logOut}>
               LOGOUT
             </button>
-            <Sling
+            {/* <Sling
               toggled={isOpen}
               toggle={setOpen}
               color="#FFFFFF"
               size={10}
               direction="left"
-            />
+            /> */}
           </div>
         ) : (
           <div className={styles.buttonsWrapper}>
@@ -130,13 +129,13 @@ export function NavBar() {
             <button className={styles.login} onClick={handleLogin}>
               LOGIN
             </button>
-            <Sling
+            {/* <Sling
               toggled={isOpen}
               toggle={setOpen}
               color="#FFFFFF"
               size={10}
               direction="left"
-            />
+            /> */}
           </div>
         )}
       </nav>
