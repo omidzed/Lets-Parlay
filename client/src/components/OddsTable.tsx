@@ -38,11 +38,11 @@ export function OddsTable({ events }: Props) {
       'flex my-1 mt-1 text-xs md:text-odds drop-shadow-xl font-bold justify-center items-center rounded-md bg-[#2e2e31] h-[30%] text-red-600',
     boxStyling2:
       'flex text-xs h-8 m-2 mt-2 md:text-custom drop-shadow-xl justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
-    date: 'text-xs flex md:text-smallest justify-center items-center h-1/4 border-b-[1px]',
+    date: 'flex text-xs md:text-custom justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
     thead:
-      'flex text-tiny md:text-custom justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
+      'flex text-rounds md:text-custom justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
     rounds:
-      'flex text-rounds h-8 m-2 mt-2 md:text-custom drop-shadow-xl justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
+      'flex text-center justify-center items-center text-rounds h-8 m-2 mt-2 md:text-custom drop-shadow-xl justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
   };
 
   const handleClick = (name: string) => {
@@ -64,15 +64,15 @@ export function OddsTable({ events }: Props) {
       <div key={index} className="flex justify-center mt-6 w-full lg:h-56">
         <div className="flex w-[90%] h-36 py-2 px-2  rounded-md bg-[#212123e3] md:w-[80%] md:h-56 mt-2">
           <div className="flex-col  w-2/5 text-white text-xl">
-            <span className={style.thead}>{formattedDateTime}</span>
+            <span className={style.date}>{formattedDateTime}</span>
             <span
               onClick={() => handleClick(nameOne)}
-              className="flex text-xs md:text-custom justify-center items-center h-1/3 cursor-pointer">
+              className="flex justify-center items-center text-xs md:text-custom h-[28%] cursor-pointer">
               {nameOne}
             </span>
             <span
               onClick={() => handleClick(nameTwo)}
-              className="flex text-xs md:text-custom justify-center items-center h-1/3 cursor-pointer">
+              className="flex justify-center items-center text-xs md:text-custom  h-[33%] cursor-pointer">
               {nameTwo}
             </span>
           </div>
@@ -96,8 +96,8 @@ export function OddsTable({ events }: Props) {
           </div>
           <div className="flex-col w-1/5 text-white text-tiny pr-2">
             <span className={style.thead}>ROUNDS +/-</span>
-            <span className={style.boxStyling2}>Over 2.5</span>
-            <span className={style.boxStyling2}>Under 2.5</span>
+            <span className={style.rounds}>Over 2.5</span>
+            <span className={style.rounds}>Under 2.5</span>
           </div>
         </div>
       </div>

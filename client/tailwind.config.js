@@ -24,7 +24,7 @@ export default {
         odds: '1.3rem',
         bigger: '1.2rem',
         username: '1.65rem',
-        rounds: '.4rem',
+        rounds: '.5rem',
       },
 
       screens: {
