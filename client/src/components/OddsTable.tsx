@@ -2,7 +2,7 @@ import type { Event } from '../pages/HomePage';
 import { hasToken } from '../utilities/token-storage';
 import { formatDateTime } from '../utilities/format-date-time';
 import { BetForm } from './BetForm';
-import { useModal } from './ModalContext';
+import { useModal } from './useModal';
 
 type Props = {
   events: Event[];

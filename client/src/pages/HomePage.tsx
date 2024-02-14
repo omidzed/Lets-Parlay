@@ -3,7 +3,6 @@ import { OddsTable } from '../components/OddsTable';
 import { useEffect, useState } from 'react';
 import events from '../utilities/api-data';
 
-console.log('api data', events);
 export type Event = {
   eventId: string;
   commenceTime: Date;
@@ -31,7 +30,6 @@ export function HomePage() {
           const commenceTime = event.commence_time;
           const apiOutcomes =
             event.bookmakers?.[0]?.markets?.[0]?.outcomes || [];
-          console.log('apiouts', apiOutcomes);
           return {
             commenceTime,
             outcomes: [

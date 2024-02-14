@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useState, ReactNode } from 'react';
 
-type ModalContextType = {
+export type ModalContextValues = {
   isModalOpen: boolean;
   modalContent: JSX.Element | null;
   openModal: (content: JSX.Element, header: string) => void;
@@ -8,16 +8,9 @@ type ModalContextType = {
   header: string;
 };
 
-const ModalContext = createContext<ModalContextType | undefined>(undefined);
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const useModal = () => {
-  const context = useContext(ModalContext);
-  if (context === undefined) {
-    throw new Error('useModal must be used within a ModalProvider');
-  }
-  return context;
-};
+export const ModalContext = createContext<ModalContextValues | undefined>(
+  undefined
+);
 
 export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   children,

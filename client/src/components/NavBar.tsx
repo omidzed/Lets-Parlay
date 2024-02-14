@@ -1,6 +1,6 @@
 import { Link, Outlet } from 'react-router-dom';
 import { getToken, removeToken, hasToken } from '../utilities/token-storage';
-import { useModal } from './ModalContext';
+import { useModal } from './useModal';
 import { useUser } from './useUser';
 import { AuthForm } from './AuthForm';
 import { useState, useEffect } from 'react';

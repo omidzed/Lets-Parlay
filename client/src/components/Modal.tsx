@@ -1,5 +1,5 @@
 import { GrFormClose } from 'react-icons/gr';
-import { useModal } from './ModalContext';
+import { useModal } from './useModal';
 import { useEffect } from 'react';
 
 const styling =

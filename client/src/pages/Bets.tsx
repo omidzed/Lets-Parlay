@@ -43,7 +43,6 @@ export function Bets() {
         completed: bet.completed,
       }));
       setBets(formattedBets);
-      console.log('bets', formattedBets);
     } catch (err) {
       setError('Failed to fetch bets');
       console.error(err);

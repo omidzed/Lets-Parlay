@@ -62,7 +62,7 @@ export const AuthForm = ({
     const guestData = {
       username: 'guest$user',
       name: 'Guest',
-      funds: 100000,
+      funds: 900000,
       password: 'pass1234',
     };
     localStorage.setItem('isGuest', 'true');
