@@ -1,6 +1,5 @@
-import { AppContextValues } from './AppContext';
+import { AppContextValues, AppContext } from './AppContext';
 import { useContext } from 'react';
-import { AppContext } from './AppContext';
 
 export function useUser(): AppContextValues {
   const userContext = useContext(AppContext);

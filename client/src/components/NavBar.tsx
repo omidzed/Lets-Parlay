@@ -6,15 +6,6 @@ import { AuthForm } from './AuthForm';
 import { useState, useEffect } from 'react';
 import { Sling } from 'hamburger-react';
 
-// type SlingProps = {
-//   onClick: () => void;
-//   toggled: boolean;
-//   toggle: (toggled: boolean) => void;
-//   color?: string;
-//   size?: number;
-//   direction?: 'left' | 'right';
-// };
-
 export function NavBar() {
   const [isAuthenticated, setIsAuthenticated] = useState(hasToken());
   const [action, setAction] = useState<'sign-up' | 'sign-in'>(undefined);
@@ -88,17 +79,16 @@ export function NavBar() {
   const styles = {
     nav: 'flex pr-2 justify-between items-center py-8 md:pr-20 bg-[#1F1F21] mb-8 pb-6',
     appName:
-      'text-smallest flex items-center ml-4 md:text-5xl md:ml-20 cursor-pointer md:pt-2 md:px-8',
+      'text-bigger flex items-center ml-4 md:text-5xl md:ml-20 cursor-pointer md:pt-2 md:px-8',
     parlay: 'text-gray-400 italic',
     let: 'text-red-600 italic mr-1',
-    s: 'text-yellow-300 text-4xl mr-1 font-light',
+    s: 'text-yellow-300 md:text-4xl mr-1 font-light',
     buttonsWrapper: 'flex items-center gap-1 border-orange-200 md:gap-4',
-    login:
-      'text-sm p-2  tracking-widest text-white bg-black border border-white rounded-md md:px-9 md:py-5 md:text-custom',
     join: 'text-sm  p-2 tracking-widest text-white  rounded-md bg-red-600 border border-white md:px-10 md:py-5 md:text-custom',
+    login:
+      'text-sm p-2  md:tracking-widest text-white border border-white bg-black rounded-md md:px-10 md:py-5 md:text-custom',
     logout:
-      'text-xs p-2 md:tracking-wider text-white border border-white md:mr-4  md:text-custom rounded-lg bg-blue-800 md:px-8 md:py-4',
-
+      'text-sm p-2 md:tracking-wider text-white border border-white md:mr-4  md:text-custom rounded-lg bg-blue-800 md:px-8 md:py-4',
     list: 'text-smallest text-white mr-6 text-right mt-2',
     userName:
       'text-sm md:text-username md:tracking-widest text-white mr-2 text-left',
@@ -125,7 +115,6 @@ export function NavBar() {
               LOGOUT
             </button>
             <Sling
-              // onClick={handleRegister}
               toggled={isOpen}
               toggle={setOpen}
               color="#FFFFFF"
@@ -142,7 +131,6 @@ export function NavBar() {
               LOGIN
             </button>
             <Sling
-              // onClick={handleRegister}
               toggled={isOpen}
               toggle={setOpen}
               color="#FFFFFF"
