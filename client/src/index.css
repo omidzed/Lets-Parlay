@@ -5,7 +5,7 @@
 body {
   margin: 0;
   background-color: #0f0f0f;
-  font-family: Rubik, sans-serif;
+  font-family: Play, sans-serif;
   font-weight: 300;
   font-size: 2rem;
 }
@@ -14,4 +14,19 @@ body {
   font-family: Rubik, sans-serif;
   font-style: italic;
   font-weight: 300;
+}
+
+#search-box {
+  background-image: url('/client/search-solid.svg');
+  background-color: rgb(255, 255, 255);
+  background-repeat: no-repeat;
+  background-size: 20px;
+  background-position: 20px 15px;
+  padding-left: 2rem;
+  width: 15%;
+  height: 2.5rem;
+  font-size: 1rem;
+  border: 1px solid rgba(95, 92, 92, 0.134);
+  border-radius: 40px;
+  margin-bottom: 10px;
 }

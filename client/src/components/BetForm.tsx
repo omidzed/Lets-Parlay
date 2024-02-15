@@ -1,4 +1,4 @@
-import type { Event } from '../pages/HomePage';
+import type { Event } from '../utilities/data-types';
 import { type FormEvent, useState, useContext } from 'react';
 import { calculateWinnings } from '../utilities/payout-calculator';
 import CurrencyInput from 'react-currency-input-field';
@@ -31,7 +31,7 @@ export function BetForm({
   });
 
   const { funds, setFunds, token } = useContext(AppContext);
-  const isGuest = localStorage.getItem('isGuest') === 'true';
+  //const isGuest = localStorage.getItem('isGuest') === 'true';
 
   function handleChange(value: string | undefined) {
     const amountValue = value ? parseFloat(value) : 0;
@@ -70,10 +70,10 @@ export function BetForm({
         throw new Error(`fetch Error ${res.status}`);
       }
 
-      if (isGuest) {
-        const fundsAfterBet = funds - betAmount.amount * 100;
-        setFunds(fundsAfterBet);
-      }
+      // if (isGuest) {
+      const fundsAfterBet = funds - betAmount.amount * 100;
+      setFunds(fundsAfterBet);
+      console.log('fundsafter', fundsAfterBet);
 
       alert('Bet placed successfully!');
     } catch (err) {

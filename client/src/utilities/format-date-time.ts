@@ -1,4 +1,4 @@
-export const formatDateTime = (dateTimeString: Date) => {
+export const formatDateTime = (dateTimeString: string) => {
   return new Date(dateTimeString).toLocaleDateString('default', {
     month: '2-digit',
     day: '2-digit',

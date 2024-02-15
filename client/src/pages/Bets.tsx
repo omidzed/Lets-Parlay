@@ -62,12 +62,16 @@ export function Bets() {
     'flex gap-8 text-odds md:text-xl justify-between items-center ';
 
   return (
-    <div className="flex gap-4 justify-center">
-      <ul className="flex gap-14">
+    <div className="flex flex-col p-6 gap-4 justify-center">
+      <p className="text-white px-20 text-thead">
+        If you or someone you know has a gambling problem and wants help, call
+        1-800-GAMBLER
+      </p>
+      <ul className="flex justify-between gap-14  px-20 flex-wrap">
         {bets.map((bet) => (
           <li
             key={bet.eventId}
-            className="flex flex-col text-white text-sm   p-6 rounded-md bg-[#212123e3] mt-8">
+            className="flex flex-col text-white text-sm  w-96  p-6 rounded-md bg-[#212123e3] mt-8">
             <div className={styling}>
               <div className={styling}> Amount: </div>
               <div className={styling}>
@@ -98,4 +102,4 @@ export function Bets() {
   );
 }
 
-// If you or someone you know has a gambling problem and wants help, call 1-800-GAMBLER
+//

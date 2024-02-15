@@ -1,14 +1,14 @@
-import type { Event } from '../pages/HomePage';
 import { hasToken } from '../utilities/token-storage';
 import { formatDateTime } from '../utilities/format-date-time';
 import { BetForm } from './BetForm';
 import { useModal } from './useModal';
+import type { Event } from '../utilities/data-types';
 
 type Props = {
-  events: Event[];
+  filteredEvents: Event[];
 };
 
-export function OddsTable({ events }: Props) {
+export function OddsTable({ filteredEvents }: Props) {
   const { openModal } = useModal();
 
   const betSlip = (event: Event, outcome: 'moneyline' | 'moneylineTwo') => {
@@ -37,12 +37,12 @@ export function OddsTable({ events }: Props) {
     boxStyling:
       'flex my-1 mt-1 text-xs md:text-odds drop-shadow-xl font-bold justify-center items-center rounded-md bg-[#2e2e31] h-[30%] text-red-600',
     boxStyling2:
-      'flex text-xs h-8 m-2 mt-2 md:text-custom drop-shadow-xl justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
-    date: 'flex text-xs md:text-custom justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
+      'flex text-xs h-8 m-2 mt-2 md:text-bigger drop-shadow-xl justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
+    date: 'flex text-xs md:text-thead justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
     thead:
-      'flex text-rounds md:text-custom justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
+      'flex text-rounds md:text-thead justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
     rounds:
-      'flex text-center justify-center items-center text-rounds h-8 m-2 mt-2 md:text-custom drop-shadow-xl justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
+      'flex text-center justify-center items-center text-rounds h-8 m-2 mt-2 md:text-thead drop-shadow-xl justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
   };
 
   const handleClick = (name: string) => {
@@ -51,7 +51,7 @@ export function OddsTable({ events }: Props) {
     window.open(url, '_blank');
   };
 
-  const odds = events.map((event, index) => {
+  const odds = filteredEvents.map((event, index) => {
     const { commenceTime, outcomes } = event;
 
     const moneyline = outcomes[0].moneyline;
@@ -95,7 +95,7 @@ export function OddsTable({ events }: Props) {
             </span>
           </div>
           <div className="flex-col w-1/5 text-white text-tiny pr-2">
-            <span className={style.thead}>ROUNDS +/-</span>
+            <span className={style.thead}>ROUNDS +/- </span>
             <span className={style.rounds}>Over 2.5</span>
             <span className={style.rounds}>Under 2.5</span>
           </div>

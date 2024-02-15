@@ -123,15 +123,15 @@ export const AuthForm = ({
 
         <div className="flex justify-center">
           <button
-            className=" tracking-wider w-full bg-blue-700 mt-8 text-white px-6 py-4 rounded-md cursor-pointer"
+            className=" tracking-wider  bg-blue-700 mt-8 text-white px-4 py-2 rounded-md cursor-pointer"
             type="submit">
-            {action === 'sign-up' ? 'REGISTER' : 'LOGIN'}
+            {action === 'sign-up' ? 'Register' : 'Log In'}
           </button>
         </div>
         {error && <p className="text-red-500 mt-8">{error}</p>}
         <div className="flex justify-center mt-2">
           <button
-            className="bg-gray-500 w-full text-white px-6 py-4 rounded-md cursor-pointer"
+            className="bg-gray-500  text-white px-4 py-2 rounded-md cursor-pointer"
             onClick={handleGuestCheckIn}>
             Guest Check-In
           </button>
@@ -140,20 +140,20 @@ export const AuthForm = ({
 
       {action === 'sign-in' ? (
         <div>
-          <p className="text-md text-center">NOT A MEMBER YET?</p>
+          <p className="text-md text-center">Not a member yet?</p>
           <a
             onClick={() => toggleAction()}
             className="flex tracking-wide text-logout mb-10 justify-center items-center font-bold text-md text-[#3d86ec] underline cursor-pointer">
-            JOIN NOW
+            Join Now
           </a>
         </div>
       ) : (
         <div className=" flex flex-col justify-center items center">
-          <p className="text-md text-center">ALREADY HAVE AN ACCOUNT?</p>
+          <p className="text-md text-center">Already have an account?</p>
           <a
             onClick={() => toggleAction()}
             className="tracking-wide font-bold text-center text-md mb-4 text-[#3d86ec] underline cursor-pointer">
-            SIGN IN
+            Log In
           </a>
         </div>
       )}

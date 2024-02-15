@@ -26,6 +26,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const closeModal = () => {
+    localStorage.getItem('token');
     setIsModalOpen(false);
     setModalContent(null);
     setHeader('');

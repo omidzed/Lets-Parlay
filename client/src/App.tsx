@@ -7,53 +7,26 @@ import { Bets } from './pages/Bets';
 import { ModalProvider } from './components/ModalContext';
 import { Modal } from './components/Modal';
 import { UserProvider } from './components/AppContext';
+import { EventsProvider } from './components/EventsContext';
 
 function App() {
-  // const [user, setUser] = useState<User>();
-  // // const [token, setToken] = useState<string>();
-  // const [isAuthorizing, setIsAuthorizing] = useState(true);
-
-  // useEffect(() => {
-  //   const auth = localStorage.getItem(tokenKey);
-  //   if (auth) {
-  //     const a = JSON.parse(auth);
-  //     setUser(a.user);
-  //     setToken(a.token);
-  //   }
-  //   setIsAuthorizing(false);
-  // }, []);
-
-  // if (isAuthorizing) return null;
-
-  // function handleSignIn(auth: Auth) {
-  //   localStorage.setItem(tokenKey, JSON.stringify(auth));
-  //   setUser(auth.user);
-  //   setToken(auth.token);
-  // }
-
-  // function handleSignOut() {
-  //   localStorage.removeItem(tokenKey);
-  //   setUser(undefined);
-  //   setToken(undefined);
-  // const { funds, setFunds } = useContext(AppContext);
-
-  //   const contextValue = { user, setUser, token, funds, setFunds, handleSignIn, handleSignOut };
-
   return (
-    <UserProvider>
-      <ModalProvider>
-        <Modal />
-        <Routes>
-          <Route path="/" element={<NavBar />}>
-            <Route index element={<HomePage />} />
-            <Route path="about" element={<About />} />
-            <Route path="bets" element={<Bets />} />
-            {/* <Route path="rankings" element={<Rankings />} /> */}
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </ModalProvider>
-    </UserProvider>
+    <EventsProvider>
+      <UserProvider>
+        <ModalProvider>
+          <Modal />
+          <Routes>
+            <Route path="/" element={<NavBar />}>
+              <Route index element={<HomePage />} />
+              <Route path="about" element={<About />} />
+              <Route path="bets" element={<Bets />} />
+              {/* <Route path="rankings" element={<Rankings />} /> */}
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </ModalProvider>
+      </UserProvider>
+    </EventsProvider>
   );
 }
 

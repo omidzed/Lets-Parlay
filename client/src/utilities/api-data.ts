@@ -1,4 +1,4 @@
-const events = [
+const apiEvents = [
   {
     id: '32799d380b0807d5181acd7a5309100b',
     sport_key: 'mma_mixed_martial_arts',
@@ -7519,4 +7519,4 @@ const events = [
   },
 ];
 
-export default events;
+export default apiEvents;

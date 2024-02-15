@@ -4,12 +4,11 @@ import { useModal } from './useModal';
 import { useUser } from './useUser';
 import { AuthForm } from './AuthForm';
 import { useState, useEffect } from 'react';
-//import { Sling } from 'hamburger-react';
 
 export function NavBar() {
   const [isAuthenticated, setIsAuthenticated] = useState(hasToken());
   const [action, setAction] = useState<'sign-up' | 'sign-in'>(undefined);
-  //const [isOpen, setOpen] = useState(false);
+
   const [funds, setFunds] = useState<string>(() => {
     const tokenData = getToken();
     return tokenData ? (tokenData.user.funds / 100).toFixed(2) : '1000.00';
@@ -77,41 +76,43 @@ export function NavBar() {
   action;
 
   const styles = {
-    nav: 'flex pr-2 justify-between items-center py-8 md:pr-20 bg-[#1F1F21] mb-8 pb-6',
+    nav: 'flex pr-2 items-center justify-between items-center py-4 md:pr-20 bg-[#1F1F21] mb-6 pb-4',
     appName:
-      'text-bigger flex items-center ml-4 md:text-5xl md:ml-20 cursor-pointer md:pt-2 md:px-8',
-    parlay: 'text-gray-400 italic',
+      'text-bigger flex items-center ml-4 md:text-4xl md:ml-20 cursor-pointer md:py-2 md:px-8',
+    parlay: ' italic',
     let: 'text-red-600 italic mr-1',
-    s: 'text-yellow-300 md:text-4xl mr-1 font-light',
-    buttonsWrapper: 'flex items-center gap-1 border-orange-200 md:gap-4',
-    join: 'text-sm  p-2 tracking-widest text-white  rounded-md bg-red-600 border border-white md:px-10 md:py-5 md:text-custom',
+    s: 'text-yellow-300 md:text-4xl mr-1 font-light ',
+    buttonsWrapper: 'flex items-center gap-4',
+    join: 'text-rounds  p-1 tracking-widest text-white bg-black rounded-sm md:rounded-md md:px-6 md:py-2 md:text-thead',
     login:
-      'text-sm p-2  md:tracking-widest text-white border border-white bg-black rounded-md md:px-10 md:py-5 md:text-custom',
+      'text-rounds p-1  md:tracking-widest text-white  bg-blue-800 rounded-sm md:rounded-md md:px-6 md:py-2 md:text-thead',
     logout:
-      'text-sm p-2 md:tracking-wider text-white border border-white md:mr-4  md:text-custom rounded-lg bg-blue-800 md:px-8 md:py-4',
-    list: 'text-smallest text-white mr-6 text-right mt-2',
-    userName: 'text-sm md:text-xl md:tracking-widest text-white mr-2 text-left',
-    funds: 'flex text-xs md:text-xl text-[#54D338]',
+      'text-rounds p-1 md:tracking-wider text-white md:mr-4  md:text-thead rounded-lg bg-red-700 md:px-6 md:py-2',
+    list: 'flex leading-2  items-center justify-center text-smallest text-white mr-3 text-right mt-2',
+    userName:
+      'text-sm leading-2 md:text-odds md:tracking-widest text-white mr-2 text-left',
+    funds: 'text-xs leading-2 md:text-odds text-[#54D338]',
   };
 
   return (
     <div>
       <nav className={styles.nav}>
-        <Link to={'/'} className={styles.appName}>
+        <Link to={'/'} className={`app-name text-[#9c9b9b] ${styles.appName}`}>
           <p className={styles.let}>LET</p>
           <p className={styles.s}>{' $ '}</p>
           <p className={styles.parlay}>PARLAY</p>
         </Link>
+
         {hasToken() ? (
           <div className="flex justify-between items-center">
             <div className="flex-col md:mr-4">
-              <ul className={styles.list}>
-                <li className={styles.userName}>{name}</li>
-                <li className={styles.funds}>{formattedFunds}</li>
-              </ul>
+              <div className={styles.list}>
+                <p className={styles.userName}>{name}</p>
+                <p className={styles.funds}>{`(${formattedFunds})`}</p>
+              </div>
             </div>
             <button className={styles.logout} onClick={logOut}>
-              LOGOUT
+              Log Out
             </button>
             {/* <Sling
               toggled={isOpen}
@@ -124,10 +125,10 @@ export function NavBar() {
         ) : (
           <div className={styles.buttonsWrapper}>
             <button className={styles.join} onClick={handleRegister}>
-              JOIN
+              Join
             </button>
             <button className={styles.login} onClick={handleLogin}>
-              LOGIN
+              Log In
             </button>
             {/* <Sling
               toggled={isOpen}
@@ -151,3 +152,6 @@ export function NavBar() {
               GUEST CHECK IN
             </button> */
 }
+
+//import { Sling } from 'hamburger-react';
+//const [isOpen, setOpen] = useState(false);

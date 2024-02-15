@@ -4,24 +4,13 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      colors: {
-        gold: {
-          light: '#FFD700', // Assuming you want to keep the same gold
-          DEFAULT: '#FFD700',
-          dark: '#FCC201',
-        },
-        azure: '#007FFF', // Azure color
-      },
-      backgroundColor: () => ({
-        'gold-to-azure-gradient': `linear-gradient(to right, rgba(255, 215, 0, 0.75), rgba(0, 127, 255, 0.75))`, // Adjust opacity as needed
-      }),
       fontSize: {
         tiny: '0.6rem',
         thead: '1rem',
         custom: '1.1rem',
         smallest: '.9rem',
         smaller: '1.7rem',
-        odds: '1.3rem',
+        odds: '1.4rem',
         bigger: '1.2rem',
         username: '1.65rem',
         rounds: '.5rem',
