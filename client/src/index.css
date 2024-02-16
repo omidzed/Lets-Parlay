@@ -33,7 +33,7 @@ li {
 }
 
 .open {
-  transform: translateX(0) translateY(-32px);
+  transform: translateX(0) translateY(-35px);
 }
 
 .hidden {

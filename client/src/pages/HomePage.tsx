@@ -29,7 +29,7 @@ export function HomePage() {
 
   return (
     <div className="flex-col justify-center items-center">
-      <div className="absolute top-10 cursor-pointer">
+      <div className="absolute top-9 cursor-pointer">
         <AppDrawer menuItems={menuItems} />
       </div>
       <SearchBox value={inputValue} onInputChange={handleInputChange} />
