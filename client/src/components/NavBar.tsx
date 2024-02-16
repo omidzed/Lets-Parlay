@@ -78,14 +78,14 @@ export function NavBar() {
   const styles = {
     nav: 'flex pr-2 items-center justify-between items-center py-4 md:pr-20 bg-[#1F1F21] mb-6 pb-4',
     appName:
-      'text-bigger flex items-center ml-4 md:text-4xl md:ml-20 cursor-pointer md:py-2 md:px-8',
+      'text-bigger flex items-center ml-8 md:text-4xl md:ml-20 cursor-pointer md:py-2 md:px-8',
     parlay: ' italic',
     let: 'text-red-600 italic mr-1',
     s: 'text-yellow-300 md:text-4xl mr-1 font-light ',
-    buttonsWrapper: 'flex items-center gap-4',
-    join: 'text-rounds  p-1 tracking-widest text-white bg-black rounded-sm md:rounded-md md:px-6 md:py-2 md:text-thead',
+    buttonsWrapper: 'flex items-center gap-2 mr-4 md:mr-0',
+    join: 'text-rounds px-4 p-1 tracking-widest text-white bg-black rounded-sm md:rounded-md md:px-6 md:py-2 md:text-thead',
     login:
-      'text-rounds p-1  md:tracking-widest text-white  bg-blue-800 rounded-sm md:rounded-md md:px-6 md:py-2 md:text-thead',
+      'text-rounds px-4 p-1  md:tracking-widest text-white  bg-blue-800 rounded-sm md:rounded-md md:px-6 md:py-2 md:text-thead',
     logout:
       'text-rounds p-1 md:tracking-wider text-white md:mr-4  md:text-thead rounded-lg bg-red-700 md:px-6 md:py-2',
     list: 'flex leading-2  items-center justify-center text-smallest text-white mr-3 text-right mt-2',

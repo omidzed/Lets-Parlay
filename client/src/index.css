@@ -16,7 +16,7 @@ body {
   font-weight: 300;
 }
 
-#search-box {
+/* #search-box {
   background-image: url('/client/search-solid.svg');
   background-color: rgb(255, 255, 255);
   background-repeat: no-repeat;
@@ -30,3 +30,10 @@ body {
   border-radius: 40px;
   margin-bottom: 10px;
 }
+
+@media (max-width<= 768px) {
+  #search-box {
+    width: 100%;
+    padding-left: 1rem;
+  }
+} */
