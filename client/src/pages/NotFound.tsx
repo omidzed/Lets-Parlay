@@ -6,8 +6,10 @@ export function NotFound() {
       <div className="row">
         <div className="col text-center mb-5">
           <Link to="/" className="text-muted">
-            <h3>Uh oh, we could not find the page you were looking for!</h3>
-            <p className="text-muted">Return to the Home-Page</p>
+            <p className="text-white text-sm md:text-3xl mx-16 mt-20 md:mt-40">
+              Uh oh, we could not find the page you were looking for! Click here
+              to return to the Home-Page
+            </p>
           </Link>
         </div>
       </div>

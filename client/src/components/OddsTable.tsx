@@ -35,14 +35,14 @@ export function OddsTable({ filteredEvents }: Props) {
 
   const style = {
     boxStyling:
-      'flex my-1 mt-1 text-xs md:text-odds drop-shadow-xl font-bold justify-center items-center rounded-md bg-[#2e2e31] h-[30%] text-red-600',
+      'flex my-1 mt-1 text-xs md:text-odds  font-bold justify-center items-center rounded-md bg-[#2e2e31] h-[30%] text-red-600',
     boxStyling2:
-      'flex text-xs h-8 m-2 mt-2 md:text-bigger drop-shadow-xl justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
+      'flex text-xs h-8 m-2 mt-2 md:text-bigger  justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
     date: 'flex text-xs md:text-thead justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
     thead:
       'flex text-rounds md:text-thead justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
     rounds:
-      'flex text-center justify-center items-center text-rounds h-8 m-2 mt-2 md:text-thead drop-shadow-xl justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
+      'flex text-center justify-center items-center text-rounds h-8 m-2 mt-2 md:text-thead  justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
   };
 
   const handleClick = (name: string) => {

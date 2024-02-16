@@ -10,30 +10,40 @@ body {
   font-size: 2rem;
 }
 
-.app-name {
-  /* font-family: Rubik, sans-serif; */
-  font-style: italic;
-  font-weight: 300;
+li {
+  color: rgb(247, 243, 243);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  padding-left: 7rem;
 }
 
-/* #search-box {
-  background-image: url('/client/search-solid.svg');
-  background-color: rgb(255, 255, 255);
-  background-repeat: no-repeat;
-  background-size: 20px;
-  background-position: 20px 15px;
-  padding-left: 2rem;
-  width: 15%;
-  height: 2.5rem;
-  font-size: 1rem;
-  border: 1px solid rgba(95, 92, 92, 0.134);
-  border-radius: 40px;
-  margin-bottom: 10px;
+.menu-drawer {
+  width: 20rem;
+  border-left: none;
+  height: 100vh;
+  z-index: 999;
+  position: absolute;
+  background-color: #171718;
+  transition: transform 0.2s ease-in-out;
 }
 
-@media (max-width<= 768px) {
-  #search-box {
-    width: 100%;
-    padding-left: 1rem;
-  }
-} */
+.closed {
+  transform: translateX(-325px);
+}
+
+.open {
+  transform: translateX(0) translateY(-32px);
+}
+
+.hidden {
+  display: none;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 3rem;
+  display: inline-block;
+  padding-left: 7rem;
+  color: rgb(235, 17, 17);
+}

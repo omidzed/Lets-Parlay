@@ -30,7 +30,7 @@ export function Banner({ posters }: BannerProps) {
   }
 
   return (
-    <div className="relative w-full md:w-[35%] overflow-hidden">
+    <div className="relative z-10 w-full md:w-[35%] overflow-hidden">
       <img
         className="w-full mx-auto h-full rounded-md object-contain"
         src={posters[index]}

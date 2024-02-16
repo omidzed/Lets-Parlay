@@ -33,3 +33,5 @@ export type Event = {
     { name: string; moneyline: number }
   ];
 };
+
+export type MenuItem = { title: string; path: string };
