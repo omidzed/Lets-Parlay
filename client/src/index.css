@@ -8,24 +8,7 @@ body {
   font-family: Play, sans-serif;
   font-weight: 300;
   font-size: 2rem;
-}
-
-li {
-  color: rgb(247, 243, 243);
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  cursor: pointer;
-  padding-left: 7rem;
-}
-
-.menu-drawer {
-  width: 20rem;
-  border-left: none;
-  height: 100vh;
-  z-index: 999;
-  position: absolute;
-  background-color: #171718;
-  transition: transform 0.2s ease-in-out;
+  color: white;
 }
 
 .closed {
@@ -38,12 +21,4 @@ li {
 
 .hidden {
   display: none;
-}
-
-h1 {
-  font-size: 2.2rem;
-  margin-bottom: 3rem;
-  display: inline-block;
-  padding-left: 7rem;
-  color: rgb(235, 17, 17);
 }

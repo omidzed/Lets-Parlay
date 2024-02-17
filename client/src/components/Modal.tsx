@@ -25,7 +25,7 @@ export const Modal = () => {
   if (!isModalOpen) return null;
 
   return (
-    <div className="absolute">
+    <div className="absolute text-black">
       <div
         onClick={closeModal}
         className="fixed inset-0 bg-black bg-opacity-60 z-40"></div>
@@ -33,7 +33,9 @@ export const Modal = () => {
         className="fixed z-50 min-h-max min-w-max text-base rounded-lg pb-8 bg-white
        rounded-t-xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className="flex justify-between bg-blue-800 rounded-t-lg py-2 px-4 border-blue-700-2">
-          <p className="text-white text-lg ml-8 text-center">{header}</p>
+          <p className="text-white md:text-lg ml-4 mr-2 md:ml-8 text-center">
+            {header}
+          </p>
 
           <button onClick={closeModal} aria-label="Close modal">
             <GrFormClose color="white" size={24} />

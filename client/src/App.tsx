@@ -9,6 +9,7 @@ import { UserProvider } from './components/AppContext';
 import { EventsProvider } from './components/EventsContext';
 import { Rankings } from './components/Rankings';
 import { FAQ } from './pages/FAQ';
+import { Schedule } from './components/Schedule';
 
 const App = () => {
   return (
@@ -16,14 +17,14 @@ const App = () => {
       <UserProvider>
         <ModalProvider>
           <Modal />
+          <NavBar />
           <Routes>
-            <Route path="/" element={<NavBar />}>
-              <Route index element={<HomePage />} />
-              <Route path="bets" element={<Bets />} />
-              <Route path="rankings" element={<Rankings />} />
-              <Route path="faq" element={<FAQ />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
+            <Route index element={<HomePage />} />
+            <Route path="bets" element={<Bets />} />
+            <Route path="rankings" element={<Rankings />} />
+            <Route path="schedule" element={<Schedule />} />
+            <Route path="faq" element={<FAQ />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </ModalProvider>
       </UserProvider>

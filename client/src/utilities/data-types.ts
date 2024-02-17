@@ -34,4 +34,14 @@ export type Event = {
   ];
 };
 
-export type MenuItem = { title: string; path: string };
+export type MenuItem = {
+  title: string;
+  path: string;
+  icon: JSX.Element; // This should be a component, not a JSX element.
+};
+
+// import { IconType } from 'react-icons';
+
+export type IconType = {
+  icon: JSX.Element;
+};

@@ -1,53 +1,58 @@
 import { Menu } from './Menu';
-import { useState } from 'react';
-import { OverlayShade } from './OverlayShade';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { MenuItem } from '../../utilities/data-types';
-import { FaArrowLeftLong } from 'react-icons/fa6';
-import { IoMenu } from 'react-icons/io5';
 
 type AppDrawerProps = {
+  isOpen: boolean;
+  toggleMenu: () => void;
   menuItems: MenuItem[];
 };
 
-export const AppDrawer = ({ menuItems }: AppDrawerProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const AppDrawer = ({
+  isOpen,
+  toggleMenu,
+  menuItems,
+}: AppDrawerProps) => {
   const navigate = useNavigate();
 
-  const toggleDrawer = () => {
-    setIsOpen((prevIsOpen) => !prevIsOpen);
-  };
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        toggleMenu();
+      }
+    };
+    if (isOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen, toggleMenu]);
 
-  function onSelect(menuItem: MenuItem) {
-    navigate(menuItem.path);
-    toggleDrawer();
+  function handleSelect(path: string) {
+    navigate(path);
   }
 
   return (
-    <div className={'drawer-container'}>
-      <div className={isOpen ? 'hidden' : 'hamburger-container'}>
-        <IoMenu
-          onClick={toggleDrawer}
-          color="#FFFFFF"
-          className="ml-2 text-sm md:text-3xl"
-        />
-      </div>
-      <div className={isOpen ? 'menu-drawer open' : 'menu-drawer closed'}>
-        {isOpen && (
-          <FaArrowLeftLong
-            className="text-white mt-4 mb-10 ml-8 text-custom cursor-pointer"
-            onClick={toggleDrawer}
+    <div
+      className="fixed top-0 w-52 md:w-80 h-screen z-50 bg-[#171718]
+       transition-transform duration-200 ease-in-out">
+      <div className={'drawer-container'}>
+        <div className={isOpen ? 'hidden' : 'hamburger-container'}></div>
+        <div className={isOpen ? 'menu-drawer open' : 'menu-drawer closed'}>
+          <Menu
+            toggleMenu={toggleMenu}
+            onSelect={handleSelect}
+            menuItems={menuItems}
           />
-        )}
-        <Menu onSelect={onSelect} menuItems={menuItems} />
+        </div>
       </div>
-      <OverlayShade toggle={toggleDrawer} isOpen={isOpen} />
-      <div
-        className={
-          isOpen
-            ? 'absolute h-screen w-screen bg-black opacity-25 top-0'
-            : 'hidden'
-        }></div>
     </div>
   );
 };
