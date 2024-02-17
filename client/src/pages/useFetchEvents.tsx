@@ -6,6 +6,7 @@ export const useFetchEvents = () => {
   const [events, setEvents] = useState<Event[] | undefined>([]);
   const [isLoading, setIsLoading] = useState<boolean | undefined>();
   const [error, setError] = useState<Error | null>(null);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
     console.log('fetching data from the API...');
@@ -40,5 +41,16 @@ export const useFetchEvents = () => {
     fetchData();
   }, []);
 
-  return { events, isLoading, error };
+  useEffect(() => {
+    const extractedNames: string[] = [];
+    events.forEach((event: Event) => {
+      extractedNames.push(
+        ...event.outcomes[0].name.split(' '),
+        ...event.outcomes[1].name.split(' ')
+      );
+    });
+    setSuggestions(extractedNames);
+  }, [events]);
+
+  return { events, isLoading, error, suggestions };
 };
