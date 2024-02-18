@@ -43,14 +43,14 @@ export const useFetchEvents = () => {
 
   useEffect(() => {
     const extractedNames: string[] = [];
-    events.forEach((event: Event) => {
-      extractedNames.push(
-        ...event.outcomes[0].name.split(' '),
-        ...event.outcomes[1].name.split(' ')
-      );
+    events.forEach((event) => {
+      const fighterOne = event.outcomes[0].name;
+      const fighterTwo = event.outcomes[1].name;
+      extractedNames.push(fighterOne, fighterTwo);
     });
     setSuggestions(extractedNames);
   }, [events]);
+  console.log('s', suggestions);
 
   return { events, isLoading, error, suggestions };
 };

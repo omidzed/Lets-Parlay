@@ -92,11 +92,11 @@ export function NavBar() {
     let: 'text-red-600 italic mr-1',
     s: 'text-yellow-300 md:text-4xl mr-1 font-light ',
     buttonsWrapper: 'flex  items-center gap-1 md:gap-3 mr-1 md:mr-0',
-    join: 'text-rounds px-3 p-1 tracking-widest text-white bg-black border border-yellow-200 rounded-sm md:rounded-md md:px-7 md:py-2 md:text-custom',
+    join: 'text-rounds px-3 p-1 tracking-widest text-white bg-black border border-zinc-700 rounded-sm md:rounded-md md:px-7 md:py-2 md:text-custom',
     login:
-      'text-rounds px-3 p-1 md:tracking-widest text-white bg-blue-800 border border-yellow-200 rounded-sm md:rounded-md md:px-6 md:py-2 md:text-custom',
+      'text-rounds px-3 p-1 md:tracking-widest text-white bg-blue-800 border border-zinc-700 rounded-sm md:rounded-md md:px-6 md:py-2 md:text-custom',
     logout:
-      'text-rounds p-1 md:tracking-wider text-white mr-2 md:mr-4 border border-yellow-200 md:text-custom rounded-lg rounded-sm md:rounded-md bg-red-700 px-2 md:px-6 md:py-2',
+      'text-rounds p-1 md:tracking-wider text-white mr-2 md:mr-4 border border-zinc-700 md:text-custom rounded-lg rounded-sm md:rounded-md bg-red-700 px-2 md:px-6 md:py-2',
     list: 'flex gap-0  md:top-10 md:right-60 text-smallest text-white md:mr-11 mr-3',
     userName:
       'text-tiny leading-2 md:text-odds md:tracking-widest text-white mr-1 md:mr-2 text-left',

@@ -7,7 +7,7 @@ import { useFetchEvents } from './useFetchEvents';
 export const HomePage = () => {
   const [inputValue, setInputValue] = useState<string | undefined>('');
   const { suggestions, events } = useFetchEvents();
-
+  console.log(suggestions);
   const filteredEvents = events?.filter((event) =>
     event.outcomes.some((outcome) =>
       outcome.name.toLowerCase().includes(inputValue.toLowerCase())

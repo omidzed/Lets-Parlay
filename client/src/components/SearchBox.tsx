@@ -28,7 +28,7 @@ export const SearchBox = ({
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      setInputValue(filteredSuggestions[activeSuggestionIndex]);
+      setInputValue('');
       setShowSuggestions(false);
       setActiveSuggestionIndex(0);
     } else if (e.key === 'ArrowDown') {
@@ -60,41 +60,43 @@ export const SearchBox = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-start">
-      <input
-        className="bg-white text-black w-[70%] bg-no-repeat bg-[length:20px_20px] bg-[position:20px_15px] pl-8 md:w-1/5 h-8 md:h-10 text-base border border-gray-200 rounded-full mb-2.5"
-        id="search-box"
-        placeholder={placeholder}
-        onClick={handleClick}
-        onBlur={handleBlur}
-        value={value}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-      />
+    <>
+      <div className="flex flex-col items-center justify-start ">
+        <input
+          className="bg-fixed bg-white text-black w-[70%] bg-no-repeat
+         bg-[length:20px_20px] bg-[position:20px_15px] pl-7 md:w-1/5 h-8 md:h-10
+         text-base border border-gray-200 rounded-full mb-2.5"
+          id="search-box"
+          style={{ backgroundImage: `url()` }}
+          placeholder={placeholder}
+          onClick={handleClick}
+          onBlur={handleBlur}
+          value={value}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+        />
+      </div>
       {showSuggestions && filteredSuggestions.length > 0 && (
-        <div className="flex justify-start items-start">
-          <ul className="bg-[#2E2E31] text-left mr-28 text-lg rounded-lg">
+        <div className=" flex flex-col items-center justify-start ">
+          <ul className="bg-[#2E2E31] text-left md:text-md text-lg rounded-lg md:w-[16%] w-[53%]">
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={index}
                 className={index === activeSuggestionIndex ? 'active' : ''}
                 onClick={() => onSuggestionClick(suggestion)}>
                 {index === activeSuggestionIndex
-                  ? suggestion
-                      .toLowerCase()
-                      .split('')
-                      .map((char, i) => (
-                        <span className="bg-white text-black" key={i}>
-                          {char}
-                          {i !== suggestion.length - 1 && <b>&nbsp;</b>}
-                        </span>
-                      ))
+                  ? suggestion.split('').map((char, i) => (
+                      <span className="bg-white text-black" key={i}>
+                        {char}
+                        {i !== suggestion.length - 1 && <b>&nbsp;</b>}
+                      </span>
+                    ))
                   : suggestion}
               </li>
             ))}
           </ul>
         </div>
       )}
-    </div>
+    </>
   );
 };

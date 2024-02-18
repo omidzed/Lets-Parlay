@@ -63,9 +63,9 @@ export function Bets() {
 
   return (
     <div className="flex flex-col p-6 gap-4 justify-center">
-      <p className="text-white px-20 text-thead">
+      <p className="text-white text-tiny md:px-20 md:text-bigger">
         If you or someone you know has a gambling problem and wants help, call
-        1-800-GAMBLER
+        1-800-GAMBLER.
       </p>
       <ul className="flex justify-between gap-14  px-20 flex-wrap">
         {bets.map((bet) => (
