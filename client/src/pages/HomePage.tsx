@@ -16,11 +16,7 @@ export const HomePage = () => {
 
   return (
     <div className="flex-col justify-center items-center">
-      <SearchBox
-        value={inputValue}
-        setInputValue={setInputValue}
-        suggestions={suggestions}
-      />
+      <SearchBox setInputValue={setInputValue} suggestions={suggestions} />
       <EventsCarousel />
       <div className="flex-col 2xl:w-[55%] items-center mx-auto">
         <OddsTable filteredEvents={filteredEvents} />

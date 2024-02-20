@@ -1,16 +1,14 @@
-import { ChangeEvent, useState, KeyboardEvent } from 'react';
+import { useEffect, ChangeEvent, useState, KeyboardEvent } from 'react';
 
 type SearchBoxProps = {
-  value: string;
   setInputValue: (value: string) => void;
   suggestions: string[];
 };
 
-export const SearchBox = ({
-  value,
-  setInputValue,
-  suggestions,
-}: SearchBoxProps) => {
+export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
+  const [inputValue, setInputValueLocal] = useState<string | undefined>(
+    undefined
+  );
   const [placeholder, setPlaceholder] = useState('Search by fighter...');
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -22,15 +20,19 @@ export const SearchBox = ({
 
   const handleBlur = () => {
     setPlaceholder('Search by fighter...');
-    setShowSuggestions(false);
+    setTimeout(() => setShowSuggestions(false), 100);
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      setInputValue('');
-      setShowSuggestions(false);
-      setActiveSuggestionIndex(0);
+      if (filteredSuggestions.length > 0 && activeSuggestionIndex >= 0) {
+        const selectedSuggestion = filteredSuggestions[activeSuggestionIndex];
+        setInputValue(selectedSuggestion); // Update the external state, if necessary
+        setInputValueLocal(selectedSuggestion); // Update the local component state
+        setShowSuggestions(false); // Hide the suggestions list
+        setActiveSuggestionIndex(0); // Reset the active suggestion index
+      }
     } else if (e.key === 'ArrowDown') {
       setActiveSuggestionIndex((prevIndex) =>
         prevIndex === filteredSuggestions.length - 1 ? 0 : prevIndex + 1
@@ -42,15 +44,35 @@ export const SearchBox = ({
     }
   };
 
+  useEffect(() => {
+    if (!inputValue) {
+      setFilteredSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+    const timeoutId = setTimeout(() => {
+      const filtered = suggestions.filter((suggestion) =>
+        suggestion.toLowerCase().includes(inputValue?.toLowerCase())
+      );
+      setFilteredSuggestions(filtered);
+      setShowSuggestions(true);
+      setActiveSuggestionIndex(0);
+    }, 700);
+
+    return () => clearTimeout(timeoutId);
+  }, [inputValue, suggestions]);
+
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const userInput = e.target.value;
-    setInputValue(userInput);
-    const filtered = suggestions.filter((suggestion) =>
-      suggestion.toLowerCase().includes(userInput.toLowerCase())
-    );
-    setFilteredSuggestions(filtered);
-    setShowSuggestions(true);
-    setActiveSuggestionIndex(0);
+    setInputValueLocal(userInput);
+    setInputValue(userInput); // Optionally keep this if you need to lift state up
+
+    if (!userInput) {
+      setFilteredSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+    // No immediate filtering here; let useEffect handle it to debounce the input
   };
 
   const onSuggestionClick = (suggestion: string) => {
@@ -60,33 +82,38 @@ export const SearchBox = ({
   };
 
   return (
-    <>
-      <div className="flex flex-col items-center justify-start ">
-        <input
-          className="bg-fixed bg-white text-black w-[70%] bg-no-repeat
-         bg-[length:20px_20px] bg-[position:20px_15px] pl-7 md:w-1/5 h-8 md:h-10
-         text-base border border-gray-200 rounded-full mb-2.5"
-          id="search-box"
-          style={{ backgroundImage: `url()` }}
-          placeholder={placeholder}
-          onClick={handleClick}
-          onBlur={handleBlur}
-          value={value}
-          onChange={onChange}
-          onKeyDown={onKeyDown}
-        />
-      </div>
+    <div className="flex flex-col items-center justify-center  relative">
+      <input
+        className="relative h-10 w-full md:max-w-xs bg-[url('./search-solid.svg')] md:bg-contain bg-no-repeat text-zinc-900
+           p-2 text-sm md:text-lg tracking-wider bg-white md:pl-14 pl-8 border rounded-full ;"
+        style={{
+          backgroundSize: '1rem',
+          backgroundPosition: '1rem',
+        }}
+        placeholder={placeholder}
+        onClick={handleClick}
+        onBlur={handleBlur}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+      />
+
       {showSuggestions && filteredSuggestions.length > 0 && (
         <div className=" flex flex-col items-center justify-start ">
-          <ul className="bg-[#2E2E31] text-left md:text-md text-lg rounded-lg md:w-[16%] w-[53%]">
+          <ul className="absolute z-10 md:max-w-xs md:pl-14 pl-8 top-full shadow-lg bg-white md:text-xl text-sm rounded-lg w-full p-2 text-zinc-900 transition-opacity duration-300 ease-in-out">
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={index}
-                className={index === activeSuggestionIndex ? 'active' : ''}
+                className={
+                  index === activeSuggestionIndex
+                    ? 'active cursor-pointer bg-slate-100'
+                    : 'cursor-pointer'
+                }
                 onClick={() => onSuggestionClick(suggestion)}>
                 {index === activeSuggestionIndex
                   ? suggestion.split('').map((char, i) => (
-                      <span className="bg-white text-black" key={i}>
+                      <span
+                        className="bg-slate-100 text-black tracking-tighter"
+                        key={i}>
                         {char}
                         {i !== suggestion.length - 1 && <b>&nbsp;</b>}
                       </span>
@@ -97,6 +124,6 @@ export const SearchBox = ({
           </ul>
         </div>
       )}
-    </>
+    </div>
   );
 };

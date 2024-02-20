@@ -17,7 +17,9 @@ import { TbDatabaseDollar } from 'react-icons/tb';
 export function NavBar() {
   const [isAuthenticated, setIsAuthenticated] = useState(hasToken());
   const [isOpen, setIsOpen] = useState(false);
-  const [action, setAction] = useState<'sign-up' | 'sign-in'>(undefined);
+  const [action, setAction] = useState<'sign-up' | 'sign-in' | undefined>(
+    undefined
+  );
   const [funds, setFunds] = useState<string>(() => {
     const tokenData = getToken();
     return tokenData ? (tokenData.user.funds / 100).toFixed(2) : '1000.00';
@@ -86,21 +88,21 @@ export function NavBar() {
   }).format(parseFloat(funds));
 
   const styles = {
-    nav: 'flex pr-2 justify-between  py-6 md:py-5 md:pr-20 bg-[#1F1F21] mb-6 pb-4',
+    nav: 'flex pr-2 justify-between py-6 md:py-4 md:pr-20 bg-[#1F1F21] mb-6 pb-4',
     appName:
-      'text-bigger italic flex ml-2 md:text-5xl md:ml-20 cursor-pointer md:py-2 md:px-10',
+      'text-xl italic flex ml-2 md:text-5xl md:ml-16 cursor-pointer md:px-10',
     let: 'text-red-600 italic mr-1',
-    s: 'text-yellow-300 md:text-4xl mr-1 font-light ',
+    s: 'md:text-4xl md:flex md:items-center mr-1 font-light ',
+    parlay: 'text-blue-500',
     buttonsWrapper: 'flex  items-center gap-1 md:gap-3 mr-1 md:mr-0',
-    join: 'text-rounds px-3 p-1 tracking-widest text-white bg-black border border-zinc-700 rounded-sm md:rounded-md md:px-7 md:py-2 md:text-custom',
+    join: 'text-rounds px-3 p-1 tracking-widest bg-black border border-zinc-700 rounded-sm md:rounded-md md:px-7 md:py-2 md:text-custom',
     login:
-      'text-rounds px-3 p-1 md:tracking-widest text-white bg-blue-800 border border-zinc-700 rounded-sm md:rounded-md md:px-6 md:py-2 md:text-custom',
+      'text-rounds px-3 p-1 md:tracking-widest bg-blue-800 border border-zinc-700 rounded-sm md:rounded-md md:px-6 md:py-2 md:text-custom',
     logout:
-      'text-rounds p-1 md:tracking-wider text-white mr-2 md:mr-4 border border-zinc-700 md:text-custom rounded-lg rounded-sm md:rounded-md bg-red-700 px-2 md:px-6 md:py-2',
-    list: 'flex gap-0  md:top-10 md:right-60 text-smallest text-white md:mr-11 mr-3',
-    userName:
-      'text-tiny leading-2 md:text-odds md:tracking-widest text-white mr-1 md:mr-2 text-left',
-    funds: 'text-tiny leading-2 md:text-odds text-[#54D338]',
+      'text-rounds p-1 mr-2 md:mr-0 border border-zinc-700 md:text-custom rounded-lg rounded-sm md:rounded-md bg-red-700 px-2 md:px-6 md:py-2',
+    list: 'flex md:justify-end md:items-end gap-0 md:top-10 md:right-40  md:mr-6 mr-2',
+    userName: 'text-sm leading-2 md:text-3xl mr-1 md:mr-2 text-left',
+    funds: 'text-sm leading-2 md:text-3xl text-[#54D338] cursor-pointer',
   };
 
   const toggleMenu = () => {
@@ -129,15 +131,13 @@ export function NavBar() {
         <div className="flex justify-center items-center">
           <IoMenu
             onClick={() => toggleMenu()}
-            color="#FFFFFF"
-            className="ml-2 text-sm md:text-3xl cursor-pointer"
+            color="white"
+            className="ml-2 text-lg md:text-3xl cursor-pointer"
           />
-          <Link
-            to={'/'}
-            className={`app-name text-[#9c9b9b] ${styles.appName}`}>
+          <Link to={'/'} className={styles.appName}>
             <p className={styles.let}>LET</p>
-            <p className={styles.s}>{' $ '}</p>
-            <p>PARLAY</p>
+            <p className={styles.s}>$</p>
+            <p className={styles.parlay}>PARLAY</p>
           </Link>
         </div>
 
@@ -146,7 +146,9 @@ export function NavBar() {
             <div className="flex-col md:mr-4">
               <div className={styles.list}>
                 <p className={styles.userName}>{name}</p>
-                <p className={styles.funds}>{`(${formattedFunds})`}</p>
+                <Link to={'/bets'}>
+                  <p className={styles.funds}>{`(${formattedFunds})`}</p>
+                </Link>
               </div>
             </div>
             <button className={styles.logout} onClick={logOut}>

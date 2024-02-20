@@ -13,7 +13,7 @@ export const useFetchEvents = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response: ApiEvent[] = apiEvents.slice(0, 73);
+        const response: ApiEvent[] = apiEvents.slice(13, 73);
 
         const filteredData: Event[] = response.map((event) => {
           const commenceTime = event.commence_time;

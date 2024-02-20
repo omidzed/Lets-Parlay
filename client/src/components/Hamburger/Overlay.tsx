@@ -12,12 +12,3 @@ export const Overlay = ({ isOpen, onClick }: OverlayProps) => {
       }`}></div>
   );
 };
-
-// export function OverlayShade({ onClick, toggle }: OverlayShadeProps) {
-//   return (
-//     <div
-//       onClick={toggle}
-//       className="absolute top-0 right-0 left-0 bottom-0 h-screen w-screen cursor-pointer"></div>
-//   );
-// }
-//  right-0 bottom-0 left-0

@@ -37,7 +37,7 @@ export function OddsTable({ filteredEvents }: Props) {
     boxStyling:
       'flex my-1 mt-1 text-xs md:text-odds  font-bold justify-center items-center rounded-md bg-[#2e2e31] h-[30%] text-red-600',
     boxStyling2:
-      'flex text-xs h-8 m-2 mt-2 md:text-bigger  justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
+      'flex text-xs h-8 m-2 mt-2 md:text-xl  justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338]',
     date: 'flex text-xs md:text-thead justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
     thead:
       'flex text-rounds md:text-thead justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
@@ -62,7 +62,7 @@ export function OddsTable({ filteredEvents }: Props) {
 
     return (
       <div key={index} className="flex justify-center mt-6 w-full lg:h-56">
-        <div className="flex w-[90%] h-36 py-2 px-2  rounded-md bg-[#212123e3] md:w-[80%] md:h-56 mt-2">
+        <div className="flex w-[90%] h-36 py-2 px-2  rounded-md bg-[#212123e3] md:w-[75%] md:h-56 mt-2">
           <div className="flex-col  w-2/5 text-white text-xl">
             <span className={style.date}>{formattedDateTime}</span>
             <span

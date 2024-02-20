@@ -13,13 +13,19 @@ export const AuthForm = ({
   closeModal,
   toggleAction,
 }: Props) => {
+  // const [formData, setFormData] = useState({
+  //   username: '',
+  //   password: '',
+  //   name: '',
+  //   funds: 100000,
+  // });
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [funds, setFunds] = useState<number>(100000);
 
-  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState<string | undefined>();
 
   const apiUrl = action === 'sign-up' ? '/api/auth/sign-up' : '/api/auth/login';
 
@@ -120,7 +126,7 @@ export const AuthForm = ({
             </button>
           </div>
         </div>
-
+        {error && <p className="text-red-500 mt-8">{error}</p>}
         <div className="flex justify-center">
           <button
             className=" tracking-wider  bg-blue-700 mt-4 md:mt-8 text-white px-4 py-2 rounded-md cursor-pointer"
@@ -128,7 +134,7 @@ export const AuthForm = ({
             {action === 'sign-up' ? 'Register' : 'Log In'}
           </button>
         </div>
-        {error && <p className="text-red-500 mt-8">{error}</p>}
+
         <div className="flex justify-center mt-2">
           <button
             className="bg-gray-500  text-white px-4 py-2 rounded-md cursor-pointer"
