@@ -82,10 +82,10 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center  relative">
+    <div className="flex flex-col items-center justify-center relative">
       <input
-        className="relative h-10 w-full md:max-w-xs bg-[url('./search-solid.svg')] md:bg-contain bg-no-repeat text-zinc-900
-           p-2 text-sm md:text-lg tracking-wider bg-white md:pl-14 pl-8 border rounded-full ;"
+        className="relative h-10 w-[75%] md:max-w-xs bg-[url('./search-solid.svg')] md:bg-contain bg-no-repeat text-zinc-900
+           p-2 text-sm md:text-lg tracking-wider bg-white pl-12 border rounded-full ;"
         style={{
           backgroundSize: '1rem',
           backgroundPosition: '1rem',
@@ -98,14 +98,14 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
       />
 
       {showSuggestions && filteredSuggestions.length > 0 && (
-        <div className=" flex flex-col items-center justify-start ">
-          <ul className="absolute z-10 md:max-w-xs md:pl-14 pl-8 top-full shadow-lg bg-white md:text-xl text-sm rounded-lg w-full p-2 text-zinc-900 transition-opacity duration-300 ease-in-out">
+        <div className=" flex flex-col flex-nowrap items-center justify-start ">
+          <ul className="absolute z-10 w-[80%] md:w-[18%] pl-8 top-full tracking-tighter shadow-lg bg-white md:text-lg text-sm p-2 text-zinc-900 transition-opacity duration-300 ease-in-out">
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={index}
                 className={
                   index === activeSuggestionIndex
-                    ? 'active cursor-pointer bg-slate-100'
+                    ? 'active cursor-pointer tracking-tighter bg-slate-100 w-[90%]'
                     : 'cursor-pointer'
                 }
                 onClick={() => onSuggestionClick(suggestion)}>

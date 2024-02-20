@@ -13,12 +13,6 @@ export const AuthForm = ({
   closeModal,
   toggleAction,
 }: Props) => {
-  // const [formData, setFormData] = useState({
-  //   username: '',
-  //   password: '',
-  //   name: '',
-  //   funds: 100000,
-  // });
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -68,7 +62,7 @@ export const AuthForm = ({
     const guestData = {
       username: 'guest$user',
       name: 'Guest',
-      funds: 1000000,
+      funds: 500000,
       password: 'pass1234',
     };
     localStorage.setItem('isGuest', 'true');

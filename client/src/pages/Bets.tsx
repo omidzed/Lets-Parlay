@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getToken } from '../utilities/token-storage';
+import { uid } from 'react-uid';
 
 type Bet = {
+  id: string;
   eventId: string;
   betType: string;
   betAmount: number;
@@ -35,6 +37,7 @@ export function Bets() {
       }
       const betsData = await res.json();
       const formattedBets: Bet[] = betsData.map((bet: any) => ({
+        id: uid(bet),
         eventId: bet.eventId,
         betType: bet.betType,
         betAmount: bet.betAmount,
@@ -70,7 +73,7 @@ export function Bets() {
       <ul className="flex justify-between gap-14  px-20 flex-wrap">
         {bets.map((bet) => (
           <li
-            key={bet.eventId}
+            key={bet.id}
             className="flex flex-col text-white text-sm  w-96  p-6 rounded-md bg-[#212123e3] mt-8">
             <div className={styling}>
               <div className={styling}> Amount: </div>

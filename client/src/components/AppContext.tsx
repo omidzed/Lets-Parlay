@@ -11,6 +11,7 @@ export type AppContextValues = {
   setFunds: (funds: number) => void;
   handleSignIn: (auth: Auth) => void;
   handleSignOut: () => void;
+  userFunds: (newFunds) => void;
 };
 
 export const AppContext = createContext<AppContextValues>({
@@ -22,6 +23,7 @@ export const AppContext = createContext<AppContextValues>({
   setFunds: () => {},
   handleSignIn: () => {},
   handleSignOut: () => {},
+  userFunds: () => {},
 });
 
 type UserProviderProps = {
@@ -33,7 +35,7 @@ const tokenKey = 'react-context-jwt';
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | undefined>(undefined);
   const [token, setToken] = useState<string | undefined>(undefined);
-  const [funds, setFundsState] = useState<number | undefined>(undefined);
+  const [funds, setFunds] = useState<number | undefined>(undefined);
 
   const handleSignIn = (auth: Auth) => {
     localStorage.setItem(tokenKey, JSON.stringify(auth));
@@ -61,12 +63,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     if (tokenData) {
       setUser(tokenData.user);
       setToken(tokenData.token);
-      setFundsState(tokenData.user.funds);
+      setFunds(tokenData.user.funds);
     }
   }, [setToken]);
 
-  const setFunds = (newFunds: number) => {
-    setFundsState(newFunds);
+  const userFunds = (newFunds: number) => {
+    setFunds(newFunds);
 
     const tokenData = getToken();
     if (tokenData) {
@@ -92,6 +94,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         setFunds,
         handleSignIn,
         handleSignOut,
+        userFunds,
       }}>
       {children}
     </AppContext.Provider>
