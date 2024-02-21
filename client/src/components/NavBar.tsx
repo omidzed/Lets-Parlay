@@ -88,7 +88,7 @@ export function NavBar() {
   }).format(parseFloat(funds));
 
   const styles = {
-    nav: 'flex justify-between py-8 md:pr-20 bg-[#1F1F21] mb-6',
+    nav: 'flex justify-between py-4 md:py-8 md:pr-20 bg-[#1F1F21] mb-6 pr-2',
     appName:
       'text-xl italic flex ml-2 md:text-5xl md:ml-16 cursor-pointer md:px-10',
     let: 'text-red-600 italic mr-1',
@@ -97,7 +97,7 @@ export function NavBar() {
     buttonsWrapper: 'flex  items-center gap-1 md:gap-3 mr-1 md:mr-0',
     join: 'xl:text-custom text-tiny tracking-wider p-1 bg-red-700 rounded-sm md:rounded-md px-2 md:px-7 md:py-2',
     login:
-      'xl:text-custom flex gap-2 text-tiny p-1 bg-blue-800 rounded-sm md:rounded-md px-2 md:px-6 md:py-2',
+      'xl:text-custom flex gap-1 text-tiny p-1 bg-blue-800 rounded-sm md:rounded-md px-2 md:px-6 md:py-2',
     logout:
       'xl:text-custom  text-tiny flex 2xl:gap-2 gap-1 p-1 mr-2 md:mr-0 border border-zinc-400 rounded-sm md:rounded-md bg-black px-2 md:px-6 md:py-2',
     list: 'flex md:justify-end md:items-end gap-0 md:mr-6 mr-2 flex-nowrap',
