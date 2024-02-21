@@ -1,4 +1,5 @@
 import { useEffect, ChangeEvent, useState, KeyboardEvent } from 'react';
+import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 type SearchBoxProps = {
   setInputValue: (value: string) => void;
@@ -83,20 +84,21 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center relative">
-      <input
-        className="relative w-[75%] md:max-w-xs bg-[url('./search-solid.svg')] md:bg-contain bg-no-repeat text-zinc-900
-           p-2 text-sm md:text-lg tracking-wider pl-11 border rounded-full ;"
-        style={{
-          backgroundSize: '1rem',
-          backgroundPosition: '1rem',
-        }}
-        placeholder={placeholder}
-        onClick={handleClick}
-        onBlur={handleBlur}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-      />
-
+      <div className="relative w-[75%] md:w-[21%]">
+        <FaMagnifyingGlass
+          className="absolute left-4 top-7 [#2E2E31] transform -translate-y-1/2 text-zinc-500"
+          style={{ fontSize: '1rem' }}
+        />
+        <input
+          className="w-full md:bg-contain bg-no-repeat text-zinc-900
+           p-2 text-sm md:text-lg tracking-wider pl-12 border rounded-full ;"
+          placeholder={placeholder}
+          onClick={handleClick}
+          onBlur={handleBlur}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+        />
+      </div>
       {showSuggestions && filteredSuggestions.length > 0 && (
         <div className=" flex flex-col flex-nowrap items-center justify-start ">
           <ul className="absolute z-10 w-[65%] md:w-[18%] pl-7 top-full tracking-tighter shadow-lg bg-white md:text-lg text-sm text-zinc-900 transition-opacity duration-300 ease-in-out">
