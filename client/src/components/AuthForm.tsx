@@ -80,7 +80,7 @@ export const AuthForm = ({
   return (
     <div>
       <form
-        className="flex flex-col justify-center md:my-6 md:m-8 px-6 md:px-14 py-4 md:py-6"
+        className="flex flex-col justify-center md:my-6 md:m-8 px-6 md:px-10 py-4"
         onSubmit={handleSubmit}>
         <div className="mb-4 mt-2">
           {action === 'sign-up' && (
@@ -123,7 +123,7 @@ export const AuthForm = ({
         {error && <p className="text-red-500 mt-8">{error}</p>}
         <div className="flex justify-center">
           <button
-            className=" tracking-wider  bg-blue-700 mt-4 md:mt-8 text-white px-4 py-2 rounded-md cursor-pointer"
+            className=" tracking-wider  bg-blue-700 mt-4 text-white px-4 py-2 rounded-md cursor-pointer"
             type="submit">
             {action === 'sign-up' ? 'Register' : 'Log In'}
           </button>
@@ -143,7 +143,7 @@ export const AuthForm = ({
           <p className="text-md text-center">Not a member yet?</p>
           <a
             onClick={() => toggleAction()}
-            className="flex tracking-wide text-logout md:mb-10 justify-center items-center font-bold text-md text-[#3d86ec] underline cursor-pointer">
+            className="flex tracking-wide text-logout md:mb-8 justify-center items-center font-bold text-md text-[#3d86ec] underline cursor-pointer">
             Join Now
           </a>
         </div>
@@ -152,7 +152,7 @@ export const AuthForm = ({
           <p className="text-md text-center">Already have an account?</p>
           <a
             onClick={() => toggleAction()}
-            className="tracking-wide font-bold text-center text-md md:mb-4 text-[#3d86ec] underline cursor-pointer">
+            className="tracking-wide font-bold text-center text-md md:mb-8 text-[#3d86ec] underline cursor-pointer">
             Log In
           </a>
         </div>

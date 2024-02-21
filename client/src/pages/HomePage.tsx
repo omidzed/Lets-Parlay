@@ -15,10 +15,10 @@ export const HomePage = () => {
   );
 
   return (
-    <div className="flex-col justify-center items-center">
+    <div>
       <SearchBox setInputValue={setInputValue} suggestions={suggestions} />
       <EventsCarousel />
-      <div className="flex-col 2xl:w-[55%] items-center mx-auto">
+      <div className="2xl:w-[55%] w-10/12 mx-auto">
         <OddsTable filteredEvents={filteredEvents} />
       </div>
     </div>

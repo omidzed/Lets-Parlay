@@ -88,21 +88,21 @@ export function NavBar() {
   }).format(parseFloat(funds));
 
   const styles = {
-    nav: 'flex pr-2 justify-between py-6 md:py-4 md:pr-20 bg-[#1F1F21] mb-6 pb-4',
+    nav: 'flex justify-between py-8 md:pr-20 bg-[#1F1F21] mb-6',
     appName:
       'text-xl italic flex ml-2 md:text-5xl md:ml-16 cursor-pointer md:px-10',
     let: 'text-red-600 italic mr-1',
     s: 'md:text-4xl md:flex md:items-center mr-1 font-light ',
     parlay: 'text-blue-500',
     buttonsWrapper: 'flex  items-center gap-1 md:gap-3 mr-1 md:mr-0',
-    join: 'text-rounds px-3 p-1 tracking-widest bg-black border border-zinc-700 rounded-sm md:rounded-md md:px-7 md:py-2 md:text-custom',
+    join: 'xl:text-custom text-tiny tracking-wider p-1 bg-red-700 rounded-sm md:rounded-md px-2 md:px-7 md:py-2',
     login:
-      'text-rounds px-3 p-1 md:tracking-widest bg-blue-800 border border-zinc-700 rounded-sm md:rounded-md md:px-6 md:py-2 md:text-custom',
+      'xl:text-custom flex gap-2 text-tiny p-1 bg-blue-800 rounded-sm md:rounded-md px-2 md:px-6 md:py-2',
     logout:
-      'text-rounds p-1 mr-2 md:mr-0 border border-zinc-700 md:text-custom rounded-lg rounded-sm md:rounded-md bg-red-700 px-2 md:px-6 md:py-2',
-    list: 'flex md:justify-end md:items-end gap-0 md:top-10 md:right-40  md:mr-6 mr-2',
-    userName: 'text-sm leading-2 md:text-3xl mr-1 md:mr-2 text-left',
-    funds: 'text-sm leading-2 md:text-3xl text-[#54D338] cursor-pointer',
+      'xl:text-custom  text-tiny flex 2xl:gap-2 gap-1 p-1 mr-2 md:mr-0 border border-zinc-400 rounded-sm md:rounded-md bg-black px-2 md:px-6 md:py-2',
+    list: 'flex md:justify-end md:items-end gap-0 md:mr-6 mr-2 flex-nowrap',
+    userName: 'text-sm leading-2 md:text-2xl mr-1 md:mr-2',
+    funds: 'text-sm leading-2 md:text-2xl text-[#54D338] cursor-pointer',
   };
 
   const toggleMenu = () => {
@@ -152,7 +152,8 @@ export function NavBar() {
               </div>
             </div>
             <button className={styles.logout} onClick={logOut}>
-              LOG OUT
+              <div>LOG</div>
+              <div>OUT</div>
             </button>
           </div>
         ) : (
@@ -161,7 +162,8 @@ export function NavBar() {
               JOIN
             </button>
             <button className={styles.login} onClick={handleLogin}>
-              LOG IN
+              <div className="className">LOG </div>
+              <div className="className">IN</div>
             </button>
           </div>
         )}

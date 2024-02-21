@@ -22,3 +22,8 @@ body {
 .hidden {
   display: none;
 }
+
+input::placeholder {
+  color: #5a5a5a;
+  opacity: 1;
+}

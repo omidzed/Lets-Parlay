@@ -84,14 +84,11 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center relative">
-      <div className="relative w-[75%] md:w-[21%]">
-        <FaMagnifyingGlass
-          className="absolute left-4 top-7 [#2E2E31] transform -translate-y-1/2 text-zinc-500"
-          style={{ fontSize: '1rem' }}
-        />
+      <div className="relative w-3/4 2xl:w-1/4">
+        <FaMagnifyingGlass className="absolute md:text-bigger text-thead left-6 top-5 [#2E2E31] text-zinc-500" />
         <input
-          className="w-full md:bg-contain bg-no-repeat text-zinc-900
-           p-2 text-sm md:text-lg tracking-wider pl-12 border rounded-full ;"
+          className="w-full md:bg-contain text-zinc-900
+           p-2 text-sm 2xl:text-lg pl-20 py-3 rounded-lg focus:outline-none"
           placeholder={placeholder}
           onClick={handleClick}
           onBlur={handleBlur}
@@ -101,25 +98,18 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
       </div>
       {showSuggestions && filteredSuggestions.length > 0 && (
         <div className=" flex flex-col flex-nowrap items-center justify-start ">
-          <ul className="absolute z-10 w-[65%] md:w-[18%] pl-7 top-full tracking-tighter shadow-lg bg-white md:text-lg text-sm text-zinc-900 transition-opacity duration-300 ease-in-out">
+          <ul className="absolute z-10 pt-3 w-3/4 2xl:w-1/4  top-10  rounded-b-xl bg-white 2xl:text-lg text-sm">
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={index}
-                className={
-                  index === activeSuggestionIndex
-                    ? 'active cursor-pointer tracking-tighte w-[90%]'
-                    : 'cursor-pointer'
-                }
+                className={`cursor-pointer text-zinc-900  mb-2 pl-20 ${
+                  index === activeSuggestionIndex ? 'bg-gray-200' : ''
+                }`}
                 onClick={() => onSuggestionClick(suggestion)}>
                 {index === activeSuggestionIndex
-                  ? suggestion.split('').map((char, i) => (
-                      <span
-                        className="bg-slate-200 text-black tracking-tighter"
-                        key={i}>
-                        {char}
-                        {i !== suggestion.length - 1 && <b>&nbsp;</b>}
-                      </span>
-                    ))
+                  ? suggestion
+                      .split('')
+                      .map((char, i) => <span key={i}>{char}</span>)
                   : suggestion}
               </li>
             ))}
