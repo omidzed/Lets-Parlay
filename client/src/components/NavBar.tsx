@@ -152,7 +152,7 @@ export function NavBar() {
               </div>
             </div>
             <button className={styles.logout} onClick={logOut}>
-              Log Out
+              LOG OUT
             </button>
           </div>
         ) : (
