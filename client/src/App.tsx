@@ -13,9 +13,9 @@ import { Schedule } from './components/Schedule';
 
 const App = () => {
   return (
-    <EventsProvider>
-      <UserProvider>
-        <ModalProvider>
+    <ModalProvider>
+      <EventsProvider>
+        <UserProvider>
           <Modal />
           <NavBar />
           <Routes>
@@ -26,9 +26,9 @@ const App = () => {
             <Route path="faq" element={<FAQ />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </ModalProvider>
-      </UserProvider>
-    </EventsProvider>
+        </UserProvider>
+      </EventsProvider>
+    </ModalProvider>
   );
 };
 

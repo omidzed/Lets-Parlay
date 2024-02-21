@@ -8,6 +8,18 @@ export type Auth = {
   token: string;
 };
 
+export type Guest = {
+  username: string;
+  name: string;
+  funds: number;
+  password: string;
+};
+
+export type GuestAuth = {
+  guestData: Guest;
+  token: { name: string; funds: number };
+};
+
 //Signs in a user
 export async function signIn(
   username: string,

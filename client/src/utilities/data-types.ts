@@ -43,10 +43,3 @@ export type MenuItem = {
 export type IconType = {
   icon: JSX.Element;
 };
-
-export type Guest = {
-  username: 'guest$user';
-  name: 'Guest';
-  funds: number;
-  password: 'pass1234';
-};

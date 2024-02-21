@@ -30,8 +30,7 @@ export function BetForm({
     currency: 'USD',
   });
 
-  const { funds, setFunds, token } = useContext(AppContext);
-  //const isGuest = localStorage.getItem('isGuest') === 'true';
+  const { funds, token, setFunds } = useContext(AppContext);
 
   function handleChange(value: string | undefined) {
     const amountValue = value ? parseFloat(value) : 0;
@@ -70,10 +69,19 @@ export function BetForm({
         throw new Error(`fetch Error ${res.status}`);
       }
 
-      // if (isGuest) {
       const fundsAfterBet = funds - betAmount.amount * 100;
       setFunds(fundsAfterBet);
-      console.log('fundsafter', fundsAfterBet);
+      // console.log('f', funds);
+      // const fundsAfterBet = token?.funds - betAmount.amount * 100;
+      // if (guestData && fundsAfterBet) {
+      //   const updatedGuest = { ...guestData, funds: fundsAfterBet };
+      //   setGuestData(updatedGuest);
+      //   localStorage.setItem('guestData', JSON.stringify(updatedGuest));
+      //   console.log('fundsafter', fundsAfterBet);
+      // }
+
+      // const fundsAfterBet = funds - betAmount.amount * 100;
+      // setFunds(fundsAfterBet);
 
       alert('Bet placed successfully!');
     } catch (err) {
