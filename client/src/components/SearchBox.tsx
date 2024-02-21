@@ -88,7 +88,7 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
         <FaMagnifyingGlass className="absolute md:text-bigger text-thead left-4 top-5 [#2E2E31] text-zinc-500" />
         <input
           className="w-full md:bg-contain text-zinc-900
-           p-2 text-sm 2xl:text-lg pl-16 py-3 rounded-lg focus:outline-none"
+           p-2 text-sm 2xl:text-lg pl-10 md:pl-16 py-3 rounded-lg focus:outline-none"
           placeholder={placeholder}
           onClick={handleClick}
           onBlur={handleBlur}
@@ -102,7 +102,7 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={index}
-                className={`cursor-pointer text-zinc-900  mb-2 pl-16 ${
+                className={`cursor-pointer text-zinc-900  mb-2 pl-10 md:pl-16 ${
                   index === activeSuggestionIndex ? 'bg-gray-200' : ''
                 }`}
                 onClick={() => onSuggestionClick(suggestion)}>

@@ -88,7 +88,7 @@ export function NavBar() {
   }).format(parseFloat(funds));
 
   const styles = {
-    nav: 'flex justify-between py-4 md:py-8 md:pr-20 bg-[#1F1F21] mb-6 pr-2',
+    nav: 'flex justify-between p-2 py-4 md:py-8 md:pr-20 bg-[#1F1F21] mb-6 pr-2',
     appName:
       'text-xl italic flex ml-2 md:text-5xl md:ml-16 cursor-pointer md:px-10',
     let: 'text-red-600 italic mr-1',
