@@ -80,9 +80,9 @@ export const AuthForm = ({
   return (
     <div>
       <form
-        className="flex flex-col justify-center md:my-6 md:m-8 px-6 md:px-10 py-4"
+        className="flex flex-col justify-center md:my-6 md:m-8 px-10 py-4"
         onSubmit={handleSubmit}>
-        <div className="mb-4 mt-2">
+        <div className="my-4">
           {action === 'sign-up' && (
             <div>
               <label>Name</label>
@@ -140,10 +140,10 @@ export const AuthForm = ({
 
       {action === 'sign-in' ? (
         <div>
-          <p className="text-md text-center">Not a member yet?</p>
+          <p className="text-md mt-4 text-center">Not a member yet?</p>
           <a
             onClick={() => toggleAction()}
-            className="flex tracking-wide text-logout md:mb-8 justify-center items-center font-bold text-md text-[#3d86ec] underline cursor-pointer">
+            className="flex tracking-wide text-logout md:mb-8 mb-6 justify-center items-center font-bold text-md text-[#3d86ec] underline cursor-pointer">
             Join Now
           </a>
         </div>
