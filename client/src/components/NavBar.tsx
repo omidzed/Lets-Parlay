@@ -3,7 +3,7 @@ import { getToken, removeToken, hasToken } from '../utilities/token-storage';
 import { useModal } from './useModal';
 import { useUser } from './useUser';
 import { AuthForm } from './AuthForm';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AppDrawer } from './Hamburger/AppDrawer';
 import { Overlay } from './Hamburger/Overlay';
 import { IoMenu } from 'react-icons/io5';
@@ -13,23 +13,21 @@ import { FaQuestion } from 'react-icons/fa6';
 import { FaRankingStar } from 'react-icons/fa6';
 import { SlHome } from 'react-icons/sl';
 import { TbDatabaseDollar } from 'react-icons/tb';
+import { AppContext } from './AppContext';
 
-export function NavBar() {
+export const NavBar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(hasToken());
   const [isOpen, setIsOpen] = useState(false);
   const [action, setAction] = useState<'sign-up' | 'sign-in' | undefined>(
     undefined
   );
-  const [funds, setFunds] = useState<string>(() => {
-    const tokenData = getToken();
-    return tokenData ? (tokenData.user.funds / 100).toFixed(2) : '1000.00';
-  });
 
   //ask Shawn about this
   action;
 
   const { openModal, closeModal } = useModal();
   const { setUser } = useUser();
+  const { funds, setFunds } = useContext(AppContext);
 
   const handleOpenModal = (actionType: 'sign-up' | 'sign-in') => {
     setAction(actionType);
@@ -54,14 +52,13 @@ export function NavBar() {
   useEffect(() => {
     if (isAuthenticated) {
       const tokenData = getToken();
-      const fundsFromToken = tokenData?.user.funds
-        ? (tokenData.user.funds / 100).toFixed(2)
-        : '1000.00';
-      setFunds(fundsFromToken);
+      if (tokenData?.user.funds) {
+        setFunds(tokenData.user.funds / 100); // assuming funds are stored as cents
+      }
     } else {
-      setFunds('1000.00');
+      setFunds(1000.0); // assuming default funds if not authenticated
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, setFunds]); // Only re-run if isAuthenticated or setFunds changes
 
   const handleAuthSuccess = (data) => {
     localStorage.setItem('token', JSON.stringify(data));
@@ -85,7 +82,7 @@ export function NavBar() {
   const formattedFunds = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-  }).format(parseFloat(funds));
+  }).format(funds);
 
   const styles = {
     nav: 'flex justify-between p-2 py-4 md:py-8 md:pr-20 bg-[#1F1F21] mb-6 pr-2',
@@ -171,4 +168,4 @@ export function NavBar() {
       <Outlet />
     </div>
   );
-}
+};

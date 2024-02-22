@@ -62,11 +62,10 @@ export const AuthForm = ({
     const guestData = {
       username: 'guest$user',
       name: 'Guest',
-      funds: 500000,
+      funds: 700000,
       password: 'pass1234',
     };
-    localStorage.setItem('isGuest', 'true');
-    localStorage.setItem('guestData', JSON.stringify(guestData));
+    localStorage.setItem('userData', JSON.stringify(guestData));
     onSignIn({
       user: guestData,
       token: 'guest-session',
@@ -92,6 +91,7 @@ export const AuthForm = ({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                autoComplete=""
               />
               <input name="funds" value={100000} type="hidden" />
             </div>
@@ -103,6 +103,7 @@ export const AuthForm = ({
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            autoComplete=""
           />
           <label>Password</label>
           <div className="relative">
@@ -111,6 +112,7 @@ export const AuthForm = ({
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete=""
             />
             <button
               type="button"

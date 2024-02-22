@@ -4,10 +4,10 @@ type RotatingBannerProps = {
   posters: string[];
 };
 
-export function RotatingBanner({ posters }: RotatingBannerProps) {
+export const RotatingBanner = ({ posters }: RotatingBannerProps) => {
   return (
     <div className="flex justify-center">
       <Banner posters={posters} />
     </div>
   );
-}
+};

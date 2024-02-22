@@ -21,12 +21,12 @@ export type GuestAuth = {
 };
 
 //Signs in a user
-export async function signIn(
+export const signIn = async (
   username: string,
   password: string
-): Promise<Auth> {
+): Promise<Auth> => {
   return await signUpOrIn('sign-in', username, password);
-}
+};
 
 //Signs up a user
 export async function signUp(

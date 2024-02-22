@@ -12,7 +12,7 @@ type Bet = {
   dateTime: string;
 };
 
-export function Bets() {
+export const Bets = () => {
   const [bets, setBets] = useState<Bet[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +47,9 @@ export function Bets() {
       }));
       setBets(formattedBets);
     } catch (err) {
-      setError('Failed to fetch bets');
+      setError(
+        'No bets data to show, please log in or use Guest Check-In in order to place/view bets!'
+      );
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -59,7 +61,7 @@ export function Bets() {
   }, []);
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <div className="mx-auto w-2/5 text-3xl mt-28">{error}</div>;
 
   const styling =
     'flex gap-8 text-odds md:text-xl justify-between items-center ';
@@ -103,6 +105,6 @@ export function Bets() {
       </ul>
     </div>
   );
-}
+};
 
 //

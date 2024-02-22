@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export function NotFound() {
+export const NotFound = () => {
   return (
     <div className="Header-content">
       <div className="row">
@@ -15,4 +15,4 @@ export function NotFound() {
       </div>
     </div>
   );
-}
+};

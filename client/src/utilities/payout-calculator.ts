@@ -3,7 +3,7 @@ export type MoneyLineOdds = {
   underdog: number; // Positive number for underdogs
 };
 
-export function calculateWinnings(odds: number, betAmount: number): number {
+export const calculateWinnings = (odds: number, betAmount: number): number => {
   if (odds > 0) {
     // Positive odds (underdog)
     return betAmount * (odds / 100);
@@ -11,4 +11,4 @@ export function calculateWinnings(odds: number, betAmount: number): number {
     // Negative odds (favorite)
     return betAmount * (100 / Math.abs(odds));
   }
-}
+};

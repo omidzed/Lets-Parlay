@@ -1,8 +1,9 @@
 import type { Event } from '../utilities/data-types';
 import { type FormEvent, useState, useContext } from 'react';
 import { calculateWinnings } from '../utilities/payout-calculator';
-import CurrencyInput from 'react-currency-input-field';
 import { AppContext } from './AppContext';
+import type { Money } from '../utilities/data-types';
+import CurrencyInput from 'react-currency-input-field';
 
 type BetFormProps = {
   event: Event;
@@ -12,37 +13,40 @@ type BetFormProps = {
   completed: boolean;
 };
 
-type Money = {
-  amount: number;
-  currency: string;
-};
-
-export function BetForm({
+export const BetForm = ({
   event,
   index,
   pick,
   dateTime,
   completed,
-}: BetFormProps) {
+}: BetFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [betAmount, setBetAmount] = useState<Money>({
     amount: 0,
     currency: 'USD',
   });
 
-  const { funds, token, setFunds } = useContext(AppContext);
+  const { token, setFunds } = useContext(AppContext);
 
-  function handleChange(value: string | undefined) {
+  const handleChange = (value: string | undefined) => {
     const amountValue = value ? parseFloat(value) : 0;
-    setBetAmount((prevState) => ({
-      ...prevState,
-      amount: amountValue,
-    }));
-  }
+    setBetAmount((prev) => ({ ...prev, amount: amountValue }));
+    console.log(amountValue);
+  };
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
+
+    const userDataString = localStorage.getItem('token');
+    if (!userDataString) {
+      alert('User data not found in localStorage.');
+      return;
+    }
+
+    const userData = JSON.parse(userDataString);
+    const currentFunds: number = userData.user.funds;
+    console.log('cFunds', currentFunds);
 
     const authHeader = token ? `Bearer ${token}` : '';
     const headers = {
@@ -51,15 +55,15 @@ export function BetForm({
     };
 
     const formData = new FormData(event.currentTarget);
-    const userData = Object.fromEntries(formData.entries());
+    const betData = Object.fromEntries(formData.entries());
     const req = {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        ...userData,
-        completed,
-        dateTime,
+        ...betData,
         pick,
+        dateTime,
+        completed,
       }),
     };
 
@@ -69,19 +73,10 @@ export function BetForm({
         throw new Error(`fetch Error ${res.status}`);
       }
 
-      const fundsAfterBet = funds - betAmount.amount * 100;
+      const fundsAfterBet = currentFunds - betAmount.amount;
       setFunds(fundsAfterBet);
-      // console.log('f', funds);
-      // const fundsAfterBet = token?.funds - betAmount.amount * 100;
-      // if (guestData && fundsAfterBet) {
-      //   const updatedGuest = { ...guestData, funds: fundsAfterBet };
-      //   setGuestData(updatedGuest);
-      //   localStorage.setItem('guestData', JSON.stringify(updatedGuest));
-      //   console.log('fundsafter', fundsAfterBet);
-      // }
 
-      // const fundsAfterBet = funds - betAmount.amount * 100;
-      // setFunds(fundsAfterBet);
+      localStorage.setItem('userData', JSON.stringify(userData));
 
       alert('Bet placed successfully!');
     } catch (err) {
@@ -90,15 +85,16 @@ export function BetForm({
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   const selectedOutcome = event?.outcomes[index];
   const betOdds = selectedOutcome?.moneyline ?? 0;
-  const winnings = selectedOutcome
-    ? (calculateWinnings(betOdds, betAmount.amount) + betAmount.amount).toFixed(
-        2
-      )
-    : '0.00';
+  const winnings =
+    selectedOutcome && betAmount !== undefined
+      ? (
+          calculateWinnings(betOdds, betAmount.amount) + betAmount.amount
+        ).toFixed(2)
+      : '0.00';
 
   return (
     <div className="flex-col justify-center items-center pr-12 py-10 pb-6 pl-16">
@@ -121,9 +117,9 @@ export function BetForm({
               <CurrencyInput
                 className="bg-blue-200 rounded-md px-1 w-16"
                 name="betAmount"
-                type="money"
+                placeholder="0.00"
+                defaultValue={0}
                 decimalsLimit={2}
-                value={betAmount.amount.toString()}
                 onValueChange={handleChange}
               />
             </div>
@@ -147,4 +143,4 @@ export function BetForm({
       </div>
     </div>
   );
-}
+};

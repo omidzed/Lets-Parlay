@@ -11,7 +11,7 @@ const chevronStyling =
 const overlayStyling =
   'absolute bg-white opacity-0 w-[2.9rem] h-full  group-hover:opacity-10 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';
 
-export function Banner({ posters }: BannerProps) {
+export const Banner = ({ posters }: BannerProps) => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -21,13 +21,13 @@ export function Banner({ posters }: BannerProps) {
 
     return () => clearInterval(intervalId);
   }, [posters.length]);
-  function handlePrevClick() {
+  const handlePrevClick = () => {
     index > 0 ? setIndex(index - 1) : setIndex(posters.length - 1);
-  }
+  };
 
-  function handleNextClick() {
+  const handleNextClick = () => {
     index < posters.length - 1 ? setIndex(index + 1) : setIndex(0);
-  }
+  };
 
   return (
     <div className="relative mt-4 w-10/12 2xl:w-[36%] overflow-hidden">
@@ -55,4 +55,4 @@ export function Banner({ posters }: BannerProps) {
       </div>
     </div>
   );
-}
+};

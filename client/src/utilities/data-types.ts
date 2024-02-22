@@ -43,3 +43,8 @@ export type MenuItem = {
 export type IconType = {
   icon: JSX.Element;
 };
+
+export type Money = {
+  amount: number;
+  currency: string;
+};

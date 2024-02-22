@@ -9,7 +9,6 @@ export const useFetchEvents = () => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log('fetching data from the API...');
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -28,7 +27,6 @@ export const useFetchEvents = () => {
           };
         });
 
-        console.log('filteredData', filteredData);
         setEvents(filteredData);
       } catch (err) {
         setError(
@@ -50,7 +48,6 @@ export const useFetchEvents = () => {
     });
     setSuggestions(extractedNames);
   }, [events]);
-  console.log('s', suggestions);
 
   return { events, isLoading, error, suggestions };
 };

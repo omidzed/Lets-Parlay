@@ -35,9 +35,9 @@ export const AppDrawer = ({
     };
   }, [isOpen, toggleMenu]);
 
-  function handleSelect(path: string) {
+  const handleSelect = (path: string) => {
     navigate(path);
-  }
+  };
 
   return (
     <div

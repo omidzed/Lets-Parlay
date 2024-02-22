@@ -7,10 +7,7 @@ export const Schedule = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      window.open(
-        'https://en.wikipedia.org/wiki/List_of_UFC_events#Scheduled_events',
-        '_blank'
-      );
+      window.open('https://www.espn.com/mma/schedule/_/league/ufc', '_blank');
       navigate('/');
     }, 500);
   }, [navigate]);

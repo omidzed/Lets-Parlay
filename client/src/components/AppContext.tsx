@@ -11,7 +11,7 @@ export type AppContextValues = {
   setFunds: (funds: number) => void;
   handleSignIn: (auth: Auth) => void;
   handleSignOut: () => void;
-  userFunds: (newFunds) => void;
+  updateFunds: (newFunds) => void;
 };
 
 export const AppContext = createContext<AppContextValues>({
@@ -23,7 +23,7 @@ export const AppContext = createContext<AppContextValues>({
   setFunds: () => {},
   handleSignIn: () => {},
   handleSignOut: () => {},
-  userFunds: () => {},
+  updateFunds: () => {},
 });
 
 type UserProviderProps = {
@@ -31,11 +31,33 @@ type UserProviderProps = {
 };
 
 const tokenKey = 'react-context-jwt';
-
+// const [funds, setFunds] = useState<string>(() => {
+//   const tokenData = getToken();
+//   return tokenData ? (tokenData.user.funds / 100).toFixed(2) : '2000.00';
+// });
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | undefined>(undefined);
   const [token, setToken] = useState<string | undefined>(undefined);
-  const [funds, setFunds] = useState<number | undefined>(undefined);
+  const [funds, setFunds] = useState<number>(); // Assuming default funds to be 0
+
+  // Update the funds state and persist the new value to local storage
+  const updateFunds = (newFunds: number) => {
+    setFunds(newFunds);
+
+    // Persist to localStorage
+    const tokenData = getToken(); // Assuming getToken retrieves the token object from localStorage
+    if (tokenData) {
+      const updatedToken = {
+        ...tokenData,
+        user: {
+          ...tokenData.user,
+          funds: newFunds,
+        },
+      };
+      console.log(updatedToken);
+      storeToken(updatedToken); // Assuming storeToken updates the token in localStorage
+    }
+  };
 
   const handleSignIn = (auth: Auth) => {
     localStorage.setItem(tokenKey, JSON.stringify(auth));
@@ -67,22 +89,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   }, [setToken]);
 
-  const userFunds = (newFunds: number) => {
-    setFunds(newFunds);
-
-    const tokenData = getToken();
-    if (tokenData) {
-      const updatedToken = {
-        ...tokenData,
-        user: {
-          ...tokenData.user,
-          funds: newFunds,
-        },
-      };
-      storeToken(updatedToken);
-    }
-  };
-
   return (
     <AppContext.Provider
       value={{
@@ -90,11 +96,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         setUser,
         token,
         setToken,
-        funds,
         setFunds,
         handleSignIn,
         handleSignOut,
-        userFunds,
+        funds,
+        updateFunds,
       }}>
       {children}
     </AppContext.Provider>

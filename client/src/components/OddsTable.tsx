@@ -8,7 +8,7 @@ type Props = {
   filteredEvents: Event[];
 };
 
-export function OddsTable({ filteredEvents }: Props) {
+export const OddsTable = ({ filteredEvents }: Props) => {
   const { openModal } = useModal();
 
   const betSlip = (event: Event, outcome: 'moneyline' | 'moneylineTwo') => {
@@ -104,4 +104,4 @@ export function OddsTable({ filteredEvents }: Props) {
     );
   });
   return <div>{odds}</div>;
-}
+};
