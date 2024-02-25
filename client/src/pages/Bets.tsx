@@ -68,10 +68,15 @@ export const Bets = () => {
 
   return (
     <div className="flex flex-col p-6 gap-4 justify-center">
-      <p className="text-white text-tiny md:px-20 md:text-bigger">
+      <p className="flex justify-center text-white text-tiny px-10 md:px-40 md:text-bigger">
         If you or someone you know has a gambling problem and wants help, call
         1-800-GAMBLER.
       </p>
+      {bets.length === 0 && (
+        <p className="flex justify-center text-xl md:text-4xl py-40 px-2">
+          No recorded bets at the moment.
+        </p>
+      )}
       <ul className="flex justify-between gap-14  px-20 flex-wrap">
         {bets.map((bet) => (
           <li

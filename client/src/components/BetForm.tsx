@@ -21,17 +21,19 @@ export const BetForm = ({
   completed,
 }: BetFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [betAmount, setBetAmount] = useState<number>();
+  const [betAmount, setBetAmount] = useState<number>(0);
   const { token, funds, setFunds } = useContext(AppContext);
   const { closeModal } = useModal();
 
-  const handleChange = (value) => {
-    const amountNumber = parseFloat(value);
+  const handleChange = (value: string | undefined) => {
+    const amountNumber = parseFloat(value || '0'); // Default to '0' if value is undefined
     setBetAmount(amountNumber);
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const effectiveBetAmount = betAmount ?? 0;
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsLoading(true);
 
     const authHeader = token ? `Bearer ${token}` : '';
@@ -40,7 +42,7 @@ export const BetForm = ({
       ...(token && { Authorization: authHeader }),
     };
 
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries());
 
     const req = {
@@ -55,16 +57,18 @@ export const BetForm = ({
     };
 
     try {
-      if (betAmount > funds) {
-        throw new Error(
+      if (effectiveBetAmount > funds) {
+        alert(
           'Your bet amount cannot exceed your funds levels, please try again or replenish funds!'
         );
+        setIsLoading(false);
+        return;
       }
       const res = await fetch('/api/bets', req);
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
       }
-      const fundsAfterBet = funds - betAmount;
+      const fundsAfterBet = funds - effectiveBetAmount;
       setFunds(fundsAfterBet);
 
       localStorage.setItem('userData', JSON.stringify(userData));
@@ -82,12 +86,14 @@ export const BetForm = ({
   const selectedOutcome = event?.outcomes[index];
   const betOdds = selectedOutcome?.moneyline ?? 0;
   const winnings =
-    selectedOutcome && betAmount !== undefined
-      ? (calculateWinnings(betOdds, betAmount) + betAmount).toFixed(2)
+    selectedOutcome && effectiveBetAmount !== undefined
+      ? (
+          calculateWinnings(betOdds, effectiveBetAmount) + effectiveBetAmount
+        ).toFixed(2)
       : '0.00';
 
   return (
-    <div className="flex-col justify-center items-center  py-10 pb-6 px-12 md:pr-24 md:pl-24">
+    <div className="flex-col justify-center items-center  py-10 pb-6 px-12 md:pr-12 md:pl-12">
       <div className="flex justify-center gap-2">
         <span>{selectedOutcome.name}</span>
         <span className="font-bold">

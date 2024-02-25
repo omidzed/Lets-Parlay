@@ -52,8 +52,8 @@ export const NavBar = () => {
   useEffect(() => {
     if (isAuthenticated) {
       const tokenData = getToken();
-      if (tokenData?.funds) {
-        setFunds(tokenData.funds);
+      if (tokenData?.user.funds) {
+        setFunds(tokenData?.user.funds);
         console.log('the nav funds effects ran.');
       }
     } else {
