@@ -11,41 +11,45 @@ export type AppContextValues = {
   setFunds: (funds: number) => void;
   handleSignIn: (auth: Auth) => void;
   handleSignOut: () => void;
-  updateFunds: (newFunds) => void;
+  updateFunds: (newFunds: number) => void;
 };
 
-export const AppContext = createContext<AppContextValues>({
-  user: undefined,
-  setUser: () => {},
-  token: undefined,
-  setToken: () => {},
-  funds: undefined,
-  setFunds: () => {},
-  handleSignIn: () => {},
-  handleSignOut: () => {},
-  updateFunds: () => {},
-});
+export const AppContext = createContext<AppContextValues | undefined>(
+  undefined
+);
 
 type UserProviderProps = {
   children: ReactNode;
 };
 
 const tokenKey = 'react-context-jwt';
-// const [funds, setFunds] = useState<string>(() => {
-//   const tokenData = getToken();
-//   return tokenData ? (tokenData.user.funds / 100).toFixed(2) : '2000.00';
-// });
-export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | undefined>(undefined);
-  const [token, setToken] = useState<string | undefined>(undefined);
-  const [funds, setFunds] = useState<number>(); // Assuming default funds to be 0
 
-  // Update the funds state and persist the new value to local storage
+export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+  const [funds, setFunds] = useState<number | undefined>(() => {
+    const tokenData = getToken();
+    console.log(tokenData);
+    return tokenData ? parseFloat(tokenData.user.funds.toString()) : undefined;
+  });
+  const [token, setToken] = useState<string | undefined>(undefined);
+  const [user, setUser] = useState<User | undefined>(undefined);
+
+  const handleSignIn = (auth: Auth) => {
+    localStorage.setItem(tokenKey, JSON.stringify(auth));
+    setUser(auth.user);
+    setToken(auth.token);
+    setFunds(auth.user.funds);
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem(tokenKey);
+    setUser(undefined);
+    setToken(undefined);
+    setFunds(undefined);
+  };
+
   const updateFunds = (newFunds: number) => {
     setFunds(newFunds);
-
-    // Persist to localStorage
-    const tokenData = getToken(); // Assuming getToken retrieves the token object from localStorage
+    const tokenData = getToken();
     if (tokenData) {
       const updatedToken = {
         ...tokenData,
@@ -54,21 +58,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           funds: newFunds,
         },
       };
-      console.log(updatedToken);
-      storeToken(updatedToken); // Assuming storeToken updates the token in localStorage
+      storeToken(updatedToken);
     }
-  };
-
-  const handleSignIn = (auth: Auth) => {
-    localStorage.setItem(tokenKey, JSON.stringify(auth));
-    setUser(auth.user);
-    setToken(auth.token);
-  };
-
-  const handleSignOut = () => {
-    localStorage.removeItem(tokenKey);
-    setUser(undefined);
-    setToken(undefined);
   };
 
   useEffect(() => {
@@ -81,13 +72,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, [setToken]);
 
   useEffect(() => {
-    const tokenData = getToken();
-    if (tokenData) {
-      setUser(tokenData.user);
-      setToken(tokenData.token);
-      setFunds(tokenData.user.funds);
+    const auth = localStorage.getItem(tokenKey);
+    if (auth) {
+      const parsedAuth = JSON.parse(auth);
+      setUser(parsedAuth.user);
+      setToken(parsedAuth.token);
+      setFunds(parsedAuth.user.funds);
     }
-  }, [setToken]);
+  }, []);
 
   return (
     <AppContext.Provider
@@ -96,10 +88,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         setUser,
         token,
         setToken,
+        funds,
         setFunds,
         handleSignIn,
         handleSignOut,
-        funds,
         updateFunds,
       }}>
       {children}

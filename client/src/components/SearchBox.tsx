@@ -85,10 +85,10 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
   return (
     <div className="flex flex-col items-center justify-center relative">
       <div className="relative w-3/5 2xl:w-1/4">
-        <FaMagnifyingGlass className="absolute md:text-bigger text-thead left-4 top-5 [#2E2E31] text-zinc-500" />
+        <FaMagnifyingGlass className="absolute z-20 md:text-bigger text-thead left-4 top-5 [#2E2E31] text-zinc-500" />
         <input
-          className="w-full md:bg-contain text-zinc-900
-           p-2 text-sm 2xl:text-lg pl-10 md:pl-16 py-3 rounded-lg focus:outline-none"
+          className="w-full absolute-50 md:bg-contain text-black
+           p-2 text-sm 2xl:text-lg pl-10 md:pl-16 py-3 rounded-2xl focus:outline-none"
           placeholder={placeholder}
           onClick={handleClick}
           onBlur={handleBlur}
@@ -97,13 +97,13 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
         />
       </div>
       {showSuggestions && filteredSuggestions.length > 0 && (
-        <div className=" flex flex-col flex-nowrap items-center justify-start ">
-          <ul className="absolute z-10 pt-3 w-3/5 2xl:w-1/4  top-10  rounded-b-xl bg-white 2xl:text-lg text-sm">
+        <div className=" flex flex-col  flex-nowrap items-center justify-start">
+          <ul className="absolute z-10 pt-8 w-3/5 2xl:w-1/4  top-5 md:top-9  rounded-b-xl bg-white 2xl:text-lg text-sm">
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={index}
-                className={`cursor-pointer text-zinc-900  mb-2 pl-10 md:pl-16 ${
-                  index === activeSuggestionIndex ? 'bg-gray-200' : ''
+                className={`cursor-pointer text-black  mb-2 pl-10 md:pl-16 ${
+                  index === activeSuggestionIndex ? 'bg-gray-200 rounded' : ''
                 }`}
                 onClick={() => onSuggestionClick(suggestion)}>
                 {index === activeSuggestionIndex

@@ -12,7 +12,7 @@ export const useFetchEvents = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response: ApiEvent[] = apiEvents.slice(13, 73);
+        const response: ApiEvent[] = apiEvents.slice(24, 96);
 
         const filteredData: Event[] = response.map((event) => {
           const commenceTime = event.commence_time;
@@ -51,3 +51,5 @@ export const useFetchEvents = () => {
 
   return { events, isLoading, error, suggestions };
 };
+//  { over: string; overOdds: number },
+//     { under: string; underOdds: number }

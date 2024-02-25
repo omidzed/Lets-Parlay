@@ -16,8 +16,6 @@ export const AuthForm = ({
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [name, setName] = useState<string>('');
-  const [funds, setFunds] = useState<number>(100000);
-
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>();
 
@@ -28,7 +26,7 @@ export const AuthForm = ({
 
     const userData =
       action === 'sign-up'
-        ? { username, password, name, funds }
+        ? { username, password, name }
         : { username, password };
 
     try {
@@ -44,7 +42,6 @@ export const AuthForm = ({
 
       if (action === 'sign-in') {
         onSignIn(data);
-        setFunds(100000);
       }
 
       closeModal();
@@ -62,7 +59,7 @@ export const AuthForm = ({
     const guestData = {
       username: 'guest$user',
       name: 'Guest',
-      funds: 700000,
+      funds: 5000,
       password: 'pass1234',
     };
     localStorage.setItem('userData', JSON.stringify(guestData));
@@ -93,7 +90,7 @@ export const AuthForm = ({
                 required
                 autoComplete=""
               />
-              <input name="funds" value={100000} type="hidden" />
+              <input name="funds" value={1} type="hidden" />
             </div>
           )}
           <label>Username</label>

@@ -2,8 +2,8 @@ import type { Event } from '../utilities/data-types';
 import { type FormEvent, useState, useContext } from 'react';
 import { calculateWinnings } from '../utilities/payout-calculator';
 import { AppContext } from './AppContext';
-import type { Money } from '../utilities/data-types';
 import CurrencyInput from 'react-currency-input-field';
+import { useModal } from './useModal';
 
 type BetFormProps = {
   event: Event;
@@ -21,32 +21,18 @@ export const BetForm = ({
   completed,
 }: BetFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [betAmount, setBetAmount] = useState<Money>({
-    amount: 0,
-    currency: 'USD',
-  });
+  const [betAmount, setBetAmount] = useState<number>();
+  const { token, funds, setFunds } = useContext(AppContext);
+  const { closeModal } = useModal();
 
-  const { token, setFunds } = useContext(AppContext);
-
-  const handleChange = (value: string | undefined) => {
-    const amountValue = value ? parseFloat(value) : 0;
-    setBetAmount((prev) => ({ ...prev, amount: amountValue }));
-    console.log(amountValue);
+  const handleChange = (value) => {
+    const amountNumber = parseFloat(value);
+    setBetAmount(amountNumber);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-
-    const userDataString = localStorage.getItem('token');
-    if (!userDataString) {
-      alert('User data not found in localStorage.');
-      return;
-    }
-
-    const userData = JSON.parse(userDataString);
-    const currentFunds: number = userData.user.funds;
-    console.log('cFunds', currentFunds);
 
     const authHeader = token ? `Bearer ${token}` : '';
     const headers = {
@@ -55,12 +41,13 @@ export const BetForm = ({
     };
 
     const formData = new FormData(event.currentTarget);
-    const betData = Object.fromEntries(formData.entries());
+    const userData = Object.fromEntries(formData.entries());
+
     const req = {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        ...betData,
+        ...userData,
         pick,
         dateTime,
         completed,
@@ -68,12 +55,16 @@ export const BetForm = ({
     };
 
     try {
+      if (betAmount > funds) {
+        throw new Error(
+          'Your bet amount cannot exceed your funds levels, please try again or replenish funds!'
+        );
+      }
       const res = await fetch('/api/bets', req);
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
       }
-
-      const fundsAfterBet = currentFunds - betAmount.amount;
+      const fundsAfterBet = funds - betAmount;
       setFunds(fundsAfterBet);
 
       localStorage.setItem('userData', JSON.stringify(userData));
@@ -84,6 +75,7 @@ export const BetForm = ({
       alert(`Error placing bet: ${err}`);
     } finally {
       setIsLoading(false);
+      closeModal();
     }
   };
 
@@ -91,14 +83,12 @@ export const BetForm = ({
   const betOdds = selectedOutcome?.moneyline ?? 0;
   const winnings =
     selectedOutcome && betAmount !== undefined
-      ? (
-          calculateWinnings(betOdds, betAmount.amount) + betAmount.amount
-        ).toFixed(2)
+      ? (calculateWinnings(betOdds, betAmount) + betAmount).toFixed(2)
       : '0.00';
 
   return (
-    <div className="flex-col justify-center items-center pr-12 py-10 pb-6 pl-16">
-      <div className="flex justify-center gap-2 mr-6">
+    <div className="flex-col justify-center items-center  py-10 pb-6 px-12 md:pr-24 md:pl-24">
+      <div className="flex justify-center gap-2">
         <span>{selectedOutcome.name}</span>
         <span className="font-bold">
           {betOdds > 0 ? `+${betOdds}` : betOdds}
@@ -106,16 +96,17 @@ export const BetForm = ({
       </div>
       <div className="flex-col">
         <form
-          className="flex-col gap-10 block justify-end items-center my-2 p-2"
+          className="flex-col gap-10 items-center my-2 p-2"
           onSubmit={handleSubmit}>
           <input type="hidden" name="betType" value="moneyline" />
           <input type="hidden" name="completed" value="false" />
-          <div className="flex gap-2 justify-end mt-6 mb-2">
+          <div className="flex w-full justify-around itesm-center ml-2 mt-6 mb-2">
             <label className="font-bold">Amount : </label>
+            <div className="w-2"> </div>
             <div>
               <span className="mr-1">$</span>
               <CurrencyInput
-                className="bg-blue-200 rounded-md px-1 w-16"
+                className="bg-blue-200 rounded-md ml-1 pl-1 w-16"
                 name="betAmount"
                 placeholder="0.00"
                 defaultValue={0}
@@ -124,15 +115,17 @@ export const BetForm = ({
               />
             </div>
           </div>
-          <div className="flex gap-4 w-10">
+
+          <div className="flex ml-4">
             <div className="font-bold whitespace-nowrap">Payout :</div>
+            <div className="w-3"> </div>
             <div className="flex">
-              <div className="mr-2">$</div>
-              {winnings}
+              <div className="ml-1">$</div>
+              <div className="pl-2">{winnings}</div>
             </div>
           </div>
           <input
-            className={`mt-7 block ${
+            className={`mt-7 block ml-4 ${
               isLoading ? 'bg-blue-400' : 'bg-blue-700'
             } text-white px-8 py-4 rounded-md cursor-pointer`}
             type="submit"

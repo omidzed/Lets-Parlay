@@ -1,5 +1,5 @@
 export type User = {
-  funds: any;
+  funds: number;
   userId: number;
   username: string;
   hashedPassword: string;

@@ -52,11 +52,12 @@ export const NavBar = () => {
   useEffect(() => {
     if (isAuthenticated) {
       const tokenData = getToken();
-      if (tokenData?.user.funds) {
-        setFunds(tokenData.user.funds / 100); // assuming funds are stored as cents
+      if (tokenData?.funds) {
+        setFunds(tokenData.funds);
+        console.log('the nav funds effects ran.');
       }
     } else {
-      setFunds(1000.0); // assuming default funds if not authenticated
+      setFunds(0); // reducing funds to zero if not authenticated
     }
   }, [isAuthenticated, setFunds]); // Only re-run if isAuthenticated or setFunds changes
 

@@ -41,7 +41,7 @@ export const Banner = ({ posters }: BannerProps) => {
           onClick={handlePrevClick}
         />
         <div
-          className={`${overlayStyling} h-full left-0 bg-[gold-to-azure-gradient]`}
+          className={`${overlayStyling} h-full left-0`}
           onClick={handlePrevClick}></div>
       </div>
       <div className="group">

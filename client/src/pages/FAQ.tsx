@@ -73,3 +73,8 @@ export const FAQ = () => {
     </div>
   );
 };
+
+// this type of bet will be added upon finding API that supplies this odds type
+// Point Spread
+// Erik Silva vs Muhammad Naimov
+// If a fighter wins via KO/Submission/DQ then the point spread on that fighter is a winning bet. If the fight requires a decision via the judges’ scorecards, the point spread will be applied to the fighter’s combined total points. For example, in a 3-round fight that requires a decision via the judges’ scorecards, if all 3 judges scored the fight 29-28 for Fighter (X) and the point spread is Fighter X -3.5, Fighter X is the loser and Fighter Y with a point spread of +3.5 is the winner

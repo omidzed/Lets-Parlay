@@ -110,7 +110,7 @@ app.post('/api/auth/login', async (req, res, next) => {
 });
 
 app.post('/api/auth/guest', (req, res) => {
-  const payload = { username: 'guest$user', name: 'Guest', funds: 100000 };
+  const payload = { username: 'guest$user', name: 'Guest', funds: 5000 };
   const token = jwt.sign(payload, hashKey, { expiresIn: '1h' });
 
   res.json({ token, user: payload });

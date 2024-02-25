@@ -1,6 +1,7 @@
 export type User = {
   userId: number;
   username: string;
+  funds: number;
 };
 
 export type Auth = {

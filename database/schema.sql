@@ -31,7 +31,7 @@ CREATE TABLE "bets" (
   "dateTime" text,
   "pick" text,
   "betType" text,
-  "betAmount" int
+  "betAmount" text
 );
 
 CREATE TABLE "outcomes" (
