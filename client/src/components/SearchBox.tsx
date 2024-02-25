@@ -24,23 +24,30 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
     setTimeout(() => setShowSuggestions(false), 100);
   };
 
+  const onSuggestionClick = (suggestion: string) => {
+    setInputValueLocal(suggestion); // This updates the search box to show the full suggestion
+    setInputValue(suggestion); // Update the external state, if necessary
+    setShowSuggestions(false);
+    setActiveSuggestionIndex(0);
+  };
+
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (filteredSuggestions.length > 0 && activeSuggestionIndex >= 0) {
-        const selectedSuggestion = filteredSuggestions[activeSuggestionIndex];
-        setInputValue(selectedSuggestion); // Update the external state, if necessary
-        setInputValueLocal(selectedSuggestion); // Update the local component state
+        setInputValueLocal(filteredSuggestions[activeSuggestionIndex]); // Update the input field with the selected suggestion
+        setInputValue(filteredSuggestions[activeSuggestionIndex]); // Update the external state, if necessary
         setShowSuggestions(false); // Hide the suggestions list
-        setActiveSuggestionIndex(0); // Reset the active suggestion index
       }
     } else if (e.key === 'ArrowDown') {
-      setActiveSuggestionIndex((prevIndex) =>
-        prevIndex === filteredSuggestions.length - 1 ? 0 : prevIndex + 1
+      setActiveSuggestionIndex(
+        (prevIndex) => (prevIndex + 1) % filteredSuggestions.length
       );
     } else if (e.key === 'ArrowUp') {
-      setActiveSuggestionIndex((prevIndex) =>
-        prevIndex === 0 ? filteredSuggestions.length - 1 : prevIndex - 1
+      setActiveSuggestionIndex(
+        (prevIndex) =>
+          (prevIndex - 1 + filteredSuggestions.length) %
+          filteredSuggestions.length
       );
     }
   };
@@ -76,12 +83,6 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
     // No immediate filtering here; let useEffect handle it to debounce the input
   };
 
-  const onSuggestionClick = (suggestion: string) => {
-    setInputValue(suggestion);
-    setShowSuggestions(false);
-    setActiveSuggestionIndex(0);
-  };
-
   return (
     <div className="flex flex-col items-center justify-center relative">
       <div className="relative w-3/5 2xl:w-1/4">
@@ -90,15 +91,16 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
           className="w-full absolute-50 md:bg-contain text-black
            p-2 text-sm 2xl:text-lg pl-10 md:pl-16 py-3 rounded-2xl focus:outline-none"
           placeholder={placeholder}
-          onClick={handleClick}
           onBlur={handleBlur}
           onChange={onChange}
           onKeyDown={onKeyDown}
+          value={inputValue}
+          onClick={handleClick}
         />
       </div>
       {showSuggestions && filteredSuggestions.length > 0 && (
         <div className=" flex flex-col  flex-nowrap items-center justify-start">
-          <ul className="absolute z-10 pt-8 w-3/5 2xl:w-1/4  top-5 md:top-9  rounded-b-xl bg-white 2xl:text-lg text-sm">
+          <ul className="absolute z-10 pt-8 w-3/5 2xl:w-1/4  top-5 md:top-10  rounded-b-xl bg-white 2xl:text-lg text-sm">
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={index}
