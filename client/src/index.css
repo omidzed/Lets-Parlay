@@ -16,7 +16,7 @@ body {
 }
 
 .open {
-  transform: translateX(0) translateY(-35px);
+  transform: translateX(0) translateY(-30px);
 }
 
 .hidden {

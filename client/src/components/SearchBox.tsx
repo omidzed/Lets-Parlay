@@ -1,19 +1,20 @@
 import { useEffect, ChangeEvent, useState, KeyboardEvent } from 'react';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
+import { useFetchEvents } from '../pages/useFetchEvents';
 
 type SearchBoxProps = {
   setInputValue: (value: string) => void;
-  suggestions: string[];
 };
 
-export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
-  const [inputValue, setInputValueLocal] = useState<string | undefined>(
-    undefined
+export const SearchBox = ({ setInputValue }: SearchBoxProps) => {
+  const [inputValueLocal, setInputValueLocal] = useState<string | undefined>(
+    ''
   );
   const [placeholder, setPlaceholder] = useState('Search by fighter...');
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
+  const { suggestions } = useFetchEvents();
 
   const handleClick = () => {
     setPlaceholder('');
@@ -53,14 +54,14 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
   };
 
   useEffect(() => {
-    if (!inputValue) {
+    if (!inputValueLocal) {
       setFilteredSuggestions([]);
       setShowSuggestions(false);
       return;
     }
     const timeoutId = setTimeout(() => {
       const filtered = suggestions.filter((suggestion) =>
-        suggestion.toLowerCase().includes(inputValue?.toLowerCase())
+        suggestion?.toLowerCase().includes(inputValueLocal?.toLowerCase())
       );
       setFilteredSuggestions(filtered);
       setShowSuggestions(true);
@@ -68,19 +69,19 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
     }, 700);
 
     return () => clearTimeout(timeoutId);
-  }, [inputValue, suggestions]);
+  }, [inputValueLocal, suggestions]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const userInput = e.target.value;
     setInputValueLocal(userInput);
-    setInputValue(userInput); // Optionally keep this if you need to lift state up
+    setInputValue(userInput);
 
     if (!userInput) {
       setFilteredSuggestions([]);
       setShowSuggestions(false);
       return;
     }
-    // No immediate filtering here; let useEffect handle it to debounce the input
+    // No immediate filtering here; useEffect => debounce the input
   };
 
   return (
@@ -94,13 +95,13 @@ export const SearchBox = ({ setInputValue, suggestions }: SearchBoxProps) => {
           onBlur={handleBlur}
           onChange={onChange}
           onKeyDown={onKeyDown}
-          value={inputValue}
+          value={inputValueLocal}
           onClick={handleClick}
         />
       </div>
       {showSuggestions && filteredSuggestions.length > 0 && (
         <div className=" flex flex-col  flex-nowrap items-center justify-start">
-          <ul className="absolute z-10 pt-8 w-3/5 2xl:w-1/4  top-5 md:top-10  rounded-b-xl bg-white 2xl:text-lg text-sm">
+          <ul className="absolute z-10 pt-8 w-3/5 2xl:w-1/4  top-9 md:top-10  rounded-b-xl bg-white 2xl:text-lg text-sm">
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={index}

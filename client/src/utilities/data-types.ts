@@ -26,11 +26,20 @@ export type Outcome = {
   price: number;
 };
 
+export type OverUnderOdds = [
+  { name: string; odds: number },
+  { name: string; odds: number }
+];
+
 export type Event = {
   commenceTime: string;
   outcomes: [
     { name: string; moneyline: number },
     { name: string; moneyline: number }
+  ];
+  overUnderOdds: [
+    { name: string; overUnderOdds: number },
+    { name: string; overUnderOdds: number }
   ];
 };
 

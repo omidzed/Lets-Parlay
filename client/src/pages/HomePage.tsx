@@ -6,16 +6,16 @@ import { useFetchEvents } from './useFetchEvents';
 
 export const HomePage = () => {
   const [inputValue, setInputValue] = useState<string | undefined>('');
-  const { suggestions, events } = useFetchEvents();
+  const { events } = useFetchEvents();
   const filteredEvents = events?.filter((event) =>
     event.outcomes.some((outcome) =>
-      outcome.name.toLowerCase().includes(inputValue.toLowerCase())
+      outcome.name?.toLowerCase().includes(inputValue.toLowerCase())
     )
   );
 
   return (
     <div>
-      <SearchBox setInputValue={setInputValue} suggestions={suggestions} />
+      <SearchBox setInputValue={setInputValue} />
       <EventsCarousel />
       <div className="2xl:w-[55%] w-10/12 mx-auto">
         <OddsTable filteredEvents={filteredEvents} />

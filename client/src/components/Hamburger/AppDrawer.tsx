@@ -41,7 +41,7 @@ export const AppDrawer = ({
 
   return (
     <div
-      className="fixed top-0 w-52 md:w-80 h-screen z-50 bg-[#171718]
+      className="fixed top-0 left-0 w-52 md:w-80 h-screen z-50 bg-[#171718]
        transition-transform duration-200 ease-in-out">
       <div className={'drawer-container'}>
         <div className={isOpen ? 'hidden' : 'hamburger-container'}></div>

@@ -54,7 +54,6 @@ export const NavBar = () => {
       const tokenData = getToken();
       if (tokenData?.user.funds) {
         setFunds(tokenData?.user.funds);
-        console.log('the nav funds effects ran.');
       }
     } else {
       setFunds(0); // reducing funds to zero if not authenticated

@@ -1,4 +1,4 @@
-export type MoneyLineOdds = {
+export type Odds = {
   favorite: number; // Negative number for favorites
   underdog: number; // Positive number for underdogs
 };

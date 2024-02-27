@@ -27,7 +27,6 @@ const tokenKey = 'react-context-jwt';
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [funds, setFunds] = useState<number | undefined>(() => {
     const tokenData = getToken();
-    console.log(tokenData);
     return tokenData ? parseFloat(tokenData.user.funds.toString()) : undefined;
   });
   const [token, setToken] = useState<string | undefined>(undefined);
@@ -69,7 +68,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setUser(a.user);
       setToken(a.token);
     }
-  }, [setToken]);
+  }, [setToken, setUser]);
 
   useEffect(() => {
     const auth = localStorage.getItem(tokenKey);
@@ -79,7 +78,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setToken(parsedAuth.token);
       setFunds(parsedAuth.user.funds);
     }
-  }, []);
+  }, [setToken, setUser, setFunds]);
 
   return (
     <AppContext.Provider

@@ -1,5 +1,5 @@
 import type { Event } from '../utilities/data-types';
-import { type FormEvent, useState, useContext } from 'react';
+import { type FormEvent, useState, useContext, useMemo } from 'react';
 import { calculateWinnings } from '../utilities/payout-calculator';
 import { AppContext } from './AppContext';
 import CurrencyInput from 'react-currency-input-field';
@@ -7,7 +7,8 @@ import { useModal } from './useModal';
 
 type BetFormProps = {
   event: Event;
-  index: number;
+  outcomeIndex: number;
+  overUnderIndex: number;
   pick: string;
   dateTime: string;
   completed: boolean;
@@ -15,7 +16,8 @@ type BetFormProps = {
 
 export const BetForm = ({
   event,
-  index,
+  outcomeIndex,
+  overUnderIndex,
   pick,
   dateTime,
   completed,
@@ -83,21 +85,57 @@ export const BetForm = ({
     }
   };
 
-  const selectedOutcome = event?.outcomes[index];
+  const selectedOutcome = event?.outcomes[outcomeIndex];
+  const selectedOverUnder = event?.overUnderOdds[overUnderIndex];
   const betOdds = selectedOutcome?.moneyline ?? 0;
-  const winnings =
-    selectedOutcome && effectiveBetAmount !== undefined
-      ? (
-          calculateWinnings(betOdds, effectiveBetAmount) + effectiveBetAmount
-        ).toFixed(2)
-      : '0.00';
+  const overUnderOdds = selectedOverUnder?.overUnderOdds ?? 0;
+
+  const winningsOver = useMemo(
+    () =>
+      selectedOverUnder && effectiveBetAmount !== undefined
+        ? (
+            calculateWinnings(overUnderOdds, effectiveBetAmount) +
+            effectiveBetAmount
+          ).toFixed(2)
+        : '0.00',
+    [selectedOverUnder, overUnderOdds, effectiveBetAmount]
+  );
+
+  const winningsUnder = useMemo(
+    () =>
+      selectedOverUnder && effectiveBetAmount !== undefined
+        ? (
+            calculateWinnings(overUnderOdds, effectiveBetAmount) +
+            effectiveBetAmount
+          ).toFixed(2)
+        : '0.00',
+    [overUnderOdds, selectedOverUnder, effectiveBetAmount]
+  );
+
+  const winnings = useMemo(
+    () =>
+      selectedOutcome && effectiveBetAmount !== undefined
+        ? (
+            calculateWinnings(betOdds, effectiveBetAmount) + effectiveBetAmount
+          ).toFixed(2)
+        : '0.00',
+    [selectedOutcome, betOdds, effectiveBetAmount]
+  );
 
   return (
     <div className="flex-col justify-center items-center  py-10 pb-6 px-12 md:pr-12 md:pl-12">
       <div className="flex justify-center gap-2">
-        <span>{selectedOutcome.name}</span>
+        <span>
+          {selectedOutcome?.name ?? selectedOverUnder?.name ?? 'Unknown'}
+        </span>
         <span className="font-bold">
-          {betOdds > 0 ? `+${betOdds}` : betOdds}
+          {selectedOverUnder
+            ? overUnderOdds > 0
+              ? `+${overUnderOdds}`
+              : overUnderOdds.toString()
+            : betOdds > 0
+            ? `+${betOdds}`
+            : betOdds.toString()}
         </span>
       </div>
       <div className="flex-col">
@@ -127,7 +165,13 @@ export const BetForm = ({
             <div className="w-3"> </div>
             <div className="flex">
               <div className="ml-1">$</div>
-              <div className="pl-2">{winnings}</div>
+              <div className="pl-2">
+                {winningsOver !== undefined
+                  ? winningsOver
+                  : winningsUnder !== undefined
+                  ? winningsUnder
+                  : winnings}
+              </div>
             </div>
           </div>
           <input
