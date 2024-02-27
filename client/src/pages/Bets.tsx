@@ -61,14 +61,17 @@ export const Bets = () => {
   }, []);
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div className="mx-auto w-2/5 text-3xl mt-28">{error}</div>;
+  if (error)
+    return (
+      <div className="mx-auto w-[95%] text-lg md:text-3xl mt-28">{error}</div>
+    );
 
   const styling =
-    'flex gap-8 text-odds md:text-xl justify-between items-center ';
+    'flex gap-6 text-smallest md:text-xl justify-between items-center ';
 
   return (
     <div className="flex flex-col p-6 gap-4 justify-center">
-      <p className="flex justify-center text-white text-tiny px-10 md:px-40 md:text-bigger">
+      <p className="flex justify-center text-white text-thead px-6 md:px-40 md:text-bigger">
         If you or someone you know has a gambling problem and wants help, call
         1-800-GAMBLER.
       </p>
@@ -77,11 +80,11 @@ export const Bets = () => {
           No recorded bets at the moment.
         </p>
       )}
-      <ul className="flex justify-between gap-14  px-20 flex-wrap">
+      <ul className="flex justify-between gap-6  px-20 flex-wrap">
         {bets.map((bet) => (
           <li
             key={bet.id}
-            className="flex flex-col text-white text-sm  w-96  p-6 rounded-md bg-[#212123e3] mt-8">
+            className="flex flex-col text-white text-sm w-120 md:w-96  p-6 rounded-md bg-[#212123e3] mt-8">
             <div className={styling}>
               <div className={styling}> Amount: </div>
               <div className={styling}>
