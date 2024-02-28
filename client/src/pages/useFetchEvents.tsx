@@ -12,7 +12,7 @@ export const useFetchEvents = () => {
       setLoading(true);
       try {
         const targetUrl = encodeURIComponent(
-          `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=cb8e63bb6c42d3df0521346f6a068600`
+          `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=a7608e9f7786dc5cbe1ab311b121dda2`
         );
         const response = await fetch(
           'https://lfz-cors.herokuapp.com/?url=' + targetUrl
@@ -38,6 +38,7 @@ export const useFetchEvents = () => {
           };
         });
         setEvents(filteredData);
+        console.log(filteredData);
       } catch (err) {
         setError(
           err instanceof Error ? err : new Error('Failed to fetch data')
@@ -47,7 +48,11 @@ export const useFetchEvents = () => {
       }
     };
     fetchData();
-  }, []);
+    const interval = setInterval(fetchData, 86400 * 1000);
+
+    // Cleanup on unmount
+    return () => clearInterval(interval);
+  }, []); // Empty dependency array ensures this effect runs only on mount and unmount
 
   useEffect(() => {
     const extractedNames: string[] = [];

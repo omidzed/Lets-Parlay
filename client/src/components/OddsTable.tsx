@@ -4,13 +4,14 @@ import { BetForm } from './BetForm';
 import { useModal } from './useModal';
 import type { Event } from '../utilities/data-types';
 import { formatLongName } from '../utilities/format-names';
+import { AlertModal } from './AlertModal';
 
 type Props = {
   filteredEvents: Event[];
 };
 
 export const OddsTable = ({ filteredEvents }: Props) => {
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
 
   const betSlip = (
     event: Event,
@@ -18,7 +19,13 @@ export const OddsTable = ({ filteredEvents }: Props) => {
     overUnder: 'O 2.5' | 'U 2.5' | ''
   ) => {
     if (!hasToken()) {
-      alert('You must be logged in to place bets!');
+      openModal(
+        <AlertModal
+          message="You must be logged in to place bets!"
+          onClose={closeModal} // Passing a function to close the modal
+        />,
+        'Log in alert!'
+      );
       return;
     }
 
