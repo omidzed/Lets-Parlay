@@ -1,16 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getToken } from '../utilities/token-storage';
 import { uid } from 'react-uid';
-
-type Bet = {
-  id: string;
-  eventId: string;
-  betType: string;
-  betAmount: number;
-  pick: string;
-  completed: boolean;
-  dateTime: string;
-};
+import type { Bet } from '../utilities/data-types';
 
 export const Bets = () => {
   const [bets, setBets] = useState<Bet[]>([]);
@@ -44,6 +35,7 @@ export const Bets = () => {
         pick: bet.pick,
         dateTime: bet.dateTime,
         completed: bet.completed,
+        timeStamp: bet.timeStamp,
       }));
       setBets(formattedBets);
     } catch (err) {
@@ -55,7 +47,6 @@ export const Bets = () => {
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
     fetchBets();
   }, []);
@@ -65,13 +56,14 @@ export const Bets = () => {
     return (
       <div className="mx-auto w-[95%] text-lg md:text-3xl mt-28">{error}</div>
     );
+  //const timeStamp = new Date().toISOString();
 
   const styling =
     'flex gap-6 text-smallest md:text-xl justify-between items-center ';
 
   return (
     <div className="flex flex-col p-6 gap-4 justify-center">
-      <p className="flex justify-center text-white text-thead px-6 md:px-40 md:text-bigger">
+      <p className="flex justify-center text-white text-smallest px-4 md:px-40 md:text-bigger">
         If you or someone you know has a gambling problem and wants help, call
         1-800-GAMBLER.
       </p>
@@ -80,33 +72,32 @@ export const Bets = () => {
           No recorded bets at the moment.
         </p>
       )}
-      <ul className="flex justify-between gap-6  px-20 flex-wrap">
+      <ul className="flex justify-start md:gap-10 md:px-20 mx-10 md:mx-20 flex-wrap">
         {bets.map((bet) => (
           <li
             key={bet.id}
             className="flex flex-col text-white text-sm w-120 md:w-96  p-6 rounded-md bg-[#212123e3] mt-8">
             <div className={styling}>
-              <div className={styling}> Amount: </div>
-              <div className={styling}>
-                <p>$</p>
-                {bet.betAmount}
-              </div>
+              <div className={styling}> Bet time/date: </div>
+              <div className={styling}>{bet.timeStamp}</div>
             </div>
             <div className={styling}>
-              <div className={styling}> Bet Type:</div>
-              <div className={styling}>{bet.betType}</div>
+              <div className={styling}> Amount: </div>
+              <div className={styling}>${bet.betAmount}</div>
             </div>
             <div className={styling}>
               <div className={styling}> Pick:</div>
               <div className={styling}>{bet.pick}</div>
             </div>
             <div className={styling}>
-              <div className={styling}> Date/Time:</div>
+              <div className={styling}> Fight Time:</div>
               <div className={styling}>{bet.dateTime}</div>
             </div>
             <div className={styling}>
-              <div className={styling}> Completed:</div>
-              <div className={styling}>{bet.completed.toString()}</div>
+              <div className={styling}>Status:</div>
+              <div className={styling}>
+                {bet.completed === false ? 'Closed' : 'Open'}
+              </div>
             </div>
           </li>
         ))}
@@ -114,5 +105,3 @@ export const Bets = () => {
     </div>
   );
 };
-
-//

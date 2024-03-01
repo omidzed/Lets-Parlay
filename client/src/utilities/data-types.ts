@@ -18,15 +18,15 @@ export type Bookmaker = {
 export type Market = {
   key: string;
   last_update: string;
-  outcomes: Outcome[];
+  outcomes: MoneyLine[];
 };
 
-export type Outcome = {
+export type MoneyLine = {
   name: string;
   price: number;
 };
 
-export type OverUnderOdds = [
+export type OverUnder = [
   { name: string; odds: number },
   { name: string; odds: number }
 ];
@@ -56,4 +56,16 @@ export type IconType = {
 export type Money = {
   amount: number;
   currency: string;
+};
+
+export type BetType = MoneyLine | OverUnder;
+
+export type Bet = {
+  id: string;
+  eventId: string;
+  betAmount: number;
+  pick: string;
+  completed: boolean;
+  dateTime: string;
+  timeStamp: string;
 };

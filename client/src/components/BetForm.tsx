@@ -33,6 +33,7 @@ export const BetForm = ({
   };
 
   const effectiveBetAmount = betAmount ?? 0;
+  const timeStamp = new Date().toISOString();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -52,6 +53,7 @@ export const BetForm = ({
       headers,
       body: JSON.stringify({
         ...userData,
+        timeStamp,
         pick,
         dateTime,
         completed,
