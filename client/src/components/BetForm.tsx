@@ -4,6 +4,7 @@ import { calculateWinnings } from '../utilities/payout-calculator';
 import { AppContext } from './AppContext';
 import CurrencyInput from 'react-currency-input-field';
 import { useModal } from './useModal';
+import { AlertModal } from './AlertModal';
 
 type BetFormProps = {
   event: Event;
@@ -25,7 +26,7 @@ export const BetForm = ({
   const [isLoading, setIsLoading] = useState(false);
   const [betAmount, setBetAmount] = useState<number>(0);
   const { token, funds, setFunds } = useContext(AppContext);
-  const { closeModal } = useModal();
+  const { closeModal, openModal } = useModal();
 
   const handleChange = (value: string | undefined) => {
     const amountNumber = parseFloat(value || '0'); // Default to '0' if value is undefined
@@ -62,11 +63,15 @@ export const BetForm = ({
 
     try {
       if (effectiveBetAmount > funds) {
-        alert(
-          'Your bet amount cannot exceed your funds levels, please try again or replenish funds!'
+        openModal(
+          <AlertModal
+            message="Your bet amount cannot exceed your funds levels, please try again or replenish funds!"
+            onClose={closeModal}
+          />,
+          'Log in alert!'
         );
+
         setIsLoading(false);
-        return;
       }
       const res = await fetch('/api/bets', req);
       if (!res.ok) {
@@ -77,7 +82,13 @@ export const BetForm = ({
 
       localStorage.setItem('userData', JSON.stringify(userData));
 
-      alert('Bet placed successfully!');
+      openModal(
+        <AlertModal
+          message="You bet was placed successfully!"
+          onClose={closeModal}
+        />,
+        'Log in alert!'
+      );
     } catch (err) {
       console.error('Error placing bet:', err);
       alert(`Error placing bet: ${err}`);

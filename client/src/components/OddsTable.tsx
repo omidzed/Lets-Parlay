@@ -22,7 +22,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
       openModal(
         <AlertModal
           message="You must be logged in to place bets!"
-          onClose={closeModal} // Passing a function to close the modal
+          onClose={closeModal}
         />,
         'Log in alert!'
       );
@@ -97,12 +97,12 @@ export const OddsTable = ({ filteredEvents }: Props) => {
               <span className={style.date}>{formattedDateTime}</span>
               <span
                 onClick={() => handleClick(nameOne)}
-                className="flex whitespace-nowrap justify-center items-center text-xs md:text-custom h-[28%] cursor-pointer">
+                className="flex whitespace-nowrap justify-center items-center text-tiny md:text-custom h-[28%] cursor-pointer">
                 {nameOne}
               </span>
               <span
                 onClick={() => handleClick(nameTwo)}
-                className="flex whitespace-nowrap justify-center items-center text-xs md:text-custom  h-[33%] cursor-pointer">
+                className="flex whitespace-nowrap justify-center items-center text-tiny md:text-custom  h-[33%] cursor-pointer">
                 {nameTwo}
               </span>
             </div>
