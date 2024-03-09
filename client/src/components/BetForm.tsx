@@ -1,10 +1,11 @@
 import type { Event } from '../utilities/data-types';
-import { type FormEvent, useState, useContext, useMemo } from 'react';
+import { type FormEvent, useState, useContext } from 'react';
 import { calculateWinnings } from '../utilities/payout-calculator';
 import { AppContext } from './AppContext';
 import CurrencyInput from 'react-currency-input-field';
 import { useModal } from './useModal';
 import { AlertModal } from './AlertModal';
+//import { formatLongName } from '../utilities/format-names';
 
 type BetFormProps = {
   event: Event;
@@ -68,8 +69,9 @@ export const BetForm = ({
             message="Your bet amount cannot exceed your funds levels, please try again or replenish funds!"
             onClose={closeModal}
           />,
-          'Log in alert!'
+          'Need more funds to cover bet!'
         );
+        console.log('a');
 
         setIsLoading(false);
       }
@@ -87,8 +89,9 @@ export const BetForm = ({
           message="You bet was placed successfully!"
           onClose={closeModal}
         />,
-        'Log in alert!'
+        ''
       );
+      console.log('b');
     } catch (err) {
       console.error('Error placing bet:', err);
       alert(`Error placing bet: ${err}`);
@@ -97,55 +100,52 @@ export const BetForm = ({
       closeModal();
     }
   };
-
   const selectedOutcome = event?.outcomes[outcomeIndex];
   const selectedOverUnder = event?.overUnderOdds[overUnderIndex];
   const betOdds = selectedOutcome?.moneyline ?? 0;
   const overUnderOdds = selectedOverUnder?.overUnderOdds ?? 0;
 
-  const winningsOver = useMemo(
-    () =>
-      selectedOverUnder && effectiveBetAmount !== undefined
-        ? (
-            calculateWinnings(overUnderOdds, effectiveBetAmount) +
-            effectiveBetAmount
-          ).toFixed(2)
-        : '0.00',
-    [selectedOverUnder, overUnderOdds, effectiveBetAmount]
-  );
+  const calculatePayout = (odds: number, amount: number) =>
+    (calculateWinnings(odds, amount) + amount).toFixed(2);
 
-  const winningsUnder = useMemo(
-    () =>
-      selectedOverUnder && effectiveBetAmount !== undefined
-        ? (
-            calculateWinnings(overUnderOdds, effectiveBetAmount) +
-            effectiveBetAmount
-          ).toFixed(2)
-        : '0.00',
-    [overUnderOdds, selectedOverUnder, effectiveBetAmount]
-  );
+  const winningsOver = selectedOverUnder
+    ? calculatePayout(overUnderOdds, effectiveBetAmount)
+    : '0.00';
+  const winningsUnder = selectedOverUnder
+    ? calculatePayout(overUnderOdds, effectiveBetAmount)
+    : '0.00';
+  const winnings = selectedOutcome
+    ? calculatePayout(betOdds, effectiveBetAmount)
+    : '0.00';
 
-  const winnings = useMemo(
-    () =>
-      selectedOutcome && effectiveBetAmount !== undefined
-        ? (
-            calculateWinnings(betOdds, effectiveBetAmount) + effectiveBetAmount
-          ).toFixed(2)
-        : '0.00',
-    [selectedOutcome, betOdds, effectiveBetAmount]
-  );
+  // Determine the payout based on the type of bet
+  const payout =
+    winningsOver !== '0.00'
+      ? winningsOver
+      : winningsUnder !== '0.00'
+      ? winningsUnder
+      : winnings;
+
+  // const payout =
+  //   winningsOver !== undefined
+  //     ? winningsOver
+  //     : winningsUnder !== undefined
+  //     ? winningsUnder
+  //     : winnings;
+
+  console.log('payout', payout);
 
   return (
     <>
-      {/* <button className="absolute top-2 right-20 text-lg hover:text-white ">
+      <button className="absolute top-2 right-20 text-lg hover:text-white ">
         Parlay
-      </button> */}
-      <div className="flex-col justify-center items-center  py-10 pb-6 px-12 md:pr-12 md:pl-12">
+      </button>
+      <div className="flex-col justify-center items-center  py-10 pb-6 md:mx-20">
         <div className="flex justify-center gap-2">
-          <span>
+          <span className="flex ">
             {selectedOutcome?.name ?? selectedOverUnder?.name ?? 'Unknown'}
           </span>
-          <span className="font-bold">
+          <span className="font-bold w-1/2">
             {selectedOverUnder
               ? overUnderOdds > 0
                 ? `+${overUnderOdds}`
@@ -161,15 +161,13 @@ export const BetForm = ({
             onSubmit={handleSubmit}>
             <input type="hidden" name="betType" value="moneyline" />
             <input type="hidden" name="completed" value="false" />
-            <div className="flex w-full justify-around itesm-center ml-2 mt-6 mb-2">
-              <label className="font-bold">Amount : </label>
-              <div className="w-2"> </div>
-              <div>
+            <div className="flex justify-center items-center w-full mt-6 mb-2">
+              <div className="font-bold w-1/3">Amount:</div>
+              <div className="w-1/3">
                 <span className="mr-1">$</span>
                 <CurrencyInput
-                  className="bg-blue-200 rounded-md ml-1 pl-1 w-16"
+                  className="bg-blue-200 rounded-md pl-1 w-16"
                   name="betAmount"
-                  placeholder="0.00"
                   defaultValue={0}
                   decimalsLimit={2}
                   onValueChange={handleChange}
@@ -178,17 +176,11 @@ export const BetForm = ({
             </div>
 
             <div className="flex ml-4">
-              <div className="font-bold whitespace-nowrap">Payout :</div>
+              <div className="font-bold whitespace-nowrap">Payout:</div>
               <div className="w-3"> </div>
               <div className="flex">
                 <div className="ml-1">$</div>
-                <div className="pl-2">
-                  {winningsOver !== undefined
-                    ? winningsOver
-                    : winningsUnder !== undefined
-                    ? winningsUnder
-                    : winnings}
-                </div>
+                <div className="pl-2">{payout}</div>
               </div>
             </div>
             <input
