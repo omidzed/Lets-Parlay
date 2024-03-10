@@ -1087,7 +1087,6 @@ export const resultsData = [
     weather: null,
   },
   {
-    game_id: '32136-13800-2024-02',
     score_home_total: 0,
     score_away_total: 1,
     clock: '5:00',
