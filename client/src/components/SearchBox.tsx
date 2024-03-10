@@ -86,11 +86,11 @@ export const SearchBox = ({ setInputValue }: SearchBoxProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center relative">
-      <div className="relative w-3/5 2xl:w-1/4">
+      <div className="relative w-3/5 lg:w-1/3 2xl:w-1/4">
         <FaMagnifyingGlass className="absolute z-20 md:text-bigger text-thead left-4 top-5 [#2E2E31] text-zinc-500" />
         <input
-          className="w-full absolute-50 md:bg-contain text-black
-           p-2 text-sm 2xl:text-lg pl-10 md:pl-16 py-3 rounded-2xl focus:outline-none"
+          className="w-full absolute-50 md:bg-contain text-black lg:text-custom
+           p-2  text-sm 2xl:text-lg pl-10 md:pl-16 py-3 lg:rounded-xl 2xl:rounded-2xl focus:outline-none"
           placeholder={placeholder}
           onBlur={handleBlur}
           onChange={onChange}
@@ -101,7 +101,7 @@ export const SearchBox = ({ setInputValue }: SearchBoxProps) => {
       </div>
       {showSuggestions && filteredSuggestions.length > 0 && (
         <div className=" flex flex-col  flex-nowrap items-center justify-start">
-          <ul className="absolute z-10 pt-8 w-3/5 2xl:w-1/4  top-9 md:top-10  rounded-b-xl bg-white 2xl:text-lg text-sm">
+          <ul className="absolute z-10 pt-2 w-3/5 lg:w-1/3 2xl:w-1/4  top-10 md:top-10  rounded-b-xl bg-white lg:text-custom 2xl:text-lg text-sm">
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={index}

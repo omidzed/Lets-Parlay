@@ -92,11 +92,11 @@ export const NavBar = () => {
     s: 'md:text-4xl md:flex md:items-center mr-1 font-light ',
     parlay: 'text-blue-500',
     buttonsWrapper: 'flex  items-center gap-1 md:gap-3 mr-1 md:mr-0',
-    join: 'xl:text-custom text-tiny tracking-wider p-1 bg-red-700 rounded-sm md:rounded-md px-2 md:px-7 md:py-2',
+    join: 'lg:text-custom xl:text-custom text-tiny tracking-wider p-1 bg-red-700 rounded-sm md:rounded-md px-2 md:px-7 md:py-2',
     login:
-      'xl:text-custom flex gap-1 text-tiny p-1 bg-blue-800 rounded-sm md:rounded-md px-2 md:px-6 md:py-2',
+      'lg:text-custom xl:text-custom flex gap-1 text-tiny p-1 bg-blue-800 rounded-sm md:rounded-md px-2 md:px-6 md:py-2',
     logout:
-      'xl:text-custom  text-tiny flex 2xl:gap-2 gap-1 p-1 mr-2 md:mr-0 border border-zinc-400 rounded-sm md:rounded-md bg-black px-2 md:px-6 md:py-2',
+      'lg:text-custom xl:text-custom  text-tiny flex 2xl:gap-2 gap-1 p-1 mr-2 md:mr-0 border border-zinc-400 rounded-sm md:rounded-md bg-black px-2 md:px-6 md:py-2',
     list: 'flex md:justify-end md:items-end gap-0 md:mr-6 mr-2 flex-nowrap',
     userName: 'text-sm leading-2 md:text-2xl mr-1 md:mr-2',
     funds: 'text-sm leading-2 md:text-2xl text-[#54D338] cursor-pointer',
