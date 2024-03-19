@@ -36,8 +36,9 @@ The primary purpose of our app is to provide a fun, risk-free environment for MM
 <br />
 <div>
   <a href="https://github.com/omidzed/lets-parlay">
-    <img src="letsparlay.png" alt="Logo" width="300" height="60">
-    <img src="letsparlay1.png" alt="Logo" width="300" height="60">
+    
+  <img src="letsparlay1.png" alt="Logo" width="300" height="60">
+    
   </a>
 
 <h3 align="center">project_title</h3>
