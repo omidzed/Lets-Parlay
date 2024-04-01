@@ -55,13 +55,14 @@ export const useFetchEvents = () => {
   }, []); // Empty dependency array ensures this effect runs only on mount and unmount
 
   useEffect(() => {
-    const extractedNames: string[] = [];
+    const extractedNames: Set<string> = new Set();
     events.forEach((event) => {
       const fighterOne = event.outcomes[0].name;
       const fighterTwo = event.outcomes[1].name;
-      extractedNames.push(fighterOne, fighterTwo);
+      extractedNames.add(fighterOne);
+      extractedNames.add(fighterTwo);
     });
-    setSuggestions(extractedNames);
+    setSuggestions(Array.from(extractedNames));
   }, [events]);
 
   return { events, loading, error, suggestions };

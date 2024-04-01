@@ -63,19 +63,26 @@ export const BetForm = ({
     };
 
     try {
+      setIsLoading(true);
+      console.log(effectiveBetAmount, funds);
       if (effectiveBetAmount > funds) {
+        console.log('Opening insufficient funds modal');
         openModal(
           <AlertModal
-            message="Your bet amount cannot exceed your funds levels, please try again or replenish funds!"
-            onClose={closeModal}
+            message="Your bet amount cannot exceed your funds, please try again or replenish funds!"
+            onClose={() => {
+              // Close the modal and stop loading when the modal is closed.
+              setIsLoading(false);
+              closeModal();
+            }}
           />,
           'Need more funds to cover bet!'
         );
-        console.log('a');
 
         setIsLoading(false);
       }
       const res = await fetch('/api/bets', req);
+      console.log('Fetch response:', res);
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
       }
@@ -89,15 +96,13 @@ export const BetForm = ({
           message="You bet was placed successfully!"
           onClose={closeModal}
         />,
-        ''
+        'Successful Bet'
       );
-      console.log('b');
     } catch (err) {
       console.error('Error placing bet:', err);
       alert(`Error placing bet: ${err}`);
     } finally {
       setIsLoading(false);
-      closeModal();
     }
   };
   const selectedOutcome = event?.outcomes[outcomeIndex];
@@ -125,13 +130,6 @@ export const BetForm = ({
       : winningsUnder !== '0.00'
       ? winningsUnder
       : winnings;
-
-  // const payout =
-  //   winningsOver !== undefined
-  //     ? winningsOver
-  //     : winningsUnder !== undefined
-  //     ? winningsUnder
-  //     : winnings;
 
   console.log('payout', payout);
 

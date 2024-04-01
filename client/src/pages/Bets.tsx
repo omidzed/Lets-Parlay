@@ -62,7 +62,7 @@ export const Bets = () => {
     'flex gap-6 text-smallest md:text-xl justify-between items-center ';
 
   return (
-    <div className="flex flex-col p-6 gap-4 justify-center">
+    <div className="flex flex-col p-2 gap-4 justify-center">
       <p className="flex justify-center text-white text-smallest px-4 md:px-40 md:text-bigger">
         If you or someone you know has a gambling problem and wants help, call
         1-800-GAMBLER.

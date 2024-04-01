@@ -22,6 +22,7 @@
     "deploy": "git push --force origin main:pub"
   },
   "dependencies": {
+    "framer-motion": "^11.0.8",
     "husky": "^8.0.3",
     "npm-run-all": "^4.1.5",
     "react-daisyui": "^5.0.0",
