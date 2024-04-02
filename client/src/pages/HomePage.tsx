@@ -3,6 +3,7 @@ import { OddsTable } from '../components/OddsTable';
 import { useState } from 'react';
 import { SearchBox } from '../components/SearchBox';
 import { useFetchEvents } from './useFetchEvents';
+import ScrollToTop from '../components/ScrollToTop';
 
 export const HomePage = () => {
   const [inputValue, setInputValue] = useState<string | undefined>('');
@@ -18,8 +19,9 @@ export const HomePage = () => {
       <SearchBox setInputValue={setInputValue} />
       <EventsCarousel />
       <div className="2xl:w-[55%] w-10/12 mx-auto">
-        <OddsTable filteredEvents={filteredEvents} />
+        <OddsTable filteredEvents={filteredEvents} />{' '}
       </div>
+      <ScrollToTop />
     </div>
   );
 };

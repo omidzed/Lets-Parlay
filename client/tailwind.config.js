@@ -16,6 +16,7 @@ export default {
       fontSize: {
         rounds: '.5rem',
         tiny: '0.6rem',
+        answer: '0.7rem',
         smallest: '.9rem',
         thead: '1rem',
         custom: '1.1rem',
