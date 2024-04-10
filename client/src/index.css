@@ -27,3 +27,11 @@ input::placeholder {
   color: #5a5a5a;
   opacity: 1;
 }
+
+.event-indicator {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: black;
+  margin: auto;
+}

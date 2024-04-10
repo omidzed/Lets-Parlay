@@ -1,11 +1,11 @@
 import { Link, Outlet } from 'react-router-dom';
 import { getToken, removeToken, hasToken } from '../utilities/token-storage';
-import { useModal } from './useModal';
-import { useUser } from './useUser';
+import { useModal } from '../hooks/useModal';
+import { useUser } from '../hooks/useUser';
 import { AuthForm } from './AuthForm';
 import { useState, useEffect, useContext } from 'react';
-import { AppDrawer } from './Hamburger/AppDrawer';
-import { Overlay } from './Hamburger/Overlay';
+import { AppDrawer } from './Menu/AppDrawer';
+import { Overlay } from './Menu/Overlay';
 import { IoMenu } from 'react-icons/io5';
 import { MenuItem } from '../utilities/data-types';
 import { IoCalendarNumberOutline } from 'react-icons/io5';
@@ -82,13 +82,13 @@ export const NavBar = () => {
   }).format(funds);
 
   const styles = {
-    nav: 'flex justify-between p-2 py-4 md:py-8 md:pr-20 bg-[#1F1F21] mb-6 pr-2',
+    nav: 'flex justify-between p-2 py-4 md:pr-20 bg-[#1F1F21] mb-6 pr-2',
     appName:
-      'text-lg italic flex ml-2 md:text-3xl md:ml-4 lg:text-4xl lg:ml-10 xl:ml-16 2xl:text-5xl 2xl:ml-16 cursor-pointer md:px-10',
+      'text-lg italic ml-2 flex md:text-2xl md:ml-4 lg:text-2xl lg:ml-10 xl:ml-10 2xl:text-5xl cursor-pointer md:px-10',
     let: 'text-red-600 italic mr-1',
-    s: 'md:text-3xl lg:text-4xl 2xl:text-5xl md:flex md:items-center mr-1 font-light ',
-    parlay: 'text-blue-500 md:text-3xl lg:text-4xl 2xl:text-5xl',
-    buttonsWrapper: 'flex  items-center gap-1 md:gap-3 mr-1 md:mr-0',
+    s: 'mr-1 font-light ',
+    parlay: 'text-blue-500',
+    buttonsWrapper: 'flex items-center gap-1 md:gap-3 mr-1 md:mr-0',
     join: 'lg:text-custom xl:text-custom text-tiny tracking-wider p-1 bg-red-700 rounded-sm md:rounded-md px-2 md:px-7 md:py-2',
     login:
       'lg:text-custom xl:text-custom flex gap-1 text-tiny p-1 bg-blue-800 rounded-sm md:rounded-md px-2 md:px-6 md:py-2',
@@ -156,8 +156,7 @@ export const NavBar = () => {
               JOIN
             </button>
             <button className={styles.login} onClick={handleLogin}>
-              <div className="className">LOG </div>
-              <div className="className">IN</div>
+              <div className="className">SIGN IN </div>
             </button>
           </div>
         )}

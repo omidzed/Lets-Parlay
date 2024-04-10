@@ -12,7 +12,7 @@ export const useFetchEvents = () => {
       setLoading(true);
       try {
         const targetUrl = encodeURIComponent(
-          `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=92e9e45ffad129163005d31aa7443f13`
+          `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=fd7785f87ac570bb74ff201069a55d1f`
         );
         const response = await fetch(
           'https://lfz-cors.herokuapp.com/?url=' + targetUrl

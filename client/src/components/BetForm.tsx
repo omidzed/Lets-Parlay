@@ -3,7 +3,7 @@ import { type FormEvent, useState, useContext } from 'react';
 import { calculateWinnings } from '../utilities/payout-calculator';
 import { AppContext } from './AppContext';
 import CurrencyInput from 'react-currency-input-field';
-import { useModal } from './useModal';
+import { useModal } from '../hooks/useModal';
 import { AlertModal } from './AlertModal';
 //import { formatLongName } from '../utilities/format-names';
 

@@ -1,6 +1,6 @@
 import { useEffect, ChangeEvent, useState, KeyboardEvent } from 'react';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
-import { useFetchEvents } from '../pages/useFetchEvents';
+import { useFetchEvents } from '../hooks/useFetchEvents';
 
 type SearchBoxProps = {
   setInputValue: (value: string) => void;

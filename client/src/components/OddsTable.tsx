@@ -1,7 +1,7 @@
 import { hasToken } from '../utilities/token-storage';
 import { formatDateTime } from '../utilities/format-date-time';
 import { BetForm } from './BetForm';
-import { useModal } from './useModal';
+import { useModal } from '../hooks/useModal';
 import type { Event } from '../utilities/data-types';
 import { formatLongName } from '../utilities/format-names';
 import { AlertModal } from './AlertModal';

@@ -17,4 +17,15 @@ export const authMiddleware = (
   }
   req.user = jwt.verify(token, secret) as Request['user'];
   next();
+
+  try {
+    const decodedToken = jwt.verify(token, secret) as {
+      user: { userId: number; username: string; name: string; funds: number };
+    };
+    // Now, add the entire user object or just the userId to the request object
+    req.user = decodedToken.user;
+    next();
+  } catch (error) {
+    next(new ClientError(401, 'authentication required'));
+  }
 };

@@ -7,9 +7,9 @@ import { ModalProvider } from './components/ModalContext';
 import { Modal } from './components/Modal';
 import { UserProvider } from './components/AppContext';
 import { EventsProvider } from './components/EventsContext';
-import { Rankings } from './components/Rankings';
+import { Rankings } from './components/Menu/Rankings';
 import { FAQ } from './pages/FAQ';
-import { Schedule } from './components/Schedule';
+import { UfcSchedule } from './components/Menu/UfcSchedule';
 
 const App = () => {
   return (
@@ -22,7 +22,7 @@ const App = () => {
             <Route index element={<HomePage />} />
             <Route path="bets" element={<Bets />} />
             <Route path="rankings" element={<Rankings />} />
-            <Route path="schedule" element={<Schedule />} />
+            <Route path="schedule" element={<UfcSchedule />} />
             <Route path="faq" element={<FAQ />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

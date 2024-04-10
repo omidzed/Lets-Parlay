@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode } from 'react';
 import type { Event } from '../utilities/data-types';
-import { useFetchEvents } from '../pages/useFetchEvents';
+import { useFetchEvents } from '../hooks/useFetchEvents';
 
 export type EventsContextValues = {
   events: Event[] | undefined;
