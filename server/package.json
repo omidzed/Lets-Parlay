@@ -27,5 +27,12 @@
       "ts": "node --loader ts-node/esm",
       "js": "node --loader ts-node/esm"
     }
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
