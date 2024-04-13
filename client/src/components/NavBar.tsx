@@ -34,7 +34,6 @@ export const NavBar = () => {
         key={action}
         action={action}
         onSignIn={handleAuthSuccess}
-        closeModal={closeModal}
         toggleAction={() =>
           handleOpenModal(action === 'sign-up' ? 'sign-in' : 'sign-up')
         }
