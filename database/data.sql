@@ -1,11 +1,3 @@
--- Use SQL insert statements to add any
--- starting/dummy data to your database tables
-
--- EXAMPLE:
-
---  insert into "todos"
---    ("task", "isCompleted")
---    values
---      ('Learn to code', false),
---      ('Build projects', false),
---      ('Get a job', false);
+-- Inserting data into rankings for MensPoundForPound
+INSERT INTO "rankings" ("division", "rank", "fighter_name") VALUES ('MensPoundForPound', '1', 'Islam Makhachev');
+INSERT INTO "rankings" ("division", "rank", "fighter_name") VALUES ('MensPoundForPound', '2', 'Jon Jones');
