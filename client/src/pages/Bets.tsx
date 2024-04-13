@@ -70,7 +70,9 @@ export const Bets = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error)
     return (
-      <div className="mx-auto w-[95%] text-lg md:text-3xl mt-28">{error}</div>
+      <div className="mx-auto w-[80%] text-center text-lg md:text-2xl mt-28">
+        {error}
+      </div>
     );
 
   const styling =
