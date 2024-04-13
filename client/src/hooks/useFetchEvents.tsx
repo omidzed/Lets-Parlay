@@ -21,11 +21,13 @@ export const useFetchEvents = () => {
           setEvents(JSON.parse(cachedEvents));
         }
 
-        const targetUrl = encodeURIComponent(
-          `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=aa87abf48ce2a30c0f83cc06897c4e36`
-        );
+        // const targetUrl = encodeURIComponent(
+        //   `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=aa87abf48ce2a30c0f83cc06897c4e36`
+        // );
         const response = await fetch(
-          'https://lfz-cors.herokuapp.com/?url=' + targetUrl
+          `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=aa87abf48ce2a30c0f83cc06897c4e36`
+
+          // 'https://lfz-cors.herokuapp.com/?url=' + targetUrl
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');
