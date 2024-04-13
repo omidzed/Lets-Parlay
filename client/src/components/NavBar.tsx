@@ -84,7 +84,7 @@ export const NavBar = () => {
   const styles = {
     nav: 'flex justify-between p-2 py-4 md:pr-20 bg-[#1F1F21] mb-6 pr-2',
     appName:
-      'text-lg italic ml-2 flex md:text-2xl md:ml-4 lg:text-2xl lg:ml-10 xl:ml-10 2xl:text-5xl cursor-pointer md:px-10',
+      'text-lg italic ml-2 flex md:text-4xl md:ml-4 lg:ml-10 cursor-pointer md:px-10',
     let: 'text-red-600 italic mr-1',
     s: 'mr-1 font-light ',
     parlay: 'text-blue-500',
@@ -126,7 +126,7 @@ export const NavBar = () => {
           <IoMenu
             onClick={() => toggleMenu()}
             color="white"
-            className="ml-2 text-lg md:text-3xl cursor-pointer"
+            className="ml-2 text-lg md:text-3xl cursor-pointer hover:scale-110"
           />
           <Link to={'/'} className={styles.appName}>
             <p className={styles.let}>LET</p>

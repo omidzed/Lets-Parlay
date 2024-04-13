@@ -27,16 +27,32 @@ export const Bets = () => {
         throw new Error(`fetch Error ${res.status}`);
       }
       const betsData = await res.json();
-      const formattedBets: Bet[] = betsData.map((bet: any) => ({
-        id: uid(bet),
-        eventId: bet.eventId,
-        betType: bet.betType,
-        betAmount: bet.betAmount,
-        pick: bet.pick,
-        dateTime: bet.dateTime,
-        completed: bet.completed,
-        timeStamp: bet.timeStamp,
-      }));
+      console.log('betsdata', betsData);
+      const formattedBets: Bet[] = betsData.map((bet) => {
+        const now = new Date();
+        const nowUtc = new Date(
+          Date.UTC(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate(),
+            now.getHours(),
+            now.getMinutes(),
+            now.getSeconds()
+          )
+        );
+        console.log(nowUtc);
+        const isOpen = nowUtc < bet.dateTime;
+        return {
+          id: uid(bet),
+          betType: bet.betType,
+          betAmount: bet.betAmount,
+          pick: bet.pick,
+          dateTime: bet.dateTime,
+          closed: !isOpen,
+          placedAt: bet.placedAt,
+          status: isOpen ? 'Open' : 'Closed',
+        };
+      });
       setBets(formattedBets);
     } catch (err) {
       setError(
@@ -56,17 +72,12 @@ export const Bets = () => {
     return (
       <div className="mx-auto w-[95%] text-lg md:text-3xl mt-28">{error}</div>
     );
-  //const timeStamp = new Date().toISOString();
 
   const styling =
     'flex gap-6 text-smallest md:text-xl justify-between items-center ';
 
   return (
     <div className="flex flex-col p-2 gap-4 justify-center">
-      <p className="flex justify-center text-white text-smallest px-4 md:px-40 md:text-bigger">
-        If you or someone you know has a gambling problem and wants help, call
-        1-800-GAMBLER.
-      </p>
       {bets.length === 0 && (
         <p className="flex justify-center text-xl md:text-4xl py-40 px-2">
           No recorded bets at the moment.
@@ -79,7 +90,7 @@ export const Bets = () => {
             className="flex flex-col text-white text-sm w-120 md:w-96  p-6 rounded-md bg-[#212123e3] mt-8">
             <div className={styling}>
               <div className={styling}> Bet time/date: </div>
-              <div className={styling}>{bet.timeStamp}</div>
+              <div className={styling}>{bet.placedAt}</div>
             </div>
             <div className={styling}>
               <div className={styling}> Amount: </div>
@@ -95,9 +106,7 @@ export const Bets = () => {
             </div>
             <div className={styling}>
               <div className={styling}>Status:</div>
-              <div className={styling}>
-                {bet.completed === false ? 'Closed' : 'Open'}
-              </div>
+              <div className={styling}>{bet.status}</div>
             </div>
           </li>
         ))}

@@ -5,6 +5,8 @@ import { AppContext } from './AppContext';
 import CurrencyInput from 'react-currency-input-field';
 import { useModal } from '../hooks/useModal';
 import { AlertModal } from './AlertModal';
+import { getToken } from '../utilities/token-storage';
+
 //import { formatLongName } from '../utilities/format-names';
 
 type BetFormProps = {
@@ -13,7 +15,7 @@ type BetFormProps = {
   overUnderIndex: number;
   pick: string;
   dateTime: string;
-  completed: boolean;
+  closed: boolean;
 };
 
 export const BetForm = ({
@@ -22,12 +24,13 @@ export const BetForm = ({
   overUnderIndex,
   pick,
   dateTime,
-  completed,
+  closed,
 }: BetFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [betAmount, setBetAmount] = useState<number>(0);
-  const { token, funds, setFunds } = useContext(AppContext);
+  const { funds, setFunds } = useContext(AppContext);
   const { closeModal, openModal } = useModal();
+  const token = getToken();
 
   const handleChange = (value: string | undefined) => {
     const amountNumber = parseFloat(value || '0'); // Default to '0' if value is undefined
@@ -40,25 +43,26 @@ export const BetForm = ({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-
-    const authHeader = token ? `Bearer ${token}` : '';
+    const userId = token ? Number(token.user.userId) : '';
+    const authHeader = token ? `Bearer ${token.token}` : '';
     const headers = {
       'Content-Type': 'application/json',
       ...(token && { Authorization: authHeader }),
     };
-
+    console.log('auth HEADERRRR', authHeader);
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries());
-
+    console.log('userdata', userData);
     const req = {
       method: 'POST',
       headers,
       body: JSON.stringify({
         ...userData,
+        userId,
         timeStamp,
         pick,
         dateTime,
-        completed,
+        closed,
       }),
     };
 
@@ -158,7 +162,7 @@ export const BetForm = ({
             className="flex-col gap-10 items-center my-2 p-2"
             onSubmit={handleSubmit}>
             <input type="hidden" name="betType" value="moneyline" />
-            <input type="hidden" name="completed" value="false" />
+            <input type="hidden" name="closed" value="false" />
             <div className="flex flex-nowrap justify-center mt-6 mb-2">
               <div className="font-bold whitespace-nowrap">Amount: </div>
               <span className="w-[10%]"></span>

@@ -22,6 +22,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "vite-env.d.ts"],
+  "include": ["src", "vite-env.d.ts", "../server/db.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

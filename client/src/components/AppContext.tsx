@@ -23,6 +23,7 @@ type UserProviderProps = {
 };
 
 const tokenKey = 'react-context-jwt';
+console.log('jwt', tokenKey);
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [funds, setFunds] = useState<number | undefined>(() => {

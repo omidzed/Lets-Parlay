@@ -6,13 +6,23 @@ export const useFetchEvents = () => {
   const [loading, setLoading] = useState<boolean | undefined>();
   const [error, setError] = useState<Error | null>(null);
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  // const apiKey = JSON.stringify(import.meta.env.VITE_API_KEY);
+  // const apiKey = import.meta.env.VITE_API_KEY;
+
+  console.log('api', import.meta.env);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        // Load cached data if available
+        const cachedEvents = localStorage.getItem('events');
+        if (cachedEvents) {
+          setEvents(JSON.parse(cachedEvents));
+        }
+
         const targetUrl = encodeURIComponent(
-          `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=fd7785f87ac570bb74ff201069a55d1f`
+          `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=aa87abf48ce2a30c0f83cc06897c4e36`
         );
         const response = await fetch(
           'https://lfz-cors.herokuapp.com/?url=' + targetUrl
@@ -37,7 +47,12 @@ export const useFetchEvents = () => {
             ],
           };
         });
-        setEvents(filteredData);
+
+        localStorage.setItem(
+          'events',
+          JSON.stringify(filteredData.slice(0, 46))
+        );
+        setEvents(filteredData.slice(0, 46));
         console.log(filteredData);
       } catch (err) {
         setError(

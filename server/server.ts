@@ -27,9 +27,11 @@ type Auth = {
 type Bet = {
   pick: string;
   dateTime: string;
-  completed: boolean;
+  closed: boolean;
   betType: string;
   betAmount: number;
+  userId: number;
+  placed_at?: string;
 };
 
 const connectionString =
@@ -124,12 +126,11 @@ app.post('/api/auth/guest', (req, res) => {
   res.json({ token, user: payload });
 });
 
-app.get('/api/bets', async (req, res, next) => {
+app.get('/api/bets', authMiddleware, async (req, res, next) => {
   try {
     let sql = `
-      select * from "bets"
-        order by "betId" desc;
-    `;
+  select * from "bets"
+`;
     const queryParams: any[] = [];
 
     const token = req.headers.authorization?.split(' ')[1]; // Extract token from authorization header
@@ -140,6 +141,7 @@ app.get('/api/bets', async (req, res, next) => {
         sql += ` where "userId" = $1`;
         queryParams.push(userId);
       }
+      sql += ` order by "betId" desc;`;
     }
 
     const result = await db.query<Bet>(sql, queryParams);
@@ -151,18 +153,26 @@ app.get('/api/bets', async (req, res, next) => {
 
 app.post('/api/bets', authMiddleware, async (req, res, next) => {
   try {
-    const { pick, dateTime, completed, betType, betAmount } =
+    const { pick, dateTime, closed, betType, betAmount } =
       req.body as Partial<Bet>;
+
     if (!betType || betAmount === null) {
       throw new ClientError(400, 'betType, and betAmount are required fields');
     }
-    const userId = req.user.userId;
+
     const sql = `
-      insert into "bets" ("userId", "completed", "dateTime", "pick", "betType", "betAmount")
+      insert into "bets" ("userId", "pick", "dateTime" ,"closed", "betType", "betAmount")
         values ($1, $2, $3, $4, $5, $6)
         returning *;
     `;
-    const params = [userId, completed, dateTime, pick, betType, betAmount];
+    const params = [
+      req.user.userId,
+      pick,
+      dateTime,
+      closed,
+      betType,
+      betAmount,
+    ];
     const result = await db.query<Bet>(sql, params);
     const [bet] = result.rows;
     res.status(201).json(bet);

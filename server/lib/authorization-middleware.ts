@@ -5,27 +5,22 @@ import { ClientError } from './client-error.js';
 const secret = process.env.TOKEN_SECRET ?? '';
 if (!secret) throw new Error('TOKEN_SECRET not found in env');
 
-export const authMiddleware = (
+export function authMiddleware(
   req: Request,
   res: Response,
   next: NextFunction
-) => {
-  // The token will be in the Authorization header with the format `Bearer ${token}`
-  const token = req.get('authorization')?.split('Bearer ')[1];
-  if (!token) {
-    throw new ClientError(401, 'authentication required');
+) {
+  const authHeader = req.get('authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    throw new ClientError(401, 'Authentication required');
   }
-  req.user = jwt.verify(token, secret) as Request['user'];
-  next();
 
+  const token = authHeader.split('Bearer ')[1];
   try {
-    const decodedToken = jwt.verify(token, secret) as {
-      user: { userId: number; username: string; name: string; funds: number };
-    };
-    // Now, add the entire user object or just the userId to the request object
-    req.user = decodedToken.user;
+    const payload = jwt.verify(token, secret);
+    req.user = payload as Request['user'];
     next();
   } catch (error) {
-    next(new ClientError(401, 'authentication required'));
+    throw new ClientError(401, 'Invalid token');
   }
-};
+}

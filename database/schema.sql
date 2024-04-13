@@ -7,15 +7,6 @@ drop schema "public" cascade;
 
 create schema "public";
 
-CREATE TABLE "events" (
-  "eventId" text PRIMARY KEY,
-  "commenceTime" date,
-  "name-1" text,
-  "name-1-odds" int,
-  "name-2" text,
-  "name-2-odds" int
-);
-
 CREATE TABLE "user" (
   "userId" serial PRIMARY KEY,
   "name" text,
@@ -26,25 +17,34 @@ CREATE TABLE "user" (
 
 CREATE TABLE "bets" (
   "betId" serial PRIMARY KEY,
-  "userId" int,
-  "completed" text,
+  "userId" int REFERENCES "user" ("userId"),
+  "closed" boolean NOT NULL,
   "dateTime" text,
   "pick" text,
   "betType" text,
-  "betAmount" text
+  "betAmount" int NOT NULL,
+  "placedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE "outcomes" (
-  "outComeId" serial PRIMARY KEY,
-  "completed" text,
+CREATE TABLE "results" (
+  "resultId" serial PRIMARY KEY,
+  "closed" text,
   "winner" text,
   "winMethod" text,
   "payout" int,
   "eventId" text
 );
 
+CREATE TABLE "rankings" (
+    "id" SERIAL PRIMARY KEY,
+    "division" VARCHAR(255),
+    "rank" INT,
+    "fighter_name" VARCHAR(255),
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 ALTER TABLE "bets" ADD FOREIGN KEY ("userId") REFERENCES "user" ("userId");
 
--- ALTER TABLE "bets" ADD FOREIGN KEY ("eventId") REFERENCES "events" ("eventId");
-
-ALTER TABLE "outcomes" ADD FOREIGN KEY ("eventId") REFERENCES "events" ("eventId");
+--ALTER TABLE "results" ADD FOREIGN KEY ("betId") REFERENCES "bets" ("betId");
+ --"placedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP

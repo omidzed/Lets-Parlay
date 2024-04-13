@@ -52,7 +52,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
         overUnderIndex={overUnderIndex}
         pick={pick}
         dateTime={formattedDateTime}
-        completed={false}
+        closed={false}
       />,
       'Bet Slip'
     );

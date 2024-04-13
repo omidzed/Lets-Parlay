@@ -1,23 +1,21 @@
 import { useState, FormEvent } from 'react';
+import { useModal } from '../hooks/useModal';
+import { AlertModal } from './AlertModal';
 
 type Props = {
   action: 'sign-up' | 'sign-in';
   onSignIn: (auth: any) => void;
-  closeModal: () => void;
   toggleAction: () => void;
 };
 
-export const AuthForm = ({
-  action,
-  onSignIn,
-  closeModal,
-  toggleAction,
-}: Props) => {
+export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>();
+
+  const { closeModal, openModal } = useModal();
 
   const apiUrl = action === 'sign-up' ? '/api/auth/sign-up' : '/api/auth/login';
 
@@ -40,11 +38,23 @@ export const AuthForm = ({
 
       const data = await response.json();
 
-      if (action === 'sign-in') {
+      // Call the appropriate function depending on whether it's sign-in or sign-up
+      if (action === 'sign-up') {
+        // If sign-up was successful, show a success message using the modal
+        openModal(
+          <AlertModal
+            message="Sign-up successful! You can now log in with your new account."
+            onClose={() => {
+              closeModal();
+              toggleAction(); // Switch to the sign-in form if you want
+            }}
+          />,
+          ''
+        );
+      } else if (action === 'sign-in') {
         onSignIn(data);
+        closeModal();
       }
-
-      closeModal();
     } catch (error) {
       setError('Authentication failed. Please try again.');
       alert('Error logging in user: Error: fetch Error 401');

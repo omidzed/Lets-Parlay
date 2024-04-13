@@ -62,10 +62,10 @@ export type BetType = MoneyLine | OverUnder;
 
 export type Bet = {
   id: string;
-  eventId: string;
   betAmount: number;
   pick: string;
-  completed: boolean;
+  closed: boolean;
   dateTime: string;
-  timeStamp: string;
+  placedAt: string;
+  status: string;
 };

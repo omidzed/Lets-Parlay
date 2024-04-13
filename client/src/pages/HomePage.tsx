@@ -18,8 +18,9 @@ export const HomePage = () => {
     <div>
       <SearchBox setInputValue={setInputValue} />
       <EventsCarousel />
-      <div className="2xl:w-[55%] w-10/12 mx-auto">
-        <OddsTable filteredEvents={filteredEvents} />{' '}
+
+      <div className="2xl:w-[55%] w-10/12 mx-auto md:mb-10">
+        <OddsTable filteredEvents={filteredEvents} />
       </div>
       <ScrollTopButton />
     </div>
