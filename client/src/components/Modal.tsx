@@ -29,7 +29,7 @@ export const Modal = () => {
       <div
         onClick={closeModal}
         className="fixed w-full h-full bg-black/75 z-50 cursor-pointer"></div>
-      <div className="fixed z-50 min-h-max min-w-max text-base rounded-t-2xl rounded-b-xl pb-2  bg-white">
+      <div className="fixed z-50 min-h-max max-w-72 md:min-w-max text-base rounded-t-2xl rounded-b-xl pb-2  bg-white">
         <div className="flex justify-between bg-blue-800 rounded-t-xl py-2 p-4 border-blue-700-2">
           <p className="text-white md:text-lg ml-4 mr-2 md:ml-8 text-center">
             {header}

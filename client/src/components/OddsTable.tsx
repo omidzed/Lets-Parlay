@@ -43,15 +43,13 @@ export const OddsTable = ({ filteredEvents }: Props) => {
       overUnderIndex = overUnder === 'O 2.5' ? 0 : 1;
     }
 
-    const formattedDateTime = formatDateTime(event.commenceTime);
-
     openModal(
       <BetForm
         event={event}
         outcomeIndex={outcomeIndex}
         overUnderIndex={overUnderIndex}
         pick={pick}
-        dateTime={formattedDateTime}
+        dateTime={event.commenceTime}
         closed={false}
       />,
       'Bet Slip'

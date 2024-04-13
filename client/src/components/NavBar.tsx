@@ -81,9 +81,9 @@ export const NavBar = () => {
   }).format(funds);
 
   const styles = {
-    nav: 'flex justify-between p-2 py-4 md:pr-20 bg-[#1F1F21] mb-6 pr-2',
+    nav: 'flex justify-between p-2 py-6 md:pr-20 bg-[#1F1F21] mb-6 pr-2',
     appName:
-      'text-lg italic ml-2 flex md:text-4xl md:ml-4 lg:ml-10 cursor-pointer md:px-10',
+      'text-lg italic ml-2 flex md:text-5xl md:ml-4 lg:ml-10 cursor-pointer md:px-10',
     let: 'text-red-600 italic mr-1',
     s: 'mr-1 font-light ',
     parlay: 'text-blue-500',

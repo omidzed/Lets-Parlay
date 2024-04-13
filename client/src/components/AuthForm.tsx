@@ -38,9 +38,7 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
 
       const data = await response.json();
 
-      // Call the appropriate function depending on whether it's sign-in or sign-up
       if (action === 'sign-up') {
-        // If sign-up was successful, show a success message using the modal
         openModal(
           <AlertModal
             message="Sign-up successful! You can now log in with your new account."
@@ -52,12 +50,21 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
           ''
         );
       } else if (action === 'sign-in') {
-        onSignIn(data);
-        closeModal();
+        onSignIn(data); // Switch to the sign-in form if you want
+        openModal(
+          <AlertModal
+            message="You can begin placing bets by clicking on the green numbers, or visit FAQ for more information!"
+            onClose={() => {
+              closeModal();
+              toggleAction();
+            }}
+          />,
+          `Welcome to Let's Parlay!`
+        );
       }
     } catch (error) {
       setError('Authentication failed. Please try again.');
-      alert('Error logging in user: Error: fetch Error 401');
+      console.error('Error logging in user:', error);
     }
   };
 

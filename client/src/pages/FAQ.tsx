@@ -16,7 +16,7 @@ export const FAQ = () => {
     {
       question: 'How Do Parlay Bets Work?',
       answer:
-        'A: Parlay bets involve combining two or more picks into a single bet. All selections within the parlay must win for the bet to be successful. Parlays offer higher payouts than betting on single matches due to the increased difficulty of predicting multiple outcomes correctly.',
+        'A: Parlay bets involve combining two or more picks into a single bet. All selections within the parlay must win for the bet to be successful. Parlays offer higher payouts than betting on single matches due to the increased difficulty of predicting multiple outcomes correctly. (This feature will be made available in the near future!)',
     },
     {
       question: 'What Are Total Rounds Bets?',
@@ -41,14 +41,14 @@ export const FAQ = () => {
   };
 
   const questionStyle =
-    'text-smallest md:text-3xl md:leading-relaxed cursor-pointer';
+    'text-smallest md:text-3xl md:leading-relaxed semi-bold cursor-pointer mt-4';
   const answerStyle =
-    'text-answer md:text-base font-thin text-justify overflow-hidden  transition duration-700 ease-in-out border border-b-1 border-t-0 border-r-0 border-l-0';
+    'text-answer md:text-thead font-thin text-justify overflow-hidden transition-all ease-in-out duration-1000 border border-b-1 border-t-0 border-r-0 border-l-0';
 
   return (
-    <div className="p-8">
+    <div className="px-12 pt-4 md:p-8">
       <div className="max-w-4xl mx-auto text-white">
-        <h2 className="text-xl md:text-4xl mb-12">
+        <h2 className="text-xl md:text-5xl mt-2 mb-10 md:mt-6 md:mb-16">
           Frequently Asked Questions
         </h2>
 
@@ -69,7 +69,7 @@ export const FAQ = () => {
                 className={`${answerStyle} ${
                   activeIndex === index ? 'h-auto' : 'h-0'
                 }`}>
-                <p className="my-4">{faq.answer}</p>
+                <p className="mt-6 mb-10">{faq.answer}</p>
               </div>
             </div>
           ))}

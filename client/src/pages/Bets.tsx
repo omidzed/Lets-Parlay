@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getToken } from '../utilities/token-storage';
 import { uid } from 'react-uid';
 import type { Bet } from '../utilities/data-types';
+import { formatDateTime } from '../utilities/format-date-time';
 
 export const Bets = () => {
   const [bets, setBets] = useState<Bet[]>([]);
@@ -29,27 +30,21 @@ export const Bets = () => {
       const betsData = await res.json();
       console.log('betsdata', betsData);
       const formattedBets: Bet[] = betsData.map((bet) => {
-        const now = new Date();
-        const nowUtc = new Date(
-          Date.UTC(
-            now.getFullYear(),
-            now.getMonth(),
-            now.getDate(),
-            now.getHours(),
-            now.getMinutes(),
-            now.getSeconds()
-          )
-        );
-        console.log(nowUtc);
-        const isOpen = nowUtc < bet.dateTime;
+        const formattedPlacedAt = formatDateTime(bet.placedAt);
+        const formattedDateTime = formatDateTime(bet.dateTime);
+        const nowUtc = new Date(); // If you need to compare with UTC, convert 'now' to UTC.
+
+        console.log('time', nowUtc);
+        console.log('time2', new Date(bet.dateTime));
+        const isOpen = nowUtc < new Date(bet.dateTime);
         return {
           id: uid(bet),
           betType: bet.betType,
           betAmount: bet.betAmount,
           pick: bet.pick,
-          dateTime: bet.dateTime,
+          dateTime: formattedDateTime,
           closed: !isOpen,
-          placedAt: bet.placedAt,
+          placedAt: formattedPlacedAt,
           status: isOpen ? 'Open' : 'Closed',
         };
       });
@@ -76,23 +71,23 @@ export const Bets = () => {
     );
 
   const styling =
-    'flex gap-6 text-smallest md:text-xl justify-between items-center ';
+    'flex gap-6 text-answer md:text-lg justify-between items-center';
 
   return (
-    <div className="flex flex-col p-2 gap-4 justify-center">
+    <div className="flex flex-col p-2 gap-4 items-center justify-center">
       {bets.length === 0 && (
         <p className="flex justify-center text-xl md:text-4xl py-40 px-2">
           No recorded bets at the moment.
         </p>
       )}
-      <ul className="flex justify-start md:gap-10 md:px-20 mx-10 md:mx-20 flex-wrap">
+      <ul className="flex justify-center md:justify-start md:gap-10 md:px-20 mx-10 md:mx-20 flex-wrap">
         {bets.map((bet) => (
           <li
             key={bet.id}
             className="flex flex-col text-white text-sm w-120 md:w-96  p-6 rounded-md bg-[#212123e3] mt-8">
             <div className={styling}>
-              <div className={styling}> Bet time/date: </div>
-              <div className={styling}>{bet.placedAt}</div>
+              <div className={styling}> Bet date/time: </div>
+              <div className={styling}>{formatDateTime(bet.placedAt)}</div>
             </div>
             <div className={styling}>
               <div className={styling}> Amount: </div>
@@ -103,8 +98,8 @@ export const Bets = () => {
               <div className={styling}>{bet.pick}</div>
             </div>
             <div className={styling}>
-              <div className={styling}> Fight Time:</div>
-              <div className={styling}>{bet.dateTime}</div>
+              <div className={styling}> Fight date/time:</div>
+              <div className={styling}>{formatDateTime(bet.dateTime)}</div>
             </div>
             <div className={styling}>
               <div className={styling}>Status:</div>
