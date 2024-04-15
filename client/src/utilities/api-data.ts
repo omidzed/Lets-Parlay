@@ -1,192 +1,192 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-// const MensPoundForPoundRankings = [
-//   {
-//     rank: '1',
-//     fighterName: 'Islam Makhachev',
-//   },
-//   {
-//     rank: '2',
-//     fighterName: 'Jon Jones',
-//   },
-//   {
-//     rank: '3',
-//     fighterName: 'Leon Edwards',
-//   },
-//   {
-//     rank: '4',
-//     fighterName: 'Alex Pereira',
-//   },
-//   {
-//     rank: '5',
-//     fighterName: 'Ilia Topuria',
-//   },
-//   {
-//     rank: '6',
-//     fighterName: "Sean O'Malley",
-//   },
-//   {
-//     rank: '7',
-//     fighterName: 'Charles Oliveira',
-//   },
-//   {
-//     rank: '8',
-//     fighterName: 'Alexander Volkanovski',
-//   },
-//   {
-//     rank: '9',
-//     fighterName: 'Dricus Du Plessis',
-//   },
-//   {
-//     rank: '10',
-//     fighterName: 'Alexandre Pantoja',
-//   },
-//   {
-//     rank: '11',
-//     fighterName: 'Israel Adesanya',
-//   },
-//   {
-//     rank: '12',
-//     fighterName: 'Tom Aspinall',
-//   },
-//   {
-//     rank: '13',
-//     fighterName: 'Sean Strickland',
-//   },
-//   {
-//     rank: '14',
-//     fighterName: 'Max Holloway',
-//   },
-//   {
-//     rank: '15',
-//     fighterName: 'Aljamain Sterling',
-//   },
-// ];
+const MensPoundForPoundRankings = [
+  {
+    rank: '1',
+    fighterName: 'Islam Makhachev',
+  },
+  {
+    rank: '2',
+    fighterName: 'Jon Jones',
+  },
+  {
+    rank: '3',
+    fighterName: 'Leon Edwards',
+  },
+  {
+    rank: '4',
+    fighterName: 'Alex Pereira',
+  },
+  {
+    rank: '5',
+    fighterName: 'Ilia Topuria',
+  },
+  {
+    rank: '6',
+    fighterName: "Sean O'Malley",
+  },
+  {
+    rank: '7',
+    fighterName: 'Charles Oliveira',
+  },
+  {
+    rank: '8',
+    fighterName: 'Alexander Volkanovski',
+  },
+  {
+    rank: '9',
+    fighterName: 'Dricus Du Plessis',
+  },
+  {
+    rank: '10',
+    fighterName: 'Alexandre Pantoja',
+  },
+  {
+    rank: '11',
+    fighterName: 'Israel Adesanya',
+  },
+  {
+    rank: '12',
+    fighterName: 'Tom Aspinall',
+  },
+  {
+    rank: '13',
+    fighterName: 'Sean Strickland',
+  },
+  {
+    rank: '14',
+    fighterName: 'Max Holloway',
+  },
+  {
+    rank: '15',
+    fighterName: 'Aljamain Sterling',
+  },
+];
 
-// const mensFlyweightRankings = [
-//   {
-//     rank: '1',
-//     fighterName: 'Brandon Royval',
-//   },
-//   {
-//     rank: '2',
-//     fighterName: 'Brandon Moreno',
-//   },
-//   {
-//     rank: '3',
-//     fighterName: 'Amir Albazi',
-//   },
-//   {
-//     rank: '4',
-//     fighterName: 'Kai Kara-France',
-//   },
-//   {
-//     rank: '5',
-//     fighterName: 'Matheus Nicolau',
-//   },
-//   {
-//     rank: '6',
-//     fighterName: 'Manel Kape',
-//   },
-//   {
-//     rank: '7',
-//     fighterName: 'Muhammad Mokaev',
-//   },
-//   {
-//     rank: '8',
-//     fighterName: 'Alex Perez',
-//   },
-//   {
-//     rank: '9',
-//     fighterName: 'Tim Elliott',
-//   },
-//   {
-//     rank: '10',
-//     fighterName: 'Steve Erceg',
-//   },
-//   {
-//     rank: '11',
-//     fighterName: 'Matt Schnell',
-//   },
-//   {
-//     rank: '12',
-//     fighterName: 'Tagir Ulanbekov',
-//   },
-//   {
-//     rank: '13',
-//     fighterName: 'Tatsuro Taira',
-//   },
-//   {
-//     rank: '14',
-//     fighterName: 'David Dvorak',
-//   },
-//   {
-//     rank: '15',
-//     fighterName: 'Sumudaerji',
-//   },
-// ];
-// const mensBantamWeightRankings = [
-//   {
-//     rank: '1',
-//     fighterName: 'Merab Dvalishvili',
-//   },
-//   {
-//     rank: '2',
-//     fighterName: 'Aljamain Sterling',
-//   },
-//   {
-//     rank: '3',
-//     fighterName: 'Cory Sandhagen',
-//   },
-//   {
-//     rank: '4',
-//     fighterName: 'Petr Yan',
-//   },
-//   {
-//     rank: '5',
-//     fighterName: 'Marlon Vera',
-//   },
-//   {
-//     rank: '6',
-//     fighterName: 'Henry Cejudo',
-//   },
-//   {
-//     rank: '7',
-//     fighterName: 'Song Yadong',
-//   },
-//   {
-//     rank: '8',
-//     fighterName: 'Deiveson Figueiredo',
-//   },
-//   {
-//     rank: '9',
-//     fighterName: 'Rob Font',
-//   },
-//   {
-//     rank: '10',
-//     fighterName: 'Umar Nurmagomedov',
-//   },
-//   {
-//     rank: '11',
-//     fighterName: 'Kyler Phillips',
-//   },
-//   {
-//     rank: '12',
-//     fighterName: 'Dominick Cruz',
-//   },
-//   {
-//     rank: '13',
-//     fighterName: 'Mario Bautista',
-//   },
-//   {
-//     rank: '14',
-//     fighterName: 'Jonathan Martinez',
-//   },
-//   {
-//     rank: '15',
-//     fighterName: 'Pedro Munhoz',
-//   },
-// ];
+const mensFlyweightRankings = [
+  {
+    rank: '1',
+    fighterName: 'Brandon Royval',
+  },
+  {
+    rank: '2',
+    fighterName: 'Brandon Moreno',
+  },
+  {
+    rank: '3',
+    fighterName: 'Amir Albazi',
+  },
+  {
+    rank: '4',
+    fighterName: 'Kai Kara-France',
+  },
+  {
+    rank: '5',
+    fighterName: 'Matheus Nicolau',
+  },
+  {
+    rank: '6',
+    fighterName: 'Manel Kape',
+  },
+  {
+    rank: '7',
+    fighterName: 'Muhammad Mokaev',
+  },
+  {
+    rank: '8',
+    fighterName: 'Alex Perez',
+  },
+  {
+    rank: '9',
+    fighterName: 'Tim Elliott',
+  },
+  {
+    rank: '10',
+    fighterName: 'Steve Erceg',
+  },
+  {
+    rank: '11',
+    fighterName: 'Matt Schnell',
+  },
+  {
+    rank: '12',
+    fighterName: 'Tagir Ulanbekov',
+  },
+  {
+    rank: '13',
+    fighterName: 'Tatsuro Taira',
+  },
+  {
+    rank: '14',
+    fighterName: 'David Dvorak',
+  },
+  {
+    rank: '15',
+    fighterName: 'Sumudaerji',
+  },
+];
+const mensBantamWeightRankings = [
+  {
+    rank: '1',
+    fighterName: 'Merab Dvalishvili',
+  },
+  {
+    rank: '2',
+    fighterName: 'Aljamain Sterling',
+  },
+  {
+    rank: '3',
+    fighterName: 'Cory Sandhagen',
+  },
+  {
+    rank: '4',
+    fighterName: 'Petr Yan',
+  },
+  {
+    rank: '5',
+    fighterName: 'Marlon Vera',
+  },
+  {
+    rank: '6',
+    fighterName: 'Henry Cejudo',
+  },
+  {
+    rank: '7',
+    fighterName: 'Song Yadong',
+  },
+  {
+    rank: '8',
+    fighterName: 'Deiveson Figueiredo',
+  },
+  {
+    rank: '9',
+    fighterName: 'Rob Font',
+  },
+  {
+    rank: '10',
+    fighterName: 'Umar Nurmagomedov',
+  },
+  {
+    rank: '11',
+    fighterName: 'Kyler Phillips',
+  },
+  {
+    rank: '12',
+    fighterName: 'Dominick Cruz',
+  },
+  {
+    rank: '13',
+    fighterName: 'Mario Bautista',
+  },
+  {
+    rank: '14',
+    fighterName: 'Jonathan Martinez',
+  },
+  {
+    rank: '15',
+    fighterName: 'Pedro Munhoz',
+  },
+];
 
 // const mensFeatherWeightRankings = [
 //   {

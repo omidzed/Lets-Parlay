@@ -88,13 +88,13 @@ export const NavBar = () => {
     s: 'mr-1 font-light ',
     parlay: 'text-blue-500',
     buttonsWrapper: 'flex items-center gap-1 md:gap-3 mr-1 md:mr-0',
-    join: 'lg:text-custom xl:text-custom text-tiny tracking-wider p-1 bg-red-700 rounded-sm md:rounded-md px-2 md:px-7 md:py-2',
+    join: 'lg:text-custom xl:text-custom text-tiny tracking-wider p-1 bg-red-700 hover:bg-red-600 rounded-sm md:rounded-md px-2 md:px-7 md:py-2',
     login:
-      'lg:text-custom xl:text-custom flex gap-1 text-tiny p-1 bg-blue-800 rounded-sm md:rounded-md px-2 md:px-6 md:py-2',
+      'lg:text-custom xl:text-custom flex gap-1 text-tiny p-1 bg-blue-800 hover:bg-blue-700 rounded-sm md:rounded-md px-2 md:px-6 md:py-2',
     logout:
-      'text-tiny md:text-custom lg:text-custom xl:text-custom 2xl:text-custom flex 2xl:gap-2 gap-1 p-1 mr-2 md:mr-0 border border-zinc-400 rounded-sm md:rounded-md bg-black px-2 md:px-6 md:py-2',
+      'text-tiny md:text-custom lg:text-custom xl:text-custom 2xl:text-custom flex 2xl:gap-2 gap-1 p-1 mr-2 md:mr-0 border border-zinc-400 hover:border-white rounded-sm md:rounded-md bg-black px-2 md:px-6 md:py-2 hover:bg-zinc-900',
     list: 'flex md:justify-end md:items-end gap-0 md:mr-6 mr-2 flex-nowrap',
-    userName: 'text-sm leading-2 md:text-2xl mr-1 md:mr-2',
+    userName: 'text-sm leading-2 md:text-2xl',
     funds: 'text-sm leading-2 md:text-2xl text-[#54D338] cursor-pointer',
   };
 
@@ -125,7 +125,7 @@ export const NavBar = () => {
           <IoMenu
             onClick={() => toggleMenu()}
             color="white"
-            className="ml-2 text-lg md:text-3xl cursor-pointer hover:scale-110"
+            className="ml-2 text-lg md:text-3xl cursor-pointer hover:scale-125"
           />
           <Link to={'/'} className={styles.appName}>
             <p className={styles.let}>LET</p>
@@ -136,10 +136,12 @@ export const NavBar = () => {
 
         {hasToken() ? (
           <div className="flex justify-between items-center">
-            <div className="flex-col md:mr-4">
+            <div className=" md:mr-4">
               <div className={styles.list}>
-                <p className={styles.userName}>{name}</p>
-                <Link to={'/bets'}>
+                <Link
+                  to={'/bets'}
+                  className="flex gap-2 hover:underline hover:underline-offset-8">
+                  <p className={styles.userName}>{name}</p>
                   <p className={styles.funds}>{`(${formattedFunds})`}</p>
                 </Link>
               </div>
