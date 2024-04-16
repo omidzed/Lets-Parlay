@@ -5,7 +5,7 @@ set client_min_messages to warning;
 drop schema "public" cascade;
 create schema "public";
 
-CREATE TABLE "user" (
+CREATE TABLE "users" (
   "userId" serial PRIMARY KEY,
   "name" text,
   "funds" int,
@@ -17,7 +17,7 @@ CREATE TYPE bet_status AS ENUM ('open', 'closed', 'canceled');
 
 CREATE TABLE "bets" (
   "betId" serial PRIMARY KEY,
-  "userId" int REFERENCES "user" ("userId"),
+  "userId" int REFERENCES "users" ("userId"),
   "status" bet_status NOT NULL,
   "dateTime" text,
   "pick" text,
