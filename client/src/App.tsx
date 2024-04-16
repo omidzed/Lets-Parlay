@@ -11,7 +11,7 @@ import { Rankings } from './components/Menu/Rankings';
 import { FAQ } from './pages/FAQ';
 import { UfcSchedule } from './components/Menu/UfcSchedule';
 
-const App = () => {
+export const App = () => {
   return (
     <ModalProvider>
       <EventsProvider>
@@ -31,5 +31,3 @@ const App = () => {
     </ModalProvider>
   );
 };
-
-export default App;

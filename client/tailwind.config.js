@@ -4,15 +4,6 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      animation: {
-        spin: 'spin 1s linear infinite',
-      },
-      keyframes: {
-        spin: {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(360deg)' },
-        },
-      },
       fontSize: {
         rounds: '.5rem',
         tiny: '0.6rem',

@@ -1,9 +1,14 @@
 import type { MenuItem } from '../../utilities/data-types';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 
 type MenuProps = {
   toggleMenu: () => void;
   onSelect: (menuItemPath: string) => void;
   menuItems: MenuItem[];
+};
+
+export const ExternalIcon = () => {
+  return <FaExternalLinkAlt />;
 };
 
 export const Menu = ({ onSelect, toggleMenu, menuItems }: MenuProps) => {
@@ -12,9 +17,12 @@ export const Menu = ({ onSelect, toggleMenu, menuItems }: MenuProps) => {
       key={menuItem.title}
       className="md:ml-20 ml-8 mb-2 md:mb-4 cursor-pointer"
       onClick={() => onSelect(menuItem.path)}>
-      <div className="flex gap-2 md:gap-4 items-center hover:scale-125 cursor-pointer w-1/4">
-        <span className="text-thead text-red-600">{menuItem.icon}</span>
+      <div className="flex gap-2 md:gap-4 items-center  transition ease-in-out hover:scale-110 cursor-pointer w-1/4">
+        <span className=" text-red-600">{menuItem.icon}</span>
         <span className="text-menuItem">{menuItem.title}</span>
+        <div className="text-smallest">
+          {menuItem.isExternal && <ExternalIcon />}
+        </div>
       </div>
     </li>
   ));

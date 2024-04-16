@@ -5,6 +5,7 @@ import { useModal } from '../hooks/useModal';
 import type { Event } from '../utilities/data-types';
 import { formatLongName } from '../utilities/format-names';
 import { AlertModal } from './AlertModal';
+//import { ExternalIcon } from './Menu/Menu';
 
 type Props = {
   filteredEvents: Event[];
@@ -100,7 +101,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
               </span>
               <span
                 onClick={() => handleClick(nameTwo)}
-                className="flex whitespace-nowrap justify-center items-center text-tiny md:text-custom  h-[33%] cursor-pointer">
+                className="flex gap-2 whitespace-nowrap justify-center items-center text-tiny md:text-custom  h-[33%] cursor-pointer">
                 {nameTwo}
               </span>
             </div>

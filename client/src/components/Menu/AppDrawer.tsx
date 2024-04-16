@@ -2,6 +2,7 @@ import { Menu } from './Menu';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { MenuItem } from '../../utilities/data-types';
+import { BackButton } from './BackButton';
 
 type AppDrawerProps = {
   isOpen: boolean;
@@ -41,16 +42,22 @@ export const AppDrawer = ({
 
   return (
     <div
-      className="fixed top-0 left-0 w-52 md:w-80 h-screen z-50 bg-[#171718]
-       transition-transform duration-700 ease-in-out">
+      className={` fixed top-0 left-0 w-52 md:w-80 h-screen z-50 ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      } transition-transform duration-700 ease-in-out bg-[#171718]`}>
       <div className={'drawer-container'}>
         <div className={isOpen ? 'hidden' : 'hamburger-container'}></div>
         <div className={isOpen ? 'menu-drawer open' : 'menu-drawer closed'}>
-          <Menu
-            toggleMenu={toggleMenu}
-            onSelect={handleSelect}
-            menuItems={menuItems}
-          />
+          <div className="flex">
+            <div className="fixed top-20 left-20 cursor-pointer opacity-50 hover:opacity-100 transition ease-out">
+              <BackButton toggleMenu={toggleMenu} />
+            </div>
+            <Menu
+              toggleMenu={toggleMenu}
+              onSelect={handleSelect}
+              menuItems={menuItems}
+            />
+          </div>
         </div>
       </div>
     </div>

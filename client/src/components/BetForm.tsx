@@ -139,15 +139,12 @@ export const BetForm = ({
 
   return (
     <>
-      <button className="absolute top-2 right-20 text-lg hover:text-white ">
-        Parlay
-      </button>
-      <div className="flex-col justify-center items-center  py-10 pb-6 md:mx-20 w-60">
-        <div className="flex justify-center gap-2">
-          <span className="flex justify-center">
+      <div className="flex-col justify-center items-center  py-10 pb-6 md:mx-10 w-60">
+        <div className="flex justify-center gap-4">
+          <span className="basis-1/2 text-right">
             {selectedOutcome?.name ?? selectedOverUnder?.name ?? 'Unknown'}
           </span>
-          <span className="font-bold w-1/2">
+          <span className="basis-1/2 text-left font-bold">
             {selectedOverUnder
               ? overUnderOdds > 0
                 ? `+${overUnderOdds}`
@@ -159,14 +156,16 @@ export const BetForm = ({
         </div>
         <div className="flex-col">
           <form
-            className="flex-col gap-10 items-center my-2 p-2"
+            className="flex-col items-center my-2 p-2"
             onSubmit={handleSubmit}>
             <input type="hidden" name="betType" value="moneyline" />
             <input type="hidden" name="closed" value="false" />
-            <div className="flex flex-nowrap justify-center mt-6 mb-2">
-              <div className="font-bold whitespace-nowrap">Amount: </div>
-              <span className="w-[10%]"></span>
-              <div className="flex flex-nowrap">
+            <div className="flex gap-5 flex-nowrap justify-center mt-6 mb-2">
+              <div className="font-bold basis-1/2 text-right whitespace-nowrap">
+                Amount:
+              </div>
+
+              <div className="flex flex-nowrap basis-1/2 text-left">
                 <span className="ml-1 mr-1">$</span>
                 <CurrencyInput
                   className="bg-blue-200 rounded-md pl-1 w-16"
@@ -178,11 +177,12 @@ export const BetForm = ({
               </div>
             </div>
 
-            <div className="flex justify-center">
-              <div className="font-bold whitespace-nowrap">Payout:</div>
+            <div className="flex justify-center gap-5">
+              <div className="font-bold basis-1/2 text-right whitespace-nowrap">
+                Payout:
+              </div>
 
-              <span className="w-[20%]"></span>
-              <div className="flex">
+              <div className="flex basis-1/2 text-left">
                 <div className="ml-1">$</div>
                 <div className="pl-2">{payout}</div>
               </div>

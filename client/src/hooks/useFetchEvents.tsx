@@ -25,7 +25,7 @@ export const useFetchEvents = () => {
         //   `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=aa87abf48ce2a30c0f83cc06897c4e36`
         // );
         const response = await fetch(
-          `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=aa87abf48ce2a30c0f83cc06897c4e36`
+          `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=f1fad3088e09bbbe9bb3a126a2ea199a`
 
           // 'https://lfz-cors.herokuapp.com/?url=' + targetUrl
         );

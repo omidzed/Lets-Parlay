@@ -47,6 +47,7 @@ export type MenuItem = {
   title: string;
   path: string;
   icon: JSX.Element;
+  isExternal?: boolean;
 };
 
 export type IconType = {

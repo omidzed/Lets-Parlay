@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { getToken, removeToken, hasToken } from '../utilities/token-storage';
 import { useModal } from '../hooks/useModal';
 import { useUser } from '../hooks/useUser';
@@ -14,6 +14,7 @@ import { FaRankingStar } from 'react-icons/fa6';
 import { SlHome } from 'react-icons/sl';
 import { TbDatabaseDollar } from 'react-icons/tb';
 import { AppContext } from './AppContext';
+import { IoMdHelp } from 'react-icons/io';
 
 type ActionType = 'sign-up' | 'sign-in';
 
@@ -25,6 +26,7 @@ export const NavBar = () => {
   const { openModal, closeModal } = useModal();
   const { setUser } = useUser();
   const { funds, setFunds } = useContext(AppContext);
+  const location = useLocation();
 
   const handleOpenModal = (action: ActionType) => {
     setAction(action);
@@ -81,9 +83,9 @@ export const NavBar = () => {
   }).format(funds);
 
   const styles = {
-    nav: 'flex justify-between p-2 py-6 md:pr-20 bg-[#1F1F21] mb-6 pr-2',
+    nav: 'flex justify-between p-2 py-6 md:pr-10 bg-[#1F1F21] mb-6 pr-2',
     appName:
-      'text-lg italic ml-2 flex md:text-5xl md:ml-4 lg:ml-10 cursor-pointer md:px-10',
+      'text-lg italic ml-2 flex md:text-3xl lg:text-4xl xl:text-5xl md:ml-4 lg:ml-10 md:px-10',
     let: 'text-red-600 italic mr-1',
     s: 'mr-1 font-light ',
     parlay: 'text-blue-500',
@@ -105,8 +107,19 @@ export const NavBar = () => {
   const menuItems: MenuItem[] = [
     { title: 'Home', path: '/', icon: <SlHome /> },
     { title: 'Bets', path: '/bets', icon: <TbDatabaseDollar /> },
-    { title: 'Schedule', path: '/schedule', icon: <IoCalendarNumberOutline /> },
-    { title: 'Rankings', path: '/rankings', icon: <FaRankingStar /> },
+    {
+      title: 'Schedule',
+      path: '/schedule',
+      icon: <IoCalendarNumberOutline />,
+      isExternal: true,
+    },
+    {
+      title: 'Rankings',
+      path: '/rankings',
+      icon: <FaRankingStar />,
+      isExternal: true,
+    },
+
     { title: 'FAQ', path: '/faq', icon: <FaQuestion /> },
   ];
 
@@ -125,7 +138,7 @@ export const NavBar = () => {
           <IoMenu
             onClick={() => toggleMenu()}
             color="white"
-            className="ml-2 text-lg md:text-3xl cursor-pointer hover:scale-125"
+            className="ml-2 text-lg md:text-3xl cursor-pointer hover:bg-slate-500 rounded-full w-14 h-14 p-3"
           />
           <Link to={'/'} className={styles.appName}>
             <p className={styles.let}>LET</p>
@@ -138,9 +151,7 @@ export const NavBar = () => {
           <div className="flex justify-between items-center">
             <div className=" md:mr-4">
               <div className={styles.list}>
-                <Link
-                  to={'/bets'}
-                  className="flex gap-2 hover:underline hover:underline-offset-8">
+                <Link to={'/bets'} className="flex gap-2 hover:scale-105">
                   <p className={styles.userName}>{name}</p>
                   <p className={styles.funds}>{`(${formattedFunds})`}</p>
                 </Link>
@@ -160,6 +171,24 @@ export const NavBar = () => {
               <div className="className">SIGN IN </div>
             </button>
           </div>
+        )}
+        {location.pathname !== '/faq' && (
+          <Link
+            to={'/faq'}
+            className="fixed top-28 md:top-32 right-4 md:right-20 z-50">
+            <span style={{ transition: 'all 0.2s ease-in-out' }}>
+              <IoMdHelp
+                className="text-4xl p-1 text-gray-400 transform transition-transform duration-200 ease-in-out hover:bg-white hover:text-[#0f0f0f] hover:scale-150 border-gray-400 border-2 rounded-full"
+                style={{ opacity: '0.75' }}
+                onMouseOver={({ currentTarget }) =>
+                  (currentTarget.style.opacity = '1')
+                }
+                onMouseOut={({ currentTarget }) =>
+                  (currentTarget.style.opacity = '0.75')
+                }
+              />
+            </span>
+          </Link>
         )}
       </nav>
       <Outlet />

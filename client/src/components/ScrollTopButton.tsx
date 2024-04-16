@@ -21,9 +21,9 @@ export const ScrollTopButton = () => {
       {isVisible && (
         <div
           onClick={handleClick}
-          className="fixed right-2 bottom-10 md:right-20 md:bottom-20 lg:right-30 cursor-pointer hover:scale-150 transition-transform">
+          className="fixed right-2 bottom-10 md:right-20 md:bottom-32 lg:right-30 cursor-pointer hover:scale-150 transition-transform">
           <FaCircleChevronUp
-            className={`text-4xl md:text-5xl ${
+            className={`text-4xl ${
               isActive
                 ? 'bg-gradient-to-r from-yellow-500 to-green-500 rounded-full'
                 : 'text-white'
