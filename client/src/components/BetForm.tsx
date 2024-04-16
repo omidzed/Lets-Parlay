@@ -7,8 +7,6 @@ import { useModal } from '../hooks/useModal';
 import { AlertModal } from './AlertModal';
 import { getToken } from '../utilities/token-storage';
 
-//import { formatLongName } from '../utilities/format-names';
-
 type BetFormProps = {
   event: Event;
   outcomeIndex: number;

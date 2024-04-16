@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react';
 import type { Event } from '../utilities/data-types';
+import { apiKey } from '../utilities/api-data';
 
 export const useFetchEvents = () => {
   const [events, setEvents] = useState<Event[] | undefined>([]);
   const [loading, setLoading] = useState<boolean | undefined>();
   const [error, setError] = useState<Error | null>(null);
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  // const apiKey = JSON.stringify(import.meta.env.VITE_API_KEY);
-  // const apiKey = import.meta.env.VITE_API_KEY;
-
-  console.log('api', import.meta.env);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,13 +18,8 @@ export const useFetchEvents = () => {
           setEvents(JSON.parse(cachedEvents));
         }
 
-        // const targetUrl = encodeURIComponent(
-        //   `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=aa87abf48ce2a30c0f83cc06897c4e36`
-        // );
         const response = await fetch(
-          `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=f1fad3088e09bbbe9bb3a126a2ea199a`
-
-          // 'https://lfz-cors.herokuapp.com/?url=' + targetUrl
+          `https://api.the-odds-api.com/v4/sports/mma_mixed_martial_arts/odds/?regions=us&oddsFormat=american&apiKey=${apiKey.apiKey}`
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -50,12 +42,9 @@ export const useFetchEvents = () => {
           };
         });
 
-        localStorage.setItem(
-          'events',
-          JSON.stringify(filteredData.slice(0, 46))
-        );
-        setEvents(filteredData.slice(0, 46));
-        console.log(filteredData);
+        localStorage.setItem('events', JSON.stringify(filteredData));
+        setEvents(filteredData);
+        console.log('filteredData', filteredData);
       } catch (err) {
         setError(
           err instanceof Error ? err : new Error('Failed to fetch data')

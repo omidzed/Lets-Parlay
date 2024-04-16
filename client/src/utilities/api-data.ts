@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+export const apiKey = { apiKey: 'f1fad3088e09bbbe9bb3a126a2ea199a' };
+
 // const MensPoundForPoundRankings = [
 //   {
 //     rank: '1',

@@ -1,10 +1,8 @@
+-- Set the client's minimum message level to warning to reduce console clutter
 set client_min_messages to warning;
 
--- DANGER: this is NOT how to do it in the real world.
--- `drop schema` INSTANTLY ERASES EVERYTHING.
-
+-- WARNING: Dropping and recreating the public schema. Use with caution!
 drop schema "public" cascade;
-
 create schema "public";
 
 CREATE TABLE "user" (
@@ -15,36 +13,36 @@ CREATE TABLE "user" (
   "hashedPassword" text
 );
 
+CREATE TYPE bet_status AS ENUM ('open', 'closed', 'canceled');
+
 CREATE TABLE "bets" (
   "betId" serial PRIMARY KEY,
   "userId" int REFERENCES "user" ("userId"),
-  "closed" boolean NOT NULL,
+  "status" bet_status NOT NULL,
   "dateTime" text,
   "pick" text,
+  "winner" boolean NOT NULL,
   "betType" text,
   "betAmount" int NOT NULL,
+  "payout" int,
   "placedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE "results" (
-  "resultId" serial PRIMARY KEY,
-  "closed" text,
-  "winner" text,
-  "winMethod" text,
-  "payout" int,
-  "eventId" text
+CREATE TABLE "fighters" (
+    "fighterId" SERIAL PRIMARY KEY,
+    "name" VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE "divisions" (
+    "divisionId" SERIAL PRIMARY KEY,
+    "name" VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE "rankings" (
-    "id" SERIAL PRIMARY KEY,
-    "division" VARCHAR(255),
+    "rankingId" SERIAL PRIMARY KEY,
+    "divisionId" INT REFERENCES "divisions" ("divisionId"),
+    "fighterId" INT REFERENCES "fighters" ("fighterId"),
     "rank" INT,
-    "fighter_name" VARCHAR(255),
+    "isChampion" BOOLEAN DEFAULT FALSE,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
-ALTER TABLE "bets" ADD FOREIGN KEY ("userId") REFERENCES "user" ("userId");
-
---ALTER TABLE "results" ADD FOREIGN KEY ("betId") REFERENCES "bets" ("betId");
- --"placedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -5,7 +5,6 @@ import { useModal } from '../hooks/useModal';
 import type { Event } from '../utilities/data-types';
 import { formatLongName } from '../utilities/format-names';
 import { AlertModal } from './AlertModal';
-//import { ExternalIcon } from './Menu/Menu';
 
 type Props = {
   filteredEvents: Event[];
