@@ -17,7 +17,7 @@ export const Menu = ({ onSelect, toggleMenu, menuItems }: MenuProps) => {
       key={menuItem.title}
       className="ml-8 mb-2 md:mb-4 cursor-pointer"
       onClick={() => onSelect(menuItem.path)}>
-      <div className="flex gap-2 md:gap-4 items-center border bg-black border-1 rounded-full transition ease-out hover:scale-105 hover:bg-slate-800 p-2">
+      <div className="flex gap-2 md:gap-4 items-center border border-transparent bg-black border-1 rounded-full transition ease-out hover:scale-110 hover:bg-slate-800 p-2">
         <span className=" text-red-700 my-1 mx-2 ml-2 ">{menuItem.icon}</span>
         <span className="text-menuItem">{menuItem.title}</span>
         <div className="ml-2 mr-4">

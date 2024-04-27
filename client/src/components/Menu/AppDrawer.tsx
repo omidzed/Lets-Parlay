@@ -42,7 +42,7 @@ export const AppDrawer = ({
 
   return (
     <div
-      className={`fixed top-0 left-0 h-screen z-50 transition-transform duration-700 ease-in-out bg-[#171718] ${
+      className={`fixed top-0 left-0 h-screen z-50 transition-transform duration-700 ease-in-out bg-[#141414] ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       } w-[80%] sm:w-[60%] md:w-[40%] lg:w-[30%] xl:w-[25%] 2xl:w-[20%]`}>
       <div className={'drawer-container'}>
