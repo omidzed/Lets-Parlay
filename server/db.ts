@@ -1,31 +1,31 @@
-import { Pool } from 'pg';
-import { config } from 'dotenv';
-import fs from 'fs';
-import path from 'path';
+// import { Pool } from 'pg';
+// import { config } from 'dotenv';
+// import fs from 'fs';
+// import path from 'path';
 
-// Determine the correct path for environment variables based on NODE_ENV
-const envPath =
-  process.env.NODE_ENV === 'development'
-    ? '.env.local' // Local development-specific variables
-    : path.resolve(process.cwd(), 'server', '.env'); // Production or default environment variables
+// // Determine the correct path for environment variables based on NODE_ENV
+// const envPath =
+//   process.env.NODE_ENV === 'development'
+//     ? '.env.local' // Local development-specific variables
+//     : path.resolve(process.cwd(), 'server', '.env'); // Production or default environment variables
 
-// Configure environment variables from the determined path
-config({ path: envPath });
+// // Configure environment variables from the determined path
+// config({ path: envPath });
 
-// Database connection setup
-export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl:
-    process.env.NODE_ENV === 'development'
-      ? {
-          // Conditional SSL configuration for production
-          rejectUnauthorized: true,
-          ca: fs
-            .readFileSync('/path/to/server-certificates/root.crt')
-            .toString(),
-        }
-      : false,
-});
+// // Database connection setup
+// export const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl:
+//     process.env.NODE_ENV === 'development'
+//       ? {
+//           // Conditional SSL configuration for production
+//           rejectUnauthorized: true,
+//           ca: fs
+//             .readFileSync('/path/to/server-certificates/root.crt')
+//             .toString(),
+//         }
+//       : false,
+// });
 
 // import { Pool } from 'pg';
 // import { config } from 'dotenv';
