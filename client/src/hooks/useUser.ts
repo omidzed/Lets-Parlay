@@ -1,4 +1,4 @@
-import { AppContextValues, AppContext } from '../components/AppContext';
+import { AppContextValues, AppContext } from '../Context/AppContext';
 import { useContext } from 'react';
 
 export const useUser = (): AppContextValues => {

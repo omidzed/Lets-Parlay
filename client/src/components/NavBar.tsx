@@ -6,14 +6,14 @@ import { AuthForm } from './AuthForm';
 import { useState, useEffect, useContext } from 'react';
 import { AppDrawer } from './Menu/AppDrawer';
 import { Overlay } from './Menu/Overlay';
-import { IoMenu } from 'react-icons/io5';
+import { HiMenuAlt4 } from 'react-icons/hi';
 import { MenuItem } from '../utilities/data-types';
 import { IoCalendarNumberOutline } from 'react-icons/io5';
 import { FaQuestion } from 'react-icons/fa6';
 import { FaRankingStar } from 'react-icons/fa6';
 import { SlHome } from 'react-icons/sl';
 import { TbDatabaseDollar } from 'react-icons/tb';
-import { AppContext } from './AppContext';
+import { AppContext } from '../Context/AppContext';
 import { IoMdHelp } from 'react-icons/io';
 
 type ActionType = 'sign-up' | 'sign-in';
@@ -83,9 +83,9 @@ export const NavBar = () => {
   }).format(funds);
 
   const styles = {
-    nav: 'flex justify-between p-2 py-6 md:pr-10 bg-[#1F1F21] mb-6 pr-2',
+    nav: 'flex justify-between md:py-6 md:pr-10 bg-[#1F1F21] mb-6 pr-2',
     appName:
-      'text-lg italic ml-2 flex md:text-3xl lg:text-4xl xl:text-5xl md:ml-4 lg:ml-10 md:px-10',
+      'text-lg italic flex md:text-3xl lg:text-4xl xl:text-5xl md:ml-4 lg:ml-10 md:px-10',
     let: 'text-red-600 italic mr-1',
     s: 'mr-1 font-light ',
     parlay: 'text-blue-500',
@@ -135,10 +135,10 @@ export const NavBar = () => {
           />
         )}
         <div className="flex justify-center items-center">
-          <IoMenu
+          <HiMenuAlt4
             onClick={() => toggleMenu()}
             color="white"
-            className="ml-2 text-lg md:text-3xl cursor-pointer hover:bg-slate-500 rounded-full w-14 h-14 p-3"
+            className="md:ml-2 text-lg md:text-3xl cursor-pointer hover:bg-slate-800 rounded-full w-14 h-14 p-4 md:p-3"
           />
           <Link to={'/'} className={styles.appName}>
             <p className={styles.let}>LET</p>
@@ -175,10 +175,10 @@ export const NavBar = () => {
         {location.pathname !== '/faq' && (
           <Link
             to={'/faq'}
-            className="fixed top-28 md:top-32 right-4 md:right-20 z-50">
+            className="hidden md:block absolute md:fixed top-28 md:top-32 right-4 md:right-10 z-50">
             <span style={{ transition: 'all 0.2s ease-in-out' }}>
               <IoMdHelp
-                className="text-4xl p-1 text-gray-400 transform transition-transform duration-200 ease-in-out hover:bg-white hover:text-[#0f0f0f] hover:scale-150 border-gray-400 border-2 rounded-full"
+                className="text-4xl p-1 text-gray-400 transform transition-transform duration-200 ease-in-out hover:bg-white hover:text-[#0f0f0f] hover:scale-125 border-gray-400 border-2 rounded-full"
                 style={{ opacity: '0.75' }}
                 onMouseOver={({ currentTarget }) =>
                   (currentTarget.style.opacity = '1')

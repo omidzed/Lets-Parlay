@@ -1,6 +1,7 @@
 import { useEffect, ChangeEvent, useState, KeyboardEvent } from 'react';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { useFetchEvents } from '../hooks/useFetchEvents';
+import { IoIosClose } from 'react-icons/io';
 
 type SearchBoxProps = {
   setInputValue: (value: string) => void;
@@ -84,11 +85,11 @@ export const SearchBox = ({ setInputValue }: SearchBoxProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center relative">
-      <div className="relative w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 2xl:w-1/4">
+      <div className="relative w-1/2 md:w-1/3 lg:w-1/4">
         <FaMagnifyingGlass className="absolute z-20 md:text-bigger text-thead left-4 top-5 [#2E2E31] text-zinc-500" />
         <input
           className="w-full absolute-50 md:bg-contain text-black lg:text-custom p-2 text-sm focus:outline-none
-            2xl:text-lg pl-10 md:pl-16 py-3 rounded-2xl md:rounded-2xl lg:rounded-3xl xl:rounded-2xl 2xl:rounded-2xl"
+            2xl:text-lg pl-10 md:pl-16 pr-14 py-3 rounded-2xl"
           placeholder={placeholder}
           onBlur={handleBlur}
           onChange={onChange}
@@ -96,15 +97,24 @@ export const SearchBox = ({ setInputValue }: SearchBoxProps) => {
           value={inputValueLocal}
           onClick={handleClick}
         />
+        <IoIosClose
+          onClick={() => {
+            setInputValueLocal('');
+            setInputValue('');
+          }}
+          className={`absolute z-20 text-gray-500 text-4xl cursor-pointer right-5 top-3 ${
+            inputValueLocal ? '' : 'hidden'
+          }`}
+        />
       </div>
       {showSuggestions && filteredSuggestions.length > 0 && (
         <div className=" flex flex-col flex-nowrap items-center justify-start">
-          <ul className="absolute z-10 pt-2 w-3/5 md:w-1/3 lg:w-1/4 xl:w-1/4 2xl:w-1/4  top-9 md:top-9  rounded-b-xl bg-white lg:text-custom 2xl:text-lg text-sm">
+          <ul className="absolute z-10 pt-2 w-1/2 md:w-1/3 lg:w-1/4 top-9 md:top-10  rounded-b-xl bg-white lg:text-custom 2xl:text-lg text-sm">
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={index}
                 className={`cursor-pointer text-black my-2 pl-10 md:pl-16 ${
-                  index === activeSuggestionIndex ? 'bg-gray-300 rounded' : ''
+                  index === activeSuggestionIndex ? 'bg-gray-200' : ''
                 }`}
                 onClick={() => onSuggestionClick(suggestion)}>
                 {index === activeSuggestionIndex

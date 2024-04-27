@@ -8,19 +8,19 @@ type MenuProps = {
 };
 
 export const ExternalIcon = () => {
-  return <FaExternalLinkAlt />;
+  return <FaExternalLinkAlt size={10} />;
 };
 
 export const Menu = ({ onSelect, toggleMenu, menuItems }: MenuProps) => {
   const menuItemsList = menuItems.map((menuItem) => (
     <li
       key={menuItem.title}
-      className="md:ml-20 ml-8 mb-2 md:mb-4 cursor-pointer"
+      className="ml-8 mb-2 md:mb-4 cursor-pointer"
       onClick={() => onSelect(menuItem.path)}>
-      <div className="flex gap-2 md:gap-4 items-center  transition ease-in-out hover:scale-110 cursor-pointer w-1/4">
-        <span className=" text-red-600">{menuItem.icon}</span>
+      <div className="flex gap-2 md:gap-4 items-center border bg-black border-1 rounded-full transition ease-out hover:scale-105 hover:bg-blue-700 p-2">
+        <span className=" text-red-600 my-1 mx-2 ml-4">{menuItem.icon}</span>
         <span className="text-menuItem">{menuItem.title}</span>
-        <div className="text-smallest">
+        <div className="ml-2 mr-4">
           {menuItem.isExternal && <ExternalIcon />}
         </div>
       </div>
@@ -28,9 +28,10 @@ export const Menu = ({ onSelect, toggleMenu, menuItems }: MenuProps) => {
   ));
 
   return (
-    <div onClick={toggleMenu}>
-      <h1 className="mt-20 md:mt-28 flex items-center gap-3 md:gap-5 ml-5 md:ml-16 text-4xl md:text-5xl"></h1>
-      <ul className="md:text-username text-xl mt-8 md:mt-12">
+    <div
+      className="flex flex-col my-24 mx-10 justify-center items-center h-full"
+      onClick={toggleMenu}>
+      <ul className="flex flex-col h-screen gap-2 md:gap-0 mt-10 md:mt-2 md:text-username text-sm">
         {menuItemsList}
       </ul>
     </div>

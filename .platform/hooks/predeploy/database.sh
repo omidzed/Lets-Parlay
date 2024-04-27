@@ -1,5 +1,29 @@
 #!/bin/sh
 
+# # Install psql
+# dnf -y install postgresql15
+
+# # Create a connection URL from the Vercel environment variables
+# DB_HOSTNAME=$(echo $POSTGRES_HOST)
+# DB_PORT="5432"  # Default PostgreSQL port
+# DB_USER=$(echo $POSTGRES_USER)
+# DB_PASSWORD=$(echo $POSTGRES_PASSWORD)
+# DB_NAME="verceldb"  # Your database name as configured in Vercel
+
+# DATABASE_URL=postgresql://$DB_USER:$DB_PASSWORD@$DB_HOSTNAME:$DB_PORT/$DB_NAME
+
+# # Update the database
+# psql "$DATABASE_URL" \
+#   -f database/schema.sql \
+#   -f database/data.sql
+
+
+
+
+
+
+
+
 # Do nothing if no database has been configured yet.
 /opt/elasticbeanstalk/bin/get-config environment -k RDS_DB_NAME || exit 0
 

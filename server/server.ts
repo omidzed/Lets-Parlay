@@ -1,14 +1,24 @@
-import 'dotenv/config';
 import express from 'express';
 import pg from 'pg';
 import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
+import fs from 'fs';
 import {
   authMiddleware,
   ClientError,
   defaultMiddleware,
   errorMiddleware,
 } from './lib/index.js';
+import { config } from 'dotenv';
+import path from 'path';
+
+// Determine and set the path for environment variables early in the application lifecycle
+const envPath =
+  process.env.NODE_ENV === 'development'
+    ? '.env' // Use local env for development
+    : path.resolve(process.cwd(), 'server', '.env'); // Use server env for other environments
+
+config({ path: envPath });
 
 type User = {
   userId: number;
@@ -39,9 +49,17 @@ const connectionString =
   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
 const db = new pg.Pool({
   connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl:
+    process.env.NODE_ENV === 'production'
+      ? {
+          rejectUnauthorized: true,
+          ca: fs
+            .readFileSync(
+              path.resolve(process.cwd(), 'path/to/your/ca-certificate.crt')
+            )
+            .toString(),
+        }
+      : undefined,
 });
 
 const hashKey = process.env.TOKEN_SECRET;

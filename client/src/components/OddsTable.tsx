@@ -58,7 +58,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
 
   const style = {
     overUnder:
-      'flex whitespace-nowrap md:pr-3 text-tiny h-8 md:m-2 mt-2  lg:text-lg md:justify-between items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338] md:mr-2 cursor-pointer',
+      'flex whitespace-nowrap md:pr-3 text-tiny md:text-thead sm:pl-4 md:pl-1 h-8 md:m-2 mt-2  lg:text-lg md:justify-between items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338] md:mr-2 cursor-pointer',
     boxStyling2:
       'flex text-xs h-8 m-2 mt-2 pr-1 md:text-xl  justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338] cursor-pointer',
     date: 'flex text-tiny md:text-thead justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',

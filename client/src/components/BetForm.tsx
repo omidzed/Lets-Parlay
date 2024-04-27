@@ -1,7 +1,7 @@
 import type { Event } from '../utilities/data-types';
 import { type FormEvent, useState, useContext } from 'react';
 import { calculateWinnings } from '../utilities/payout-calculator';
-import { AppContext } from './AppContext';
+import { AppContext } from '../Context/AppContext';
 import CurrencyInput from 'react-currency-input-field';
 import { useModal } from '../hooks/useModal';
 import { AlertModal } from './AlertModal';
