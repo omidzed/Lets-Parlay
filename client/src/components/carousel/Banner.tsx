@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RxChevronLeft, RxChevronRight } from 'react-icons/rx';
+import { FaCircle, FaRegCircle } from 'react-icons/fa';
 
 type BannerProps = {
   posters: string[];
@@ -17,10 +18,11 @@ export const Banner = ({ posters }: BannerProps) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setIndex((index) => (index + 1) % posters.length);
-    }, 5000);
+    }, 7000);
 
     return () => clearInterval(intervalId);
   }, [posters.length]);
+
   const handlePrevClick = () => {
     index > 0 ? setIndex(index - 1) : setIndex(posters.length - 1);
   };
@@ -29,8 +31,12 @@ export const Banner = ({ posters }: BannerProps) => {
     index < posters.length - 1 ? setIndex(index + 1) : setIndex(0);
   };
 
+  const handleCircleClick = (idx: number) => {
+    setIndex(idx);
+  };
+
   return (
-    <div className="relative mt-4 w-3/4 md:w-2/5 lg:w-[38%] xl:w-[38%] 2xl:w-[38%] overflow-hidden">
+    <div className="relative mt-4 w-3/4 md:w-2/5 lg:w-[38%] xl:w-[38%] 2xl:w-[38%] overflow-visible">
       <img
         className="w-full mx-auto h-full rounded-md object-contain"
         src={posters[index]}
@@ -52,6 +58,23 @@ export const Banner = ({ posters }: BannerProps) => {
         <div
           className={`${overlayStyling} right-0`}
           onClick={handleNextClick}></div>
+      </div>
+      <div className="absolute bottom-[-2rem] left-1/2 transform -translate-x-1/2 flex space-x-1">
+        {posters.map((_, idx) =>
+          index === idx ? (
+            <FaCircle
+              className="text-white cursor-pointer"
+              size={6}
+              onClick={() => handleCircleClick(idx)}
+            />
+          ) : (
+            <FaRegCircle
+              className="text-white cursor-pointer"
+              size={6}
+              onClick={() => handleCircleClick(idx)}
+            />
+          )
+        )}
       </div>
     </div>
   );

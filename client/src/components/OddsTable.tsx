@@ -88,7 +88,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
     const underOdds = overUnderOdds[1].overUnderOdds;
 
     return (
-      <div key={index} className="flex justify-center mt-6 w-full lg:h-56">
+      <div key={index} className="flex justify-center mt-12 w-full lg:h-56">
         <div className="flex w-full h-36 py-2 px-2  rounded-md bg-[#212123e3] md:w-[80%] md:h-56 mt-2">
           <div className="flex w-[35%] text-white text-xl">
             <div className="flex w-full flex-col">

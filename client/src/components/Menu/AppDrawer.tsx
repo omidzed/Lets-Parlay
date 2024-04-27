@@ -42,13 +42,13 @@ export const AppDrawer = ({
 
   return (
     <div
-      className={` fixed top-0 left-0 w-[80%] md:w-[18%] h-screen z-50 ${
+      className={`fixed top-0 left-0 h-screen z-50 transition-transform duration-700 ease-in-out bg-[#171718] ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
-      } transition-transform duration-700 ease-in-out bg-[#171718]`}>
+      } w-[80%] sm:w-[60%] md:w-[40%] lg:w-[30%] xl:w-[25%] 2xl:w-[20%]`}>
       <div className={'drawer-container'}>
         <div className={isOpen ? 'hidden' : 'hamburger-container'}></div>
         <div className={isOpen ? 'menu-drawer open' : 'menu-drawer closed'}>
-          <div className="flex">
+          <div className="flex justify-center ">
             <div className="fixed top-24 right-14 md:top-20 cursor-pointer md:opacity-50 opacity-85 hover:opacity-100 hover:scale-125 transition ease-out">
               <BackButton toggleMenu={toggleMenu} />
             </div>
