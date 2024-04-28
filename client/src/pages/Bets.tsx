@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { getToken } from '../utilities/token-storage';
+import { getToken } from '../utils/token-storage';
 import { uid } from 'react-uid';
-import type { Bet } from '../utilities/data-types';
-import { formatDateTime } from '../utilities/format-date-time';
+import type { Bet } from '../utils/data-types';
+import { formatDateTime } from '../utils/format-date-time';
 
 export const Bets = () => {
   const [bets, setBets] = useState<Bet[]>([]);

@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { getToken, removeToken, hasToken } from '../utilities/token-storage';
+import { getToken, removeToken, hasToken } from '../utils/token-storage';
 import { useModal } from '../hooks/useModal';
 import { useUser } from '../hooks/useUser';
 import { AuthForm } from './AuthForm';
@@ -7,7 +7,7 @@ import { useState, useEffect, useContext } from 'react';
 import { AppDrawer } from './Menu/AppDrawer';
 import { Overlay } from './Menu/Overlay';
 import { HiMenuAlt4 } from 'react-icons/hi';
-import { MenuItem } from '../utilities/data-types';
+import { MenuItem } from '../utils/data-types';
 import { IoCalendarNumberOutline } from 'react-icons/io5';
 import { FaQuestion } from 'react-icons/fa6';
 import { FaRankingStar } from 'react-icons/fa6';

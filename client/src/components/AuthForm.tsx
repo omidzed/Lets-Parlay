@@ -1,3 +1,45 @@
+// import { useEffect } from 'react';
+// import { getAuth, EmailAuthProvider, UserCredential } from 'firebase/auth';
+// import 'firebaseui/dist/firebaseui.css';
+// import firebaseui from 'firebaseui'; // This assumes firebaseui uses named exports
+
+// type Props = {
+//   onSignIn: (authResult: UserCredential) => void;
+// };
+
+// export const FirebaseAuthComponent = ({ onSignIn }: Props) => {
+//   useEffect(() => {
+//     const auth = getAuth();
+
+//     // Initialize FirebaseUI AuthUI instance
+//     const ui =
+//       firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
+
+//     const uiConfig: firebaseui.auth.Config = {
+//       signInOptions: [EmailAuthProvider.PROVIDER_ID],
+//       signInSuccessUrl: '/',
+//       callbacks: {
+//         signInSuccessWithAuthResult: (authResult) => {
+//           onSignIn(authResult);
+//           return false;
+//         },
+//       },
+//     };
+
+//     // Start FirebaseUI auth container
+//     ui.start('#firebaseui-auth-container', uiConfig);
+
+//     // Define the cleanup function
+//     return () => {
+//       ui.delete();
+//     };
+//   }, [onSignIn]);
+
+//   return <div id="firebaseui-auth-container" />;
+// };
+
+// export default FirebaseAuthComponent;
+
 import { useState, FormEvent } from 'react';
 import { useModal } from '../hooks/useModal';
 import { AlertModal } from './AlertModal';

@@ -1,11 +1,11 @@
-import type { Event } from '../utilities/data-types';
+import type { Event } from '../utils/data-types';
 import { type FormEvent, useState, useContext } from 'react';
-import { calculateWinnings } from '../utilities/payout-calculator';
+import { calculateWinnings } from '../utils/payout-calculator';
 import { AppContext } from '../Context/AppContext';
 import CurrencyInput from 'react-currency-input-field';
 import { useModal } from '../hooks/useModal';
 import { AlertModal } from './AlertModal';
-import { getToken } from '../utilities/token-storage';
+import { getToken } from '../utils/token-storage';
 
 type BetFormProps = {
   event: Event;

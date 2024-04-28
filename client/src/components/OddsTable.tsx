@@ -1,9 +1,9 @@
-import { hasToken } from '../utilities/token-storage';
-import { formatDateTime } from '../utilities/format-date-time';
+import { hasToken } from '../utils/token-storage';
+import { formatDateTime } from '../utils/format-date-time';
 import { BetForm } from './BetForm';
 import { useModal } from '../hooks/useModal';
-import type { Event } from '../utilities/data-types';
-import { formatLongName } from '../utilities/format-names';
+import type { Event } from '../utils/data-types';
+import { formatLongName } from '../utils/format-names';
 import { AlertModal } from './AlertModal';
 
 type Props = {
@@ -89,10 +89,10 @@ export const OddsTable = ({ filteredEvents }: Props) => {
 
     return (
       <div key={index} className="flex justify-center mt-12 w-full lg:h-56">
-        <div className="flex w-full h-36 py-2 px-2  rounded-md bg-[#212123e3] md:w-[80%] md:h-56 mt-2">
+        <div className="flex w-full h-36 py-2 rounded-md bg-[#212123e3] md:w-[80%] md:h-56 mt-2">
           <div className="flex w-[35%] text-white text-xl">
             <div className="flex w-full flex-col">
-              <span className={style.date}>{formattedDateTime}</span>
+              <span className={`${style.date} px-2`}>{formattedDateTime}</span>
               <span
                 onClick={() => handleClick(nameOne)}
                 className="flex whitespace-nowrap justify-center items-center text-tiny md:text-custom h-[28%] cursor-pointer">
@@ -107,7 +107,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
           </div>
           <div className="flex w-[65%] text-white text-xl">
             <div className="flex-col w-[34%] text-white text-xs">
-              <span className={style.thead}>PT SPREAD</span>
+              <span className={`${style.thead} px-2`}>PT SPREAD</span>
               <span className={style.boxStyling2}></span>
               <span className={style.boxStyling2}></span>
             </div>

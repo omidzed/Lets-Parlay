@@ -1,3 +1,114 @@
+// import express from 'express';
+// import { config } from 'dotenv';
+// import path from 'path';
+// import admin from 'firebase-admin';
+// import {
+//   authMiddleware,
+//   errorMiddleware,
+//   defaultMiddleware,
+// } from './lib/index.js';
+
+// // Load environment variables
+// const envPath =
+//   process.env.NODE_ENV === 'development'
+//     ? '.env'
+//     : path.resolve(process.cwd(), 'server', '.env');
+// config({ path: envPath });
+
+// // Initialize Firebase Admin SDK
+// admin.initializeApp({
+//   credential: admin.credential.cert({
+//     projectId: process.env.FIREBASE_PROJECT_ID,
+//     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+//     privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+//   }),
+//   databaseURL: process.env.FIREBASE_DATABASE_URL,
+// });
+
+// // Express app setup
+// const app = express();
+// const reactStaticDir = new URL('../client/dist', import.meta.url).pathname;
+// const uploadsStaticDir = new URL('public', import.meta.url).pathname;
+
+// app.use(express.static(reactStaticDir));
+// app.use(express.static(uploadsStaticDir));
+// app.use(express.json());
+
+// // Firebase Admin SDK setup for Firestore
+// const db = admin.firestore();
+
+// // API Routes
+// app.post('/api/auth/sign-up', async (req, res, next) => {
+//   try {
+//     const { email, password, name, funds = 5000 } = req.body;
+//     const userRecord = await admin.auth().createUser({
+//       email,
+//       password,
+//       displayName: name,
+//     });
+
+//     // Add user details to Firestore
+//     const userRef = db.collection('users').doc(userRecord.uid);
+//     await userRef.set({
+//       name,
+//       funds,
+//     });
+
+//     res.status(201).send({ uid: userRecord.uid });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+// app.post('/api/auth/login', async (req, res, next) => {
+//   // Firebase client SDK handles login; this endpoint might not be needed
+//   res.status(200).send('Login managed by Firebase client-side SDK.');
+// });
+
+// app.post('/api/bets', authMiddleware, async (req, res, next) => {
+//   const { pick, dateTime, closed, betType, betAmount } = req.body;
+//   const userId = req.user.uid; // UID provided by Firebase authentication
+
+//   try {
+//     const betRef = db.collection('bets').doc();
+//     await betRef.set({
+//       userId,
+//       pick,
+//       dateTime,
+//       closed,
+//       betType,
+//       betAmount,
+//     });
+
+//     res.status(201).send({ id: betRef.id });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+// app.get('/api/bets', authMiddleware, async (req, res, next) => {
+//   const userId = req.user.uid;
+
+//   try {
+//     const betsQuery = db.collection('bets').where('userId', '==', userId);
+//     const querySnapshot = await betsQuery.get();
+//     const bets = querySnapshot.docs.map((doc) => doc.data());
+
+//     res.status(200).json(bets);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+// // Static files and error handling
+// app.use(defaultMiddleware(reactStaticDir));
+// app.use(errorMiddleware);
+
+// // Start server
+// app.listen(process.env.PORT, () => {
+//   console.log(`App listening on port ${process.env.PORT}`);
+// });
+
 import express from 'express';
 import pg from 'pg';
 import jwt from 'jsonwebtoken';

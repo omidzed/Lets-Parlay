@@ -36,11 +36,53 @@ input::placeholder {
   margin: auto;
 }
 
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.menu-item-enter {
+  animation: slideInFromLeft 0.15s ease-out forwards;
+}
+
+.gradient-hover {
+  background: black; /* Initial background */
+  transition: background 0.3s ease-out, transform 0.3s ease-out;
+  border-radius: 9999px; /* Tailwind's rounded-full */
+  display: flex;
+  gap: 0.5rem; /* Equivalent to Tailwind's gap-2 */
+}
+
+.gradient-hover:hover {
+  background: linear-gradient(0.25turn, #0a0a0a, #414139, #dde10c);
+  transform: scale(1.1); /* Equivalent to Tailwind's scale-110 */
+}
+
 .gradient-border {
   border: solid 1px transparent;
-  border-radius: 999px;
+  border-radius: 9999px;
   background-image: linear-gradient(rgb(12, 12, 12), rgb(60, 60, 56)),
-    radial-gradient(#e5ff00, #088761);
+    radial-gradient(circle at center, #e5ff00 0%, #dff705 100%);
   background-origin: border-box;
-  background-clip: content-box, border-box;
+  background-clip: padding-box, padding-box; /* Change this to padding-box */
+}
+
+.full-width-border {
+  position: relative;
+}
+
+.full-width-border::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-bottom: 1px solid #343541;
 }
