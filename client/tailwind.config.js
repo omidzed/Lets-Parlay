@@ -14,7 +14,7 @@ export default {
         bigger: '1.2rem',
         username: '1.2rem',
         odds: '1.4rem',
-        menuItem: '1.2rem',
+        menuItem: '1.5rem',
         menu: '2.4rem',
       },
     },

@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, ReactNode } from 'react';
-import type { Auth, User } from '../utilities';
-import { getToken, storeToken } from '../utilities/token-storage';
+import type { Auth, User } from '../utils';
+import { getToken, storeToken } from '../utils/token-storage';
 
 export type AppContextValues = {
   user: User | undefined;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import type { Event } from '../utilities/data-types';
-import { apiKey } from '../utilities/api-data';
+import type { Event } from '../utils/data-types';
+import { apiKey } from '../utils/api-data';
 
 export const useFetchEvents = () => {
   const [events, setEvents] = useState<Event[] | undefined>([]);

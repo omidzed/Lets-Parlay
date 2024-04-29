@@ -1,4 +1,4 @@
-import { FaCircleChevronLeft } from 'react-icons/fa6';
+import { IoIosCloseCircleOutline } from 'react-icons/io';
 
 type BackButtonProps = {
   toggleMenu: () => void;
@@ -7,7 +7,7 @@ type BackButtonProps = {
 export const BackButton = ({ toggleMenu }: BackButtonProps) => {
   return (
     <div>
-      <FaCircleChevronLeft onClick={toggleMenu} />
+      <IoIosCloseCircleOutline onClick={toggleMenu} size={35} />
     </div>
   );
 };

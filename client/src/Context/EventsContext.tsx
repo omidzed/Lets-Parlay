@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode } from 'react';
-import type { Event } from '../utilities/data-types';
+import type { Event } from '../utils/data-types';
 import { useFetchEvents } from '../hooks/useFetchEvents';
 
 export type EventsContextValues = {

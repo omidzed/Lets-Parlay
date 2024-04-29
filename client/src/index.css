@@ -36,11 +36,81 @@ input::placeholder {
   margin: auto;
 }
 
-.gradient-border {
-  border: solid 1px transparent;
-  border-radius: 999px;
-  background-image: linear-gradient(rgb(12, 12, 12), rgb(60, 60, 56)),
-    radial-gradient(#e5ff00, #088761);
-  background-origin: border-box;
-  background-clip: content-box, border-box;
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.menu-item-enter {
+  animation: slideInFromLeft 0.15s ease-out forwards;
+}
+
+.gradient-hover {
+  background: black; /* Initial background */
+  transition: background 0.3s ease-out, transform 0.3s ease-out;
+  border-radius: 9999px; /* Tailwind's rounded-full */
+  display: flex;
+  gap: 0.5rem; /* Equivalent to Tailwind's gap-2 */
+}
+
+.gradient-hover:hover {
+  background: linear-gradient(
+    0.3turn,
+    black,
+    black,
+    black,
+    black,
+    black,
+    black,
+    black,
+    black,
+    rgb(19, 19, 18),
+    rgb(52, 52, 46),
+    #7b7b3a,
+    yellow
+  );
+  transform: scale(1.1); /* Equivalent to Tailwind's scale-110 */
+}
+
+.full-width-border {
+  position: relative;
+}
+
+.full-width-border::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-bottom: 1px solid #343541;
+}
+
+.gradient-hover2:hover {
+  background: linear-gradient(
+    0.3turn,
+    blue,
+    blue,
+    blue,
+    rgb(67, 51, 154),
+    rgb(48, 26, 173),
+    rgb(64, 65, 132),
+    rgb(143, 67, 67),
+    red,
+    rgb(157, 49, 49),
+    rgb(198, 28, 28),
+    red,
+    red
+  );
+  transform: scale(1.1); /* Equivalent to Tailwind's scale-110 */
+}
+
+.border-hover:hover {
+  border: 1px solid yellow;
 }

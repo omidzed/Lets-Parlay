@@ -114,7 +114,7 @@ export const SearchBox = ({ setInputValue }: SearchBoxProps) => {
               <li
                 key={index}
                 className={`cursor-pointer text-black my-2 pl-10 md:pl-16 ${
-                  index === activeSuggestionIndex ? 'bg-gray-200' : ''
+                  index === activeSuggestionIndex ? 'bg-blue-100' : ''
                 }`}
                 onClick={() => onSuggestionClick(suggestion)}>
                 {index === activeSuggestionIndex
