@@ -61,17 +61,22 @@ input::placeholder {
 }
 
 .gradient-hover:hover {
-  background: linear-gradient(0.25turn, #0a0a0a, #414139, #dde10c);
+  background: linear-gradient(
+    0.3turn,
+    black,
+    black,
+    black,
+    black,
+    black,
+    black,
+    black,
+    black,
+    rgb(19, 19, 18),
+    rgb(52, 52, 46),
+    #7b7b3a,
+    yellow
+  );
   transform: scale(1.1); /* Equivalent to Tailwind's scale-110 */
-}
-
-.gradient-border {
-  border: solid 1px transparent;
-  border-radius: 9999px;
-  background-image: linear-gradient(rgb(12, 12, 12), rgb(60, 60, 56)),
-    radial-gradient(circle at center, #e5ff00 0%, #dff705 100%);
-  background-origin: border-box;
-  background-clip: padding-box, padding-box; /* Change this to padding-box */
 }
 
 .full-width-border {
@@ -85,4 +90,27 @@ input::placeholder {
   bottom: 0;
   width: 100%;
   border-bottom: 1px solid #343541;
+}
+
+.gradient-hover2:hover {
+  background: linear-gradient(
+    0.3turn,
+    blue,
+    blue,
+    blue,
+    rgb(67, 51, 154),
+    rgb(48, 26, 173),
+    rgb(64, 65, 132),
+    rgb(143, 67, 67),
+    red,
+    rgb(157, 49, 49),
+    rgb(198, 28, 28),
+    red,
+    red
+  );
+  transform: scale(1.1); /* Equivalent to Tailwind's scale-110 */
+}
+
+.border-hover:hover {
+  border: 1px solid yellow;
 }

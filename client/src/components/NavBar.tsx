@@ -6,7 +6,6 @@ import { AuthForm } from './AuthForm';
 import { useState, useEffect, useContext } from 'react';
 import { AppDrawer } from './Menu/AppDrawer';
 import { Overlay } from './Menu/Overlay';
-import { HiMenuAlt4 } from 'react-icons/hi';
 import { MenuItem } from '../utils/data-types';
 import { IoCalendarNumberOutline } from 'react-icons/io5';
 import { FaQuestion } from 'react-icons/fa6';
@@ -15,6 +14,7 @@ import { SlHome } from 'react-icons/sl';
 import { TbDatabaseDollar } from 'react-icons/tb';
 import { AppContext } from '../Context/AppContext';
 import { IoMdHelp } from 'react-icons/io';
+import { RiMenu2Line } from 'react-icons/ri';
 
 type ActionType = 'sign-up' | 'sign-in';
 
@@ -135,10 +135,17 @@ export const NavBar = () => {
           />
         )}
         <div className="flex justify-center items-center">
-          <HiMenuAlt4
+          <RiMenu2Line
             onClick={() => toggleMenu()}
             color="white"
-            className="md:ml-2 text-lg md:text-3xl cursor-pointer hover:bg-slate-800 rounded-full w-14 h-14 p-4 md:p-3"
+            size={40}
+            className="md:ml-5  p-3 md:p-2 cursor-pointer hover:border hover:bg-slate-600 rounded-full "
+            w-14
+            h-14
+            p-4
+            md:p-3
+            text-lg
+            md:text-3xl
           />
           <Link to={'/'} className={styles.appName}>
             <p className={styles.let}>LET</p>
