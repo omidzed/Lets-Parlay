@@ -69,7 +69,7 @@ export type Bet = {
   dateTime: string;
   status: string;
   userId: number;
-  placed_at?: string;
+  placedAt: string;
   betType: string;
 };
 
