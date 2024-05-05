@@ -5,6 +5,7 @@ import { useModal } from '../hooks/useModal';
 import type { Event } from '../utils/data-types';
 import { formatLongName } from '../utils/format-names';
 import { AlertModal } from './AlertModal';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 
 type Props = {
   filteredEvents: Event[];
@@ -50,22 +51,22 @@ export const OddsTable = ({ filteredEvents }: Props) => {
         overUnderIndex={overUnderIndex}
         pick={pick}
         dateTime={event.commenceTime}
-        closed={false}
+        status="open"
       />,
       'Bet Slip'
     );
   };
 
   const style = {
-    overUnder:
-      'flex whitespace-nowrap md:pr-3 text-tiny md:text-thead sm:pl-4 md:pl-1 h-8 md:m-2 mt-2  lg:text-lg md:justify-between items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338] md:mr-2 cursor-pointer',
-    boxStyling2:
-      'flex text-xs h-8 m-2 mt-2 pr-1 md:text-xl  justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338] cursor-pointer',
-    date: 'flex text-tiny md:text-thead justify-center items-center h-1/4 mb-5 border-b-[1px] border-b-[#343541] w-full',
-    thead:
-      'flex whitespace-nowrap text-rounds md:text-thead justify-center items-center h-1/4 mb-4 border-b-[1px] border-b-[#343541] w-full',
     rounds:
-      'flex md:pl-2 justify-center items-center text-tiny h-8 m-2 mt-2 lg:text-thead  justify-center items-center rounded-md bg-[#2e2e31] text-white md:h-[28%] ',
+      'flex gap-2 pl-2 md:ml-1 mr-1 justify-between items-center text-tiny h-7  lg:text-thead justify-center items-center rounded-md bg-[#2e2e31] text-white md:h-[28%]',
+    overUnder:
+      'flex whitespace-nowrap w-[80%] text-tiny md:text-thead sm:pl-4 md:pl-1 h-7  mt-2 lg:text-lg md:justify-between items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338] cursor-pointer',
+    boxStyling:
+      'flex text-xs h-7 m-2 mt-2 md:text-xl w-[80%] justify-center items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338] cursor-pointer',
+    date: 'flex text-tiny md:text-thead justify-center items-center h-1/4 mb-5 w-full date-thead-container',
+    thead:
+      'flex whitespace-nowrap text-rounds md:text-thead justify-center items-center h-1/4 mb-4 w-full date-thead-container',
   };
 
   const handleClick = (name: string) => {
@@ -88,56 +89,70 @@ export const OddsTable = ({ filteredEvents }: Props) => {
     const underOdds = overUnderOdds[1].overUnderOdds;
 
     return (
-      <div key={index} className="flex justify-center mt-12 w-full lg:h-56">
-        <div className="flex w-full h-36 py-2 rounded-md bg-[#212123e3] md:w-[80%] md:h-56 mt-2">
-          <div className="flex w-[35%] text-white text-xl">
-            <div className="flex w-full flex-col">
-              <span className={`${style.date} px-2`}>{formattedDateTime}</span>
+      <div key={index} className="flex justify-center my-4 w-full lg:h-56">
+        <div className="flex w-full h-32 py-2 rounded-lg bg-[#212123e3] md:w-[90%] md:h-56 mt-2">
+          <div className="flex w-1/2 md:w-[35%] text-white text-xl">
+            <div className="flex w-full flex-col ">
+              <span
+                className={`${style.date} full-width-border px-2  border border-t-0 border-r-0 border-l-0 border-gray-600`}>
+                {formattedDateTime}
+              </span>
               <span
                 onClick={() => handleClick(nameOne)}
-                className="flex whitespace-nowrap justify-center items-center text-tiny md:text-custom h-[28%] cursor-pointer">
-                {nameOne}
+                className="flex whitespace-nowrap justify-center gap-2 items-center text-tiny md:text-custom h-[28%] cursor-pointer">
+                {nameOne} <FaExternalLinkAlt color="grey" size={8} />
               </span>
               <span
                 onClick={() => handleClick(nameTwo)}
                 className="flex gap-2 whitespace-nowrap justify-center items-center text-tiny md:text-custom  h-[33%] cursor-pointer">
-                {nameTwo}
+                {nameTwo} <FaExternalLinkAlt color="grey" size={8} />
               </span>
             </div>
           </div>
-          <div className="flex w-[65%] text-white text-xl">
-            <div className="flex-col w-[34%] text-white text-xs">
-              <span className={`${style.thead} px-2`}>PT SPREAD</span>
-              <span className={style.boxStyling2}></span>
-              <span className={style.boxStyling2}></span>
-            </div>
-            <div className="flex-col w-[33%]  text-white text-xs">
-              <span className={style.thead}>MONEYLINE</span>
+          <div className="flex w-1/2 md:w-[65%] text-white text-xl">
+            <div className="hidden md:block flex-col w-1/3 text-white text-xs">
               <span
-                className={`${style.boxStyling2} cursor-pointer`}
+                className={`${style.thead} full-width-border px-2  border border-t-0 border-r-0 border-l-0 border-gray-600`}>
+                PT SPREAD
+              </span>
+              <span className={style.boxStyling}></span>
+              <span className={style.boxStyling}></span>
+            </div>
+            <div className="flex-col  w-1/2 md:w-1/3 text-white text-xs">
+              <span
+                className={`${style.thead} full-width-border px-2 border border-t-0 border-r-0 border-l-0 border-gray-600`}>
+                MONEYLINE
+              </span>
+              <span
+                className={`${style.boxStyling} cursor-pointer`}
                 onClick={() => betSlip(event, 'moneyline', '')}>
                 {moneyline > 0 ? `+${moneyline}` : moneyline}
               </span>
               <span
-                className={style.boxStyling2}
+                className={style.boxStyling}
                 onClick={() => betSlip(event, 'moneylineTwo', '')}>
                 {moneylineTwo > 0 ? `+${moneylineTwo}` : moneylineTwo}
               </span>
             </div>
-            <div className="flex-col w-[32%]  text-white text-tiny md:mr-4 md:text-2xl">
-              <span className={style.thead}>ROUNDS +/- </span>
+            <div className="flex-col  w-1/2 md:w-1/3  text-white text-tiny md:text-2xl">
               <span
+                className={`${style.thead} full-width-border border border-t-0 border-r-0 border-l-0 border-gray-600`}>
+                ROUNDS +/-
+              </span>
+              <div
                 className={style.overUnder}
                 onClick={() => betSlip(event, '', 'O 2.5')}>
                 <span className={style.rounds}>{over}</span>
-                {overOdds}
-              </span>
-              <span
+                <span className="md:pr-4">{overOdds}</span>
+              </div>
+              <div
                 className={style.overUnder}
                 onClick={() => betSlip(event, '', 'U 2.5')}>
                 <span className={style.rounds}>{under}</span>
-                {underOdds > 0 ? `+${underOdds}` : underOdds}
-              </span>
+                <span className="md:pr-4">
+                  {underOdds > 0 ? `+${underOdds}` : underOdds}
+                </span>
+              </div>
             </div>
           </div>
         </div>

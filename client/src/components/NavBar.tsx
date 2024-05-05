@@ -15,6 +15,7 @@ import { TbDatabaseDollar } from 'react-icons/tb';
 import { AppContext } from '../Context/AppContext';
 import { IoMdHelp } from 'react-icons/io';
 import { RiMenu2Line } from 'react-icons/ri';
+import { User } from '../utils';
 
 type ActionType = 'sign-up' | 'sign-in';
 
@@ -58,7 +59,7 @@ export const NavBar = () => {
     }
   }, [isAuthenticated, setFunds]); // Only re-run if isAuthenticated or setFunds changes
 
-  const handleAuthSuccess = (data) => {
+  const handleAuthSuccess = (data: { user: User }) => {
     localStorage.setItem('token', JSON.stringify(data));
     setUser(data.user);
     setIsAuthenticated(true);
@@ -83,21 +84,21 @@ export const NavBar = () => {
   }).format(funds);
 
   const styles = {
-    nav: 'flex justify-between md:py-6 md:pr-10 bg-[#1F1F21] mb-6 pr-2',
+    nav: 'flex justify-between md:py-4 md:pr-10 bg-[#1F1F21] mb-4 pr-2',
     appName:
-      'text-lg italic flex md:text-3xl lg:text-4xl xl:text-5xl md:ml-4 lg:ml-10 md:px-10',
-    let: 'text-red-600 italic mr-1',
-    s: 'mr-1 font-light ',
-    parlay: 'text-blue-500',
-    buttonsWrapper: 'flex items-center gap-1 md:gap-3 mr-1 md:mr-0',
+      'text-lg italic flex md:text-2xl lg:text-3xl xl:text-4xl md:ml-4 lg:ml-10 md:px-10',
+    let: 'text-yellow-300 italic mr-1',
+    s: 'mr-1 text-smallest md:text-xl lg:text-2xl xl:text-3xl flex items-end font-light ',
+    parlay: 'text-yellow-300',
+    buttonsWrapper: 'flex items-center gap-1 md:gap-3 mr-1 md:mr-20',
     join: 'lg:text-custom xl:text-custom text-tiny tracking-wider p-1 bg-red-700 hover:bg-red-600 rounded-sm md:rounded-md px-2 md:px-7 md:py-2',
     login:
-      'lg:text-custom xl:text-custom flex gap-1 text-tiny p-1 bg-blue-800 hover:bg-blue-700 rounded-sm md:rounded-md px-2 md:px-6 md:py-2',
+      'lg:text-thead text-yellow-300 flex gap-1 text-tiny p-1 bg-black shadow-2xl shadow-yellow border border-black hover:border-yellow-400 rounded-sm md:rounded-md px-2 md:px-6 md:py-2',
     logout:
-      'text-tiny md:text-custom lg:text-custom xl:text-custom 2xl:text-custom flex 2xl:gap-2 gap-1 p-1 mr-2 md:mr-0 border border-zinc-400 hover:border-white rounded-sm md:rounded-md bg-black px-2 md:px-6 md:py-2 hover:bg-zinc-900',
+      'text-tiny md:mr-20  md:text-custom lg:text-custom 2xl:gap-2 gap-1 p-1 mr-2 md:mr-0 border border-black hover:border-white rounded-sm md:rounded-md bg-black px-2 md:px-6 md:py-2',
     list: 'flex md:justify-end md:items-end gap-0 md:mr-6 mr-2 flex-nowrap',
-    userName: 'text-sm leading-2 md:text-2xl',
-    funds: 'text-sm leading-2 md:text-2xl text-[#54D338] cursor-pointer',
+    userName: 'text-sm leading-2 md:text-xl',
+    funds: 'text-sm leading-2 md:text-xl text-[#54D338] cursor-pointer',
   };
 
   const toggleMenu = () => {
@@ -140,12 +141,6 @@ export const NavBar = () => {
             color="white"
             size={40}
             className="md:ml-5  p-3 md:p-2 cursor-pointer hover:border hover:bg-slate-600 rounded-full "
-            w-14
-            h-14
-            p-4
-            md:p-3
-            text-lg
-            md:text-3xl
           />
           <Link to={'/'} className={styles.appName}>
             <p className={styles.let}>LET</p>
@@ -164,28 +159,27 @@ export const NavBar = () => {
                 </Link>
               </div>
             </div>
-            <button className={styles.logout} onClick={logOut}>
-              <div>LOG</div>
-              <div>OUT</div>
+            <button className={`${styles.logout} md:mr-20`} onClick={logOut}>
+              Log Out
             </button>
           </div>
         ) : (
           <div className={styles.buttonsWrapper}>
-            <button className={styles.join} onClick={handleRegister}>
+            <button className="hidden" onClick={handleRegister}>
               JOIN
             </button>
             <button className={styles.login} onClick={handleLogin}>
-              <div className="className">SIGN IN </div>
+              <div className="className">Log In </div>
             </button>
           </div>
         )}
         {location.pathname !== '/faq' && (
           <Link
             to={'/faq'}
-            className="hidden md:block absolute md:fixed top-28 md:top-32 right-4 md:right-10 z-50">
+            className="fixed top-6 md:top-5 right-4 md:right-10 z-50">
             <span style={{ transition: 'all 0.2s ease-in-out' }}>
               <IoMdHelp
-                className="text-4xl p-1 text-gray-400 transform transition-transform duration-200 ease-in-out hover:bg-white hover:text-[#0f0f0f] hover:scale-125 border-gray-400 border-2 rounded-full"
+                className="hidden md:block md:text-large p-1 text-white-500 transform transition-transform duration-200 ease-in-out hover:bg-gray-600 hover:text-yellow-500 hover:scale-125 border-gray-400 border-2 rounded-full"
                 style={{ opacity: '0.75' }}
                 onMouseOver={({ currentTarget }) =>
                   (currentTarget.style.opacity = '1')

@@ -13,7 +13,7 @@ type BetFormProps = {
   overUnderIndex: number;
   pick: string;
   dateTime: string;
-  closed: boolean;
+  status: string;
 };
 
 export const BetForm = ({
@@ -22,7 +22,7 @@ export const BetForm = ({
   overUnderIndex,
   pick,
   dateTime,
-  closed,
+  status,
 }: BetFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [betAmount, setBetAmount] = useState<number>(0);
@@ -60,7 +60,7 @@ export const BetForm = ({
         timeStamp,
         pick,
         dateTime,
-        closed,
+        status,
       }),
     };
 

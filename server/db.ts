@@ -3,6 +3,72 @@
 // import fs from 'fs';
 // import path from 'path';
 
+// // Load environment variables from .env file based on the NODE_ENV
+// const envFile = process.env.NODE_ENV === 'development' ? '.env.local' : '.env';
+// config({ path: path.resolve(process.cwd(), envFile) });
+
+// // Verify that the DATABASE_URL is set
+// if (!process.env.DATABASE_URL) {
+//   console.error('DATABASE_URL environment variable not found!');
+//   process.exit(1);
+// }
+
+// // SSL configuration
+// let ssl = null;
+// if (process.env.NODE_ENV === 'production') {
+//   const caPath = '/path/to/server-certificates/root.crt';
+//   if (fs.existsSync(caPath)) {
+//     ssl = {
+//       rejectUnauthorized: true,
+//       ca: fs.readFileSync(caPath).toString(),
+//     };
+//   } else {
+//     console.error('SSL certificate file not found!');
+//     process.exit(1);
+//   }
+// }
+
+// // Create a pool of PostgreSQL connections
+// export const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl,
+// });
+
+// type Ranking = {
+//   rank: number;
+//   fighterName: string;
+// };
+
+// // A function to insert rankings into the database
+// export const insertRankings = async (
+//   division: string,
+//   rankings: Ranking[]
+// ): Promise<void> => {
+//   const client = await pool.connect();
+
+//   try {
+//     await client.query('BEGIN');
+//     for (const ranking of rankings) {
+//       await client.query(
+//         'INSERT INTO fighter_rankings (division, rank, fighter_name) VALUES ($1, $2, $3) ON CONFLICT (rank, division) DO UPDATE SET fighter_name = EXCLUDED.fighter_name, updated_at = NOW()',
+//         [division, ranking.rank, ranking.fighterName]
+//       );
+//     }
+//     await client.query('COMMIT');
+//   } catch (error) {
+//     await client.query('ROLLBACK');
+//     console.error('Transaction error, rolling back:', error);
+//     throw error;
+//   } finally {
+//     client.release();
+//   }
+// };
+
+// import { Pool } from 'pg';
+// import { config } from 'dotenv';
+// import fs from 'fs';
+// import path from 'path';
+
 // // Determine the correct path for environment variables based on NODE_ENV
 // const envPath =
 //   process.env.NODE_ENV === 'development'
@@ -26,10 +92,6 @@
 //         }
 //       : false,
 // });
-
-// import { Pool } from 'pg';
-// import { config } from 'dotenv';
-// import fs from 'fs';
 
 // try {
 //   config({ path: `.env.${process.env.NODE_ENV || 'development'}` });

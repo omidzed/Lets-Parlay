@@ -33,10 +33,8 @@ export const Menu = ({ onSelect, toggleMenu, menuItems }: MenuProps) => {
         animationDelay: `${index * 0.1}s`,
       }}
       onClick={() => onSelect(menuItem.path)}>
-      <div className="flex gap-2 md:gap-4 items-center border-hover border border-zinc-900 bg-black rounded-sm transition ease-out gradient-hover p-3">
-        <span className="text-red-600 hover:text-yellow-400 my-1 mx-2 ml-2">
-          {menuItem.icon}
-        </span>
+      <div className="flex gap-2 md:gap-4 items-center border-hover border border-zinc-900 bg-black rounded-sm transition ease-in-out gradient-hover p-3">
+        <span className="text-yellow-400 my-1 mx-2 ml-2">{menuItem.icon}</span>
         <span className="text-menuItem">{menuItem.title}</span>
         <div className="ml-2 mr-4">
           {menuItem.isExternal && <ExternalIcon />}

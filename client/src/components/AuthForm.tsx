@@ -47,7 +47,7 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
               toggleAction(); // Switch to the sign-in form if you want
             }}
           />,
-          ''
+          'Congratulations!'
         );
       } else if (action === 'sign-in') {
         onSignIn(data); // Switch to the sign-in form if you want
@@ -159,7 +159,7 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
           <p className="text-md mt-4 text-center">Not a member yet?</p>
           <a
             onClick={() => toggleAction()}
-            className="flex tracking-wide text-logout md:mb-8 mb-6 justify-center items-center font-bold text-md text-[#3d86ec] underline cursor-pointer">
+            className="flex tracking-wide text-logout md:mb-8 mb-6 justify-center items-center font-bold text-md text-[#3d86ec] hover:underline cursor-pointer">
             Join Now
           </a>
         </div>

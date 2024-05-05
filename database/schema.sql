@@ -18,10 +18,10 @@ CREATE TYPE bet_status AS ENUM ('open', 'closed', 'canceled');
 CREATE TABLE "bets" (
   "betId" serial PRIMARY KEY,
   "userId" int REFERENCES "users" ("userId"),
-  "status" bet_status NOT NULL,
+  "status" bet_status NOT NULL DEFAULT 'open',
   "dateTime" text,
   "pick" text,
-  "winner" boolean NOT NULL,
+  "winner" boolean,
   "betType" text,
   "betAmount" int NOT NULL,
   "payout" int,

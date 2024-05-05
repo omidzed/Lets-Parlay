@@ -12,12 +12,6 @@ export type Token = {
   funds: number;
 };
 
-export type GuestToken = {
-  token: string;
-  name: string;
-  funds: number;
-};
-
 /**
  * Stores the JWT token in local storage.
  * @param token The JWT token to store.
@@ -30,11 +24,12 @@ export const storeToken = (token: Token): void => {
  * Retrieves the JWT token from local storage.
  * @returns The JWT token or null if it doesn't exist.
  */
-export const getToken = () => {
+export const getToken = (): Token | null => {
   const tokenString = localStorage.getItem('token');
   if (tokenString !== null) {
-    return JSON.parse(tokenString);
-  } else return null;
+    return JSON.parse(tokenString) as Token;
+  }
+  return null;
 };
 
 /**
@@ -49,12 +44,5 @@ export const removeToken = (): void => {
  * @returns boolean indicating if a token is stored.
  */
 export const hasToken = (): boolean => {
-  return getGuestToken() !== null;
-};
-
-export const getGuestToken = () => {
-  const tokenString = localStorage.getItem('token');
-  if (tokenString !== null) {
-    return JSON.parse(tokenString);
-  } else return null;
+  return getToken() !== null;
 };

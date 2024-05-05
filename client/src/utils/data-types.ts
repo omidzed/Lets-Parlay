@@ -67,6 +67,23 @@ export type Bet = {
   pick: string;
   closed: boolean;
   dateTime: string;
-  placedAt: string;
   status: string;
+  userId: number;
+  placed_at?: string;
+  betType: string;
+};
+
+export type User = {
+  userId: number;
+  username: string;
+  hashedPassword: string;
+  name: string;
+  funds: number;
+};
+
+export type Auth = {
+  username: string;
+  password: string;
+  name: string;
+  funds: number;
 };

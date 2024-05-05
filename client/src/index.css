@@ -71,12 +71,12 @@ input::placeholder {
     black,
     black,
     black,
-    rgb(19, 19, 18),
-    rgb(52, 52, 46),
-    #7b7b3a,
-    yellow
+    rgb(97, 97, 62),
+    rgb(150, 150, 48),
+    #e2e20a,
+    rgb(255, 234, 0)
   );
-  transform: scale(1.1); /* Equivalent to Tailwind's scale-110 */
+  transform: scale(1.06); /* Equivalent to Tailwind's scale-110 */
 }
 
 .full-width-border {
@@ -112,5 +112,5 @@ input::placeholder {
 }
 
 .border-hover:hover {
-  border: 1px solid yellow;
+  border: 1px solid rgba(255, 255, 0, 0.74);
 }

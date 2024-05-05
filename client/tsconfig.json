@@ -25,3 +25,27 @@
   "include": ["src", "vite-env.d.ts", "../server/db.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
+
+// {
+//   "compilerOptions": {
+//     "module": "CommonJS",
+//     "target": "ES2019", // Align this with the features supported by your Node.js version
+//     "esModuleInterop": true,
+//     "moduleResolution": "node",
+//     "lib": ["ES2020"], // Adjust based on the features you use
+//     "skipLibCheck": true,
+//     "allowJs": true,
+//     "resolveJsonModule": true,
+//     "isolatedModules": true,
+//     "noEmit": true,
+//     "jsx": "react-jsx",
+//     "strict": false,
+//     "noImplicitAny": false,
+//     "noUnusedLocals": true,
+//     "noUnusedParameters": true,
+//     "noFallthroughCasesInSwitch": true,
+//     "rootDir": "./server"
+//   },
+//   "include": ["server/**/*.ts"], // Make sure to include all your TypeScript files
+//   "exclude": ["node_modules", "**/*.spec.ts"]
+// }
