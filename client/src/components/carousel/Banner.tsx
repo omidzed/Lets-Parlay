@@ -78,18 +78,18 @@ export const Banner = ({ posters }: BannerProps) => {
           className={`${overlayStyling} right-0 h-full rounded-r-2xl`}
           onClick={handleNextClick}></div>
       </div>
-      <div className="absolute bottom-[-2rem] left-1/2 transform -translate-x-1/2 flex gap-1 space-x-1">
+      <div className="absolute bottom-[1rem] left-1/2 transform -translate-x-1/2 flex gap-1 space-x-0">
         {posters.map((_, idx) =>
           index === idx ? (
             <FaCircle
               className="text-white cursor-pointer"
-              size={10}
+              size={7}
               onClick={() => handleCircleClick(idx)}
             />
           ) : (
             <FaCircle
-              className="text-white cursor-pointer opacity-10"
-              size={10}
+              className="text-white cursor-pointer opacity-30 hover:scale-125"
+              size={7}
               onClick={() => handleCircleClick(idx)}
             />
           )
