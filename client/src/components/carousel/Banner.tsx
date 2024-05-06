@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RxChevronLeft, RxChevronRight } from 'react-icons/rx';
 import { FaCircle } from 'react-icons/fa';
-import { FaPause, FaPlay } from 'react-icons/fa6';
+import { FaPlay } from 'react-icons/fa6';
 
 type BannerProps = {
   posters: string[];
@@ -45,9 +45,19 @@ export const Banner = ({ posters }: BannerProps) => {
   return (
     <div className="relative roumt-4 my-2 w-3/4 md:w-2/5 lg:w-[38%] xl:w-[38%] 2xl:w-[38%] overflow-visible">
       <img
-        className="w-full mx-auto  h-full rounded-md object-contain"
+        className="w-full mx-auto  h-full rounded-md object-contain cursor-pointer"
         src={posters[index]}
+        onClick={togglePlayPause}
       />
+      {!isPlaying && (
+        <div>
+          <FaPlay
+            size={50}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-70 cursor-pointer"
+            onClick={togglePlayPause}
+          />
+        </div>
+      )}
       <div className="group">
         <RxChevronLeft
           className={`${chevronStyling} left-2 group-hover:-translate-x-1 transition-transform `}
@@ -68,7 +78,7 @@ export const Banner = ({ posters }: BannerProps) => {
           className={`${overlayStyling} right-0 h-full rounded-r-2xl`}
           onClick={handleNextClick}></div>
       </div>
-      <div className="absolute bottom-[-1rem] left-1/2 transform -translate-x-1/2 flex gap-1 space-x-1">
+      <div className="absolute bottom-[-2rem] left-1/2 transform -translate-x-1/2 flex gap-1 space-x-1">
         {posters.map((_, idx) =>
           index === idx ? (
             <FaCircle
@@ -83,21 +93,6 @@ export const Banner = ({ posters }: BannerProps) => {
               onClick={() => handleCircleClick(idx)}
             />
           )
-        )}
-      </div>
-      <div
-        onClick={togglePlayPause}
-        className="cursor-pointer text-white opacity-30 border px-3 py-1 border-1 border-white rounded-full hover:opacity-100 absolute -bottom-11 right-[42%] md:right-[46%] flex space-x-1.5">
-        {isPlaying ? (
-          <>
-            <FaPause size={10} />
-            <FaPlay className="opacity-10" size={10} />
-          </>
-        ) : (
-          <>
-            <FaPause className="opacity-10" size={10} />
-            <FaPlay size={10} />
-          </>
         )}
       </div>
     </div>

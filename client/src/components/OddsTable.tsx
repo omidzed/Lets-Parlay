@@ -94,7 +94,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
           <div className="flex w-1/2 md:w-[35%] text-white text-xl">
             <div className="flex w-full flex-col ">
               <span
-                className={`${style.date} full-width-border px-2  border border-t-0 border-r-0 border-l-0 border-gray-600`}>
+                className={`${style.date} full-width-border px-2  border border-t-0 border-r-0 border-l-0 border-[#2d2d31e3]`}>
                 {formattedDateTime}
               </span>
               <span
@@ -112,7 +112,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
           <div className="flex w-1/2 md:w-[65%] text-white text-xl">
             <div className="hidden md:block flex-col w-1/3 text-white text-xs">
               <span
-                className={`${style.thead} full-width-border px-2  border border-t-0 border-r-0 border-l-0 border-gray-600`}>
+                className={`${style.thead} full-width-border px-2  border border-t-0 border-r-0 border-l-0 border-[#2d2d31e3]`}>
                 PT SPREAD
               </span>
               <span className={style.boxStyling}></span>
@@ -120,7 +120,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
             </div>
             <div className="flex-col  w-1/2 md:w-1/3 text-white text-xs">
               <span
-                className={`${style.thead} full-width-border px-2 border border-t-0 border-r-0 border-l-0 border-gray-600`}>
+                className={`${style.thead} full-width-border px-2 border border-t-0 border-r-0 border-l-0 border-[#2d2d31e3]`}>
                 MONEYLINE
               </span>
               <span
@@ -136,7 +136,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
             </div>
             <div className="flex-col  w-1/2 md:w-1/3  text-white text-tiny md:text-2xl">
               <span
-                className={`${style.thead} full-width-border border border-t-0 border-r-0 border-l-0 border-gray-600`}>
+                className={`${style.thead} full-width-border border border-t-0 border-r-0 border-l-0 border-[#2d2d31e3]`}>
                 ROUNDS +/-
               </span>
               <div

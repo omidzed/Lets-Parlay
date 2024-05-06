@@ -87,16 +87,16 @@ export const NavBar = () => {
     nav: 'flex justify-between md:py-4 md:pr-10 bg-[#1F1F21] mb-4 pr-2',
     appName:
       'text-lg italic flex md:text-2xl lg:text-3xl xl:text-4xl md:ml-4 lg:ml-10 md:px-10',
-    let: 'text-yellow-300 italic mr-1',
+    let: 'text-yellow-400 italic mr-1',
     s: 'mr-1 text-smallest md:text-xl lg:text-2xl xl:text-3xl flex items-end font-light ',
-    parlay: 'text-yellow-300',
+    parlay: 'text-yellow-400',
     buttonsWrapper: 'flex items-center gap-1 md:gap-3 mr-1 md:mr-20',
     join: 'lg:text-custom xl:text-custom text-tiny tracking-wider p-1 bg-red-700 hover:bg-red-600 rounded-sm md:rounded-md px-2 md:px-7 md:py-2',
     login:
-      'lg:text-thead text-yellow-300 flex gap-1 text-tiny p-1 bg-black shadow-2xl shadow-yellow border border-black hover:border-yellow-400 rounded-sm md:rounded-md px-2 md:px-6 md:py-2',
+      'lg:text-thead text-yellow-400 flex gap-1 text-tiny p-1 bg-black  border border-black hover:border-yellow-400 rounded-sm md:rounded-md px-2 md:px-10 md:py-2',
     logout:
-      'text-tiny md:mr-20  md:text-custom lg:text-custom 2xl:gap-2 gap-1 p-1 mr-2 md:mr-0 border border-black hover:border-white rounded-sm md:rounded-md bg-black px-2 md:px-6 md:py-2',
-    list: 'flex md:justify-end md:items-end gap-0 md:mr-6 mr-2 flex-nowrap',
+      'text-tiny md:mr-20 m md:text-thead p-1 mx-2 md:mr-0 border border-black hover:border-white rounded-sm md:rounded-md bg-black px-2 md:px-10 md:py-2',
+    list: 'flex md:justify-end md:items-end gap-0 md:mr-6 mr-2 flex-nowrap font-thin',
     userName: 'text-sm leading-2 md:text-xl',
     funds: 'text-sm leading-2 md:text-xl text-[#54D338] cursor-pointer',
   };
@@ -140,7 +140,7 @@ export const NavBar = () => {
             onClick={() => toggleMenu()}
             color="white"
             size={40}
-            className="md:ml-5  p-3 md:p-2 cursor-pointer hover:border hover:bg-slate-600 rounded-full "
+            className="md:ml-5  p-3 md:p-2 cursor-pointer hover:border-2 hover:scale-90 duration-200 hover:border-yellow-400 hover:bg-black rounded-full transition ease-out"
           />
           <Link to={'/'} className={styles.appName}>
             <p className={styles.let}>LET</p>
@@ -176,10 +176,10 @@ export const NavBar = () => {
         {location.pathname !== '/faq' && (
           <Link
             to={'/faq'}
-            className="fixed top-6 md:top-5 right-4 md:right-10 z-50">
+            className="fixed top-5 md:top-4 right-4 md:right-10 z-50">
             <span style={{ transition: 'all 0.2s ease-in-out' }}>
               <IoMdHelp
-                className="hidden md:block md:text-large p-1 text-white-500 transform transition-transform duration-200 ease-in-out hover:bg-gray-600 hover:text-yellow-500 hover:scale-125 border-gray-400 border-2 rounded-full"
+                className="hidden md:block md:text-extraLarge p-1 text-white-500 transform transition-transform duration-200 ease-in-out hover:bg-black hover:text-white hover:scale-90 border-gray-400 hover:border-yellow-400 border-2 rounded-full"
                 style={{ opacity: '0.75' }}
                 onMouseOver={({ currentTarget }) =>
                   (currentTarget.style.opacity = '1')

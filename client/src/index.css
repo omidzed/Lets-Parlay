@@ -76,7 +76,7 @@ input::placeholder {
     #e2e20a,
     rgb(255, 234, 0)
   );
-  transform: scale(1.06); /* Equivalent to Tailwind's scale-110 */
+  transform: scale(0.95); /* Equivalent to Tailwind's scale-110 */
 }
 
 .full-width-border {

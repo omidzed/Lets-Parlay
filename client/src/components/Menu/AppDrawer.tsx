@@ -2,7 +2,7 @@ import { Menu } from './Menu';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { MenuItem } from '../../utils/data-types';
-import { BackButton } from './BackButton';
+import { IoClose } from 'react-icons/io5';
 
 type AppDrawerProps = {
   isOpen: boolean;
@@ -49,8 +49,13 @@ export const AppDrawer = ({
         <div className={isOpen ? 'hidden' : 'hamburger-container'}></div>
         <div className={isOpen ? 'menu-drawer open' : 'menu-drawer closed'}>
           <div className="flex justify-center ">
-            <div className="fixed top-24 right-14 md:right-6 md:top-16 cursor-pointer md:opacity-50 opacity-85 hover:opacity-100 hover:scale-125 transition ease-out">
-              <BackButton toggleMenu={toggleMenu} />
+            <div className="fixed top-24 right-14 md:right-6 md:top-16 cursor-pointer">
+              <IoClose
+                onClick={() => toggleMenu()}
+                color="white"
+                size={45}
+                className="md:ml-5  p-3 md:p-2 cursor-pointer hover:border-2 hover:scale-90 duration-200 hover:border-yellow-400 hover:bg-black rounded-full transition ease-out"
+              />
             </div>
             <div>
               <Menu

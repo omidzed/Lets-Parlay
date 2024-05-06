@@ -17,6 +17,7 @@ export default {
         odds: '1.4rem',
         menuItem: '1.2rem',
         large: '2rem',
+        extraLarge: '2.3rem',
       },
     },
   },

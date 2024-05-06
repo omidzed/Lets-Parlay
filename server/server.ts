@@ -5,6 +5,7 @@ import pg from 'pg';
 import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
 import fs from 'fs';
+import path from 'path';
 
 import {
   authMiddleware,
@@ -37,12 +38,72 @@ type Bet = {
   placed_at?: string;
 };
 
+// Environment configuration for database connection
+const isProduction = process.env.NODE_ENV === 'production';
+const connectionString =
+  process.env.DATABASE_URL ||
+  `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
+
+const sslConfig = isProduction
+  ? {
+      rejectUnauthorized: false,
+      ca: fs
+        .readFileSync(
+          path.resolve(process.cwd(), 'path/to/your/ca-certificate.crt')
+        )
+        .toString(),
+    }
+  : undefined;
+
 const db = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  connectionString,
+  ssl: sslConfig,
 });
+
+// // Determine and set the path for environment variables early in the application lifecycle
+// const envPath =
+//   process.env.NODE_ENV === 'development'
+//     ? '.env' // Use local env for development
+//     : path.resolve(process.cwd(), 'server', '.env'); // Use server env for other environments
+
+// config({ path: envPath });
+
+// console.log('TOKEN_SECRET:', process.env.TOKEN_SECRET);
+// // const connectionString =
+// //   process.env.DATABASE_URL ||
+// //   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
+
+// // const db = new pg.Pool({
+// //   connectionString,
+// //   ssl: {
+// //     rejectUnauthorized: false,
+// //   },
+// // });
+
+// const connectionString =
+//   process.env.DATABASE_URL ||
+//   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
+// const db = new pg.Pool({
+//   connectionString,
+//   ssl:
+//     process.env.NODE_ENV === 'production'
+//       ? {
+//           rejectUnauthorized: false,
+//           ca: fs
+//             .readFileSync(
+//               path.resolve(process.cwd(), 'path/to/your/ca-certificate.crt')
+//             )
+//             .toString(),
+//         }
+//       : undefined,
+// });
+
+// const db = new pg.Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
 
 const app = express();
 app.use(express.json());
@@ -200,44 +261,6 @@ app.listen(process.env.PORT, () => {
 // import { config } from 'dotenv';
 // import path from 'path';
 // import type { Auth, User, Bet } from '../client/src/utils/data-types.js';
-
-// // Determine and set the path for environment variables early in the application lifecycle
-// const envPath =
-//   process.env.NODE_ENV === 'development'
-//     ? '.env' // Use local env for development
-//     : path.resolve(process.cwd(), 'server', '.env'); // Use server env for other environments
-
-// config({ path: envPath });
-
-// console.log('TOKEN_SECRET:', process.env.TOKEN_SECRET);
-// // const connectionString =
-// //   process.env.DATABASE_URL ||
-// //   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
-
-// // const db = new pg.Pool({
-// //   connectionString,
-// //   ssl: {
-// //     rejectUnauthorized: false,
-// //   },
-// // });
-
-// const connectionString =
-//   process.env.DATABASE_URL ||
-//   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
-// const db = new pg.Pool({
-//   connectionString,
-//   ssl:
-//     process.env.NODE_ENV === 'production'
-//       ? {
-//           rejectUnauthorized: false,
-//           ca: fs
-//             .readFileSync(
-//               path.resolve(process.cwd(), 'path/to/your/ca-certificate.crt')
-//             )
-//             .toString(),
-//         }
-//       : undefined,
-// });
 
 // console.log('process', process.env.NODE_ENV);
 
