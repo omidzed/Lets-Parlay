@@ -8,17 +8,23 @@ type AppDrawerProps = {
   isOpen: boolean;
   toggleMenu: () => void;
   menuItems: MenuItem[];
+  onLogout?: () => void;
+  isAuthenticated: boolean;
+  handleLogin: () => void;
 };
 
 export const AppDrawer = ({
   isOpen,
   toggleMenu,
   menuItems,
+  isAuthenticated,
+  handleLogin,
+  onLogout,
 }: AppDrawerProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleKeyDown = (event) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         toggleMenu();
       }
@@ -40,16 +46,28 @@ export const AppDrawer = ({
     navigate(path);
   };
 
+  const wrappedHandleLogin = () => {
+    handleLogin(); // Perform login
+    toggleMenu(); // Close drawer after login
+  };
+
+  const wrappedOnLogout = () => {
+    if (onLogout) {
+      onLogout(); // Perform logout
+    }
+    toggleMenu(); // Close drawer after logout
+  };
+
   return (
     <div
       className={`fixed top-0 left-0 h-screen z-50 transition-transform duration-700 ease-in-out bg-[#141414] ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
-      } w-[80%] sm:w-[60%] md:w-[40%] lg:w-[30%] xl:w-[25%] 2xl:w-[17%]`}>
+      } w-[87%] sm:w-[60%] md:w-[40%] lg:w-[30%] xl:w-[25%] 2xl:w-[17%]`}>
       <div className={'drawer-container'}>
         <div className={isOpen ? 'hidden' : 'hamburger-container'}></div>
         <div className={isOpen ? 'menu-drawer open' : 'menu-drawer closed'}>
           <div className="flex justify-center ">
-            <div className="fixed top-24 right-14 md:right-6 md:top-16 cursor-pointer">
+            <div className="fixed top-12 right-4 md:right-6 md:top-16 cursor-pointer">
               <IoClose
                 onClick={() => toggleMenu()}
                 color="white"
@@ -57,12 +75,28 @@ export const AppDrawer = ({
                 className="md:ml-5  p-3 md:p-2 cursor-pointer hover:border-2 hover:scale-90 duration-200 hover:border-yellow-400 hover:bg-black rounded-full transition ease-out"
               />
             </div>
-            <div>
+            <div className="mt-20 flex flex-col justify-center items-center">
               <Menu
                 toggleMenu={toggleMenu}
                 onSelect={handleSelect}
                 menuItems={menuItems}
               />
+              {isAuthenticated ? (
+                <button
+                  onClick={wrappedOnLogout}
+                  className="text-thead bg-yellow-400 text-black px-10 py-2 mt-2 rounded-md"
+                  aria-label="Log out"
+                  style={{ transition: 'background-color 0.2s' }}>
+                  Log Out
+                </button>
+              ) : (
+                <button
+                  onClick={wrappedHandleLogin}
+                  className="text-small bg-yellow-400 text-black px-8 py-2 mt-2 rounded-md"
+                  aria-label="Log in">
+                  Log In | Sign Up
+                </button>
+              )}
             </div>
           </div>
         </div>

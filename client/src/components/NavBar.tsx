@@ -84,18 +84,17 @@ export const NavBar = () => {
   }).format(funds);
 
   const styles = {
-    nav: 'flex justify-between md:py-4 md:pr-10 bg-[#1F1F21] mb-4 pr-2',
+    nav: 'flex justify-between py-2 md:py-4 md:pr-10 bg-[#1F1F21] mb-4 pr-2',
     appName:
-      'text-lg italic flex md:text-2xl lg:text-3xl xl:text-4xl md:ml-4 lg:ml-10 md:px-10',
+      'flex justify-start items-center text-custom italic flex md:text-2xl lg:text-3xl xl:text-4xl md:ml-4 lg:ml-10 md:px-10',
     let: 'text-yellow-400 italic mr-1',
     s: 'mr-1 text-smallest md:text-xl lg:text-2xl xl:text-3xl flex items-end font-light ',
     parlay: 'text-yellow-400',
-    buttonsWrapper: 'flex items-center gap-1 md:gap-3 mr-1 md:mr-20',
-    join: 'lg:text-custom xl:text-custom text-tiny tracking-wider p-1 bg-red-700 hover:bg-red-600 rounded-sm md:rounded-md px-2 md:px-7 md:py-2',
+    buttonsWrapper: 'flex items-center gap-1 md:gap-3 mr-2 md:mr-20',
     login:
-      'lg:text-thead text-yellow-400 flex gap-1 text-tiny p-1 bg-black  border border-black hover:border-yellow-400 rounded-sm md:rounded-md px-2 md:px-10 md:py-2',
+      'lg:text-small text-black flex gap-1 text-tiny p-1 bg-yellow-400 border border-black hover:border-white rounded-md md:rounded-md px-4 md:px-8 py-1 md:py-2',
     logout:
-      'text-tiny md:mr-20 m md:text-thead p-1 mx-2 md:mr-0 border border-black hover:border-white rounded-sm md:rounded-md bg-black px-2 md:px-10 md:py-2',
+      'hidden md:block text-tiny md:mr-20 m md:text-thead p-1 mx-2 md:mr-0 border border-black hover:border-white rounded-sm md:rounded-md bg-black px-2 md:px-10 md:py-2',
     list: 'flex md:justify-end md:items-end gap-0 md:mr-6 mr-2 flex-nowrap font-thin',
     userName: 'text-sm leading-2 md:text-xl',
     funds: 'text-sm leading-2 md:text-xl text-[#54D338] cursor-pointer',
@@ -133,6 +132,9 @@ export const NavBar = () => {
             toggleMenu={toggleMenu}
             isOpen={isOpen}
             menuItems={menuItems}
+            onLogout={logOut}
+            isAuthenticated={isAuthenticated}
+            handleLogin={handleLogin}
           />
         )}
         <div className="flex justify-center items-center">
@@ -140,7 +142,7 @@ export const NavBar = () => {
             onClick={() => toggleMenu()}
             color="white"
             size={40}
-            className="md:ml-5  p-3 md:p-2 cursor-pointer hover:border-2 hover:scale-90 duration-200 hover:border-yellow-400 hover:bg-black rounded-full transition ease-out"
+            className="icon-resize md:ml-5 mr-1  p-3 md:p-2 cursor-pointer hover:border-2 hover:scale-90  hover:border-yellow-400 hover:bg-black rounded-full transform transition-transform duration-300 ease-in-out"
           />
           <Link to={'/'} className={styles.appName}>
             <p className={styles.let}>LET</p>
@@ -169,7 +171,7 @@ export const NavBar = () => {
               JOIN
             </button>
             <button className={styles.login} onClick={handleLogin}>
-              <div className="className">Log In </div>
+              <div className="className">Log In | Sign Up</div>
             </button>
           </div>
         )}
@@ -179,7 +181,7 @@ export const NavBar = () => {
             className="fixed top-5 md:top-4 right-4 md:right-10 z-50">
             <span style={{ transition: 'all 0.2s ease-in-out' }}>
               <IoMdHelp
-                className="hidden md:block md:text-extraLarge p-1 text-white-500 transform transition-transform duration-200 ease-in-out hover:bg-black hover:text-white hover:scale-90 border-gray-400 hover:border-yellow-400 border-2 rounded-full"
+                className="hidden md:block md:text-extraLarge p-1 text-white-300 transform transition-transform duration-500 ease-in-out hover:bg-black hover:text-white hover:scale-90 border-gray-400 hover:border-yellow-400 border-2 rounded-full"
                 style={{ opacity: '0.75' }}
                 onMouseOver={({ currentTarget }) =>
                   (currentTarget.style.opacity = '1')

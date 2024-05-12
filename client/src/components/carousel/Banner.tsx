@@ -8,10 +8,10 @@ type BannerProps = {
 };
 
 const chevronStyling =
-  'absolute top-1/2  transform -translate-y-1/2 z-35 group  text-[#ffff] opacity-20  group-hover:opacity-100 group-hover:text-[#ffffff] group-hover:border-[#ffffff] group-hover:bg-[#fffff0000] cursor-pointer  group-hover:scale-125';
+  'absolute top-1/2  ease-in-out duration-200 transform -translate-y-1/2 z-35  text-[#ffff] opacity-20 group-hover:opacity-100 cursor-pointer group-hover:scale-125';
 
 const overlayStyling =
-  'absolute bg-white opacity-0 w-[3.2rem] h-full  group-hover:opacity-15 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';
+  'absolute bg-white opacity-0 w-[2.8rem] h-full  group-hover:opacity-15 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';
 
 export const Banner = ({ posters }: BannerProps) => {
   const [index, setIndex] = useState(0);
@@ -65,29 +65,31 @@ export const Banner = ({ posters }: BannerProps) => {
           size={40}
         />
         <div
-          className={`${overlayStyling} h-full left-0 rounded-l-2xl`}
+          className={`${overlayStyling} h-full left-0 rounded-l-lg`}
           onClick={handlePrevClick}></div>
       </div>
       <div className="group">
         <RxChevronRight
-          className={`${chevronStyling} right-2 group-hover:translate-x-1 transition-transform `}
+          className={`${chevronStyling} right-2 group-hover:translate-x-1 transition-transform`}
           onClick={handleNextClick}
           size={40}
         />
         <div
-          className={`${overlayStyling} right-0 h-full rounded-r-2xl`}
+          className={`${overlayStyling} right-0 h-full rounded-r-lg`}
           onClick={handleNextClick}></div>
       </div>
       <div className="absolute bottom-[1rem] left-1/2 transform -translate-x-1/2 flex gap-1 space-x-0">
         {posters.map((_, idx) =>
           index === idx ? (
             <FaCircle
+              key={idx}
               className="text-white cursor-pointer"
               size={7}
               onClick={() => handleCircleClick(idx)}
             />
           ) : (
             <FaCircle
+              key={idx}
               className="text-white cursor-pointer opacity-30 hover:scale-125"
               size={7}
               onClick={() => handleCircleClick(idx)}

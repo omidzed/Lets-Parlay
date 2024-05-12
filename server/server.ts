@@ -143,9 +143,10 @@ app.post('/api/auth/login', async (req, res, next) => {
   try {
     const { username, password } = req.body as Partial<Auth>;
     if (!username || !password) {
+      console.log('Missing username or password in the request');
       throw new ClientError(401, 'invalid login');
     }
-
+    console.log(`Attempting to find user with username: ${username}`);
     const sql = `
     select "userId",
            "hashedPassword",
@@ -156,18 +157,27 @@ app.post('/api/auth/login', async (req, res, next) => {
   `;
     const params = [username];
     const result = await db.query<User>(sql, params);
+
+    console.log(`User fetch result: ${result.rows.length} users found`);
+
     const [user] = result.rows;
     if (!user) {
+      console.log('No user found with the provided username');
       throw new ClientError(401, 'invalid login');
     }
     const { userId, hashedPassword, name, funds } = user;
+    console.log('Verifying password for user: ', username);
     if (!(await argon2.verify(hashedPassword, password))) {
-      throw new ClientError(401, 'invalid login');
+      console.log('Password verification failed');
+      throw new ClientError(401, 'Invalid login');
     }
+    console.log('Password verified successfully, generating JWT');
     const payload = { userId, username, name, funds };
     const token = jwt.sign(payload, hashKey);
+    console.log('JWT generated successfully');
     res.json({ token, user: payload });
   } catch (err) {
+    console.error('Error during login process: ', err);
     next(err);
   }
 });

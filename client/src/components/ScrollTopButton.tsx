@@ -25,7 +25,7 @@ export const ScrollTopButton = () => {
           <FaCircleChevronUp
             className={`text-large ${
               isActive
-                ? ' opacity-100 rounded-full hover:text-gray-600 hover:bg-yellow-500 hover:scale-110 border-gray-400'
+                ? ' opacity-100 rounded-full hover:text-gray-600 hover:bg-yellow-500 hover:scale-110 '
                 : 'opacity-100'
             }`}
           />

@@ -19,7 +19,7 @@ export const HomePage = () => {
       <SearchBox setInputValue={setInputValue} />
       <EventsCarousel />
 
-      <div className="2xl:w-[55%] w-10/12 mx-auto md:mb-10">
+      <div className="2xl:w-[60%] w-10/12 mx-auto md:mb-10">
         <OddsTable filteredEvents={filteredEvents} />
       </div>
       <ScrollTopButton />

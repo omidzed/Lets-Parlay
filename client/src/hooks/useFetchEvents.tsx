@@ -14,8 +14,15 @@ export const useFetchEvents = () => {
       try {
         // Load cached data if available
         const cachedEvents = localStorage.getItem('events');
-        if (cachedEvents) {
-          setEvents(JSON.parse(cachedEvents));
+        if (
+          cachedEvents &&
+          new Date().getTime() - JSON.parse(cachedEvents).timestamp <
+            259200 * 1000
+        ) {
+          const eventsData = JSON.parse(cachedEvents).data;
+          setEvents(eventsData);
+          setLoading(false);
+          return; // Avoid making an API call if cached data is recent
         }
 
         const response = await fetch(
@@ -26,10 +33,12 @@ export const useFetchEvents = () => {
         }
         const events = await response.json();
         const filteredData: Event[] = events.map((event) => {
+          const id = event.id;
           const commenceTime = event.commence_time;
           const apiOutcomes =
             event.bookmakers?.[0]?.markets?.[0]?.outcomes || [];
           return {
+            id,
             commenceTime,
             outcomes: [
               { name: apiOutcomes[0]?.name, moneyline: apiOutcomes[0]?.price },
@@ -54,7 +63,7 @@ export const useFetchEvents = () => {
       }
     };
     fetchData();
-    const interval = setInterval(fetchData, 86400 * 1000);
+    const interval = setInterval(fetchData, 259200 * 1000);
 
     // Cleanup on unmount
     return () => clearInterval(interval);

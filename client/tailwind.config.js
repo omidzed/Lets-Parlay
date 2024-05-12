@@ -8,6 +8,7 @@ export default {
         rounds: '.5rem',
         tiny: '0.6rem',
         answer: '0.7rem',
+        small: '0.8rem',
         smallest: '.9rem',
         thead: '1rem',
         medium: '1.1rem',

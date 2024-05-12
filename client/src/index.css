@@ -1,3 +1,4 @@
+/* stylelint-disable media-feature-range-notation */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -71,10 +72,10 @@ input::placeholder {
     black,
     black,
     black,
-    rgb(97, 97, 62),
-    rgb(150, 150, 48),
-    #e2e20a,
-    rgb(255, 234, 0)
+    rgb(96, 96, 64),
+    rgb(163, 163, 61),
+    rgb(240, 200, 40),
+    rgb(250, 204, 20)
   );
   transform: scale(0.95); /* Equivalent to Tailwind's scale-110 */
 }
@@ -108,9 +109,16 @@ input::placeholder {
     red,
     red
   );
-  transform: scale(1.1); /* Equivalent to Tailwind's scale-110 */
+  transform: scale(1.1);
 }
 
-.border-hover:hover {
-  border: 1px solid rgba(255, 255, 0, 0.74);
+.icon-resize {
+  transform: scale(1); /* default scale */
+  transition: transform 300ms ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .icon-resize {
+    transform: scale(0.8);
+  }
 }

@@ -32,6 +32,7 @@ export type OverUnder = [
 ];
 
 export type Event = {
+  id: string;
   commenceTime: string;
   outcomes: [
     { name: string; moneyline: number },
@@ -63,6 +64,7 @@ export type BetType = MoneyLine | OverUnder;
 
 export type Bet = {
   id: string;
+  eventId: string;
   betAmount: number;
   pick: string;
   closed: boolean;
