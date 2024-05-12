@@ -137,9 +137,9 @@ export const BetForm = ({
 
   return (
     <>
-      <div className="flex-col justify-center items-center  py-10 pb-6 md:mx-10 w-60">
+      <div className="flex-col justify-center items-center px-10 py-10 pb-6 md:mx-10 max-w-fit">
         <div className="flex justify-center gap-4">
-          <span className="basis-1/2 text-right">
+          <span className="basis-1/2 text-center">
             {selectedOutcome?.name ?? selectedOverUnder?.name ?? 'Unknown'}
           </span>
           <span className="basis-1/2 text-left font-bold">
@@ -164,7 +164,7 @@ export const BetForm = ({
               </div>
 
               <div className="flex flex-nowrap basis-1/2 text-left">
-                <span className="ml-1 mr-1">$</span>
+                <span className="mx-1">$</span>
                 <CurrencyInput
                   className="bg-blue-200 rounded-md pl-1 w-16"
                   name="betAmount"
@@ -176,23 +176,27 @@ export const BetForm = ({
             </div>
 
             <div className="flex justify-center gap-5">
-              <div className="font-bold basis-1/2 text-right whitespace-nowrap">
+              <div className="font-bold basis-1/2 text-center whitespace-nowrap">
                 Payout:
               </div>
 
-              <div className="flex basis-1/2 text-left">
-                <div className="ml-1">$</div>
-                <div className="pl-2">{payout}</div>
+              <div className="flex flex-nowrap basis-1/2 text-left">
+                <div className="mr-1">$</div>
+                <div className="pl-1 w-16">{payout}</div>
               </div>
             </div>
-            <div className="flex justify-center">
+            <div className="flex flex-col items-center justify-center">
               <button
                 className={`mt-7  ${
                   isLoading ? 'bg-blue-400' : 'bg-blue-700'
-                } text-white px-8 py-4 rounded-md cursor-pointer`}
+                } text-white px-8 py-3 w-full rounded-md cursor-pointer`}
                 type="submit"
                 disabled={isLoading}>
-                {isLoading ? 'Betting...' : 'SUBMIT'}
+                {isLoading ? 'Betting...' : 'Submit'}
+              </button>
+              or
+              <button className="bg-green-700 px-8 py-3 rounded-md w-full text-white">
+                Parlay
               </button>
             </div>
           </form>

@@ -84,7 +84,7 @@ export const NavBar = () => {
   }).format(funds);
 
   const styles = {
-    nav: 'flex justify-between py-2 md:py-4 md:pr-10 bg-[#1F1F21] mb-4 pr-2',
+    nav: 'flex justify-between md:py-4 md:pr-10 bg-[#1F1F21] mb-4 pr-2',
     appName:
       'flex justify-start items-center text-custom italic flex md:text-2xl lg:text-3xl xl:text-4xl md:ml-4 lg:ml-10 md:px-10',
     let: 'text-yellow-400 italic mr-1',
@@ -94,7 +94,7 @@ export const NavBar = () => {
     login:
       'lg:text-small text-black flex gap-1 text-tiny p-1 bg-yellow-400 border border-black hover:border-white rounded-md md:rounded-md px-4 md:px-8 py-1 md:py-2',
     logout:
-      'hidden md:block text-tiny md:mr-20 m md:text-thead p-1 mx-2 md:mr-0 border border-black hover:border-white rounded-sm md:rounded-md bg-black px-2 md:px-10 md:py-2',
+      'hidden md:block text-tiny md:mr-20 m md:text-thead p-1 mx-2 md:mr-0 border border-black hover:border-yellow-400 rounded-sm md:rounded-md bg-black px-2 md:px-10 md:py-2',
     list: 'flex md:justify-end md:items-end gap-0 md:mr-6 mr-2 flex-nowrap font-thin',
     userName: 'text-sm leading-2 md:text-xl',
     funds: 'text-sm leading-2 md:text-xl text-[#54D338] cursor-pointer',

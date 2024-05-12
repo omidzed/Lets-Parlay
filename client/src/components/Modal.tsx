@@ -25,7 +25,7 @@ export const Modal = () => {
   if (!isModalOpen) return null;
 
   return (
-    <div className="absolute z-60 left-1/2 top-1/2 flex justify-center items-center text-black">
+    <div className="absolute z-50 left-1/2 top-1/2 flex justify-center items-center text-black">
       <div
         onClick={closeModal}
         className="fixed w-full h-full bg-black/75 z-60 cursor-pointer"></div>

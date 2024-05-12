@@ -75,7 +75,7 @@ export const AppDrawer = ({
                 className="md:ml-5  p-3 md:p-2 cursor-pointer hover:border-2 hover:scale-90 duration-200 hover:border-yellow-400 hover:bg-black rounded-full transition ease-out"
               />
             </div>
-            <div className="mt-20 flex flex-col justify-center items-center">
+            <div className="mt-14 flex flex-col justify-center items-center">
               <Menu
                 toggleMenu={toggleMenu}
                 onSelect={handleSelect}
@@ -84,7 +84,7 @@ export const AppDrawer = ({
               {isAuthenticated ? (
                 <button
                   onClick={wrappedOnLogout}
-                  className="text-thead bg-yellow-400 text-black px-10 py-2 mt-2 rounded-md"
+                  className="text-thead bg-black border text-yellow-400 border-black hover:border-white px-10 py-2 mt-2 rounded-md"
                   aria-label="Log out"
                   style={{ transition: 'background-color 0.2s' }}>
                   Log Out
@@ -92,7 +92,7 @@ export const AppDrawer = ({
               ) : (
                 <button
                   onClick={wrappedHandleLogin}
-                  className="text-small bg-yellow-400 text-black px-8 py-2 mt-2 rounded-md"
+                  className="text-small bg-yellow-400 border text-black border-black hover:border-white px-8 py-2 mt-2 rounded-md"
                   aria-label="Log in">
                   Log In | Sign Up
                 </button>
