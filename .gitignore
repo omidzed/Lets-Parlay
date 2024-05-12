@@ -15,7 +15,6 @@ node_modules
 
 
 
-generateToken.js
 .vercel
 .env
 .env.local

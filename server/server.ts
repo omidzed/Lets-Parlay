@@ -4,12 +4,7 @@ import express from 'express';
 import pg from 'pg';
 import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
-import {
-  authMiddleware,
-  ClientError,
-  defaultMiddleware,
-  errorMiddleware,
-} from './lib/index.js';
+import { authMiddleware, ClientError, errorMiddleware } from './lib/index.js';
 
 type User = {
   userId: number;
@@ -51,7 +46,6 @@ const uploadsStaticDir = new URL('public', import.meta.url).pathname;
 app.use(express.static(reactStaticDir));
 // Static directory for file uploads server/public/
 app.use(express.static(uploadsStaticDir));
-app.use(defaultMiddleware(reactStaticDir));
 app.use(express.json());
 
 const hashKey = process.env.TOKEN_SECRET;
@@ -243,7 +237,6 @@ app.listen(process.env.PORT, () => {
 // import {
 //   authMiddleware,
 //   ClientError,
-//   defaultMiddleware,
 //   errorMiddleware,
 // } from './lib/index.js';
 // import { config } from 'dotenv';
