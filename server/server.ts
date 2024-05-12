@@ -4,9 +4,6 @@ import express from 'express';
 import pg from 'pg';
 import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
-import fs from 'fs';
-import path from 'path';
-
 import {
   authMiddleware,
   ClientError,
@@ -38,74 +35,23 @@ type Bet = {
   placed_at?: string;
 };
 
-// Environment configuration for database connection
-const isProduction = process.env.NODE_ENV === 'production';
-const connectionString =
-  process.env.DATABASE_URL ||
-  `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
-
-const sslConfig = isProduction
-  ? {
-      rejectUnauthorized: false,
-      ca: fs
-        .readFileSync(
-          path.resolve(process.cwd(), 'path/to/your/ca-certificate.crt')
-        )
-        .toString(),
-    }
-  : undefined;
-
 const db = new pg.Pool({
-  connectionString,
-  ssl: sslConfig,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
-// // Determine and set the path for environment variables early in the application lifecycle
-// const envPath =
-//   process.env.NODE_ENV === 'development'
-//     ? '.env' // Use local env for development
-//     : path.resolve(process.cwd(), 'server', '.env'); // Use server env for other environments
-
-// config({ path: envPath });
-
-// console.log('TOKEN_SECRET:', process.env.TOKEN_SECRET);
-// // const connectionString =
-// //   process.env.DATABASE_URL ||
-// //   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
-
-// // const db = new pg.Pool({
-// //   connectionString,
-// //   ssl: {
-// //     rejectUnauthorized: false,
-// //   },
-// // });
-
-// const connectionString =
-//   process.env.DATABASE_URL ||
-//   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
-// const db = new pg.Pool({
-//   connectionString,
-//   ssl:
-//     process.env.NODE_ENV === 'production'
-//       ? {
-//           rejectUnauthorized: false,
-//           ca: fs
-//             .readFileSync(
-//               path.resolve(process.cwd(), 'path/to/your/ca-certificate.crt')
-//             )
-//             .toString(),
-//         }
-//       : undefined,
-// });
-
-// const db = new pg.Pool({
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: {
-//     rejectUnauthorized: false,
-//   },
-// });
-
 const app = express();
+
+// Create paths for static directories
+const reactStaticDir = new URL('../client/dist', import.meta.url).pathname;
+const uploadsStaticDir = new URL('public', import.meta.url).pathname;
+
+app.use(express.static(reactStaticDir));
+// Static directory for file uploads server/public/
+app.use(express.static(uploadsStaticDir));
+app.use(defaultMiddleware(reactStaticDir));
 app.use(express.json());
 
 const hashKey = process.env.TOKEN_SECRET;
@@ -121,7 +67,6 @@ app.post('/api/auth/sign-up', async (req, res, next) => {
       );
     }
     const hashedPassword = await argon2.hash(password);
-    console.log(hashedPassword);
 
     const sql = `
       insert into "users" ("username", "hashedPassword", "name", "funds")
@@ -143,10 +88,8 @@ app.post('/api/auth/login', async (req, res, next) => {
   try {
     const { username, password } = req.body as Partial<Auth>;
     if (!username || !password) {
-      console.log('Missing username or password in the request');
       throw new ClientError(401, 'invalid login');
     }
-    console.log(`Attempting to find user with username: ${username}`);
     const sql = `
     select "userId",
            "hashedPassword",
@@ -158,23 +101,16 @@ app.post('/api/auth/login', async (req, res, next) => {
     const params = [username];
     const result = await db.query<User>(sql, params);
 
-    console.log(`User fetch result: ${result.rows.length} users found`);
-
     const [user] = result.rows;
     if (!user) {
-      console.log('No user found with the provided username');
       throw new ClientError(401, 'invalid login');
     }
     const { userId, hashedPassword, name, funds } = user;
-    console.log('Verifying password for user: ', username);
     if (!(await argon2.verify(hashedPassword, password))) {
-      console.log('Password verification failed');
       throw new ClientError(401, 'Invalid login');
     }
-    console.log('Password verified successfully, generating JWT');
     const payload = { userId, username, name, funds };
     const token = jwt.sign(payload, hashKey);
-    console.log('JWT generated successfully');
     res.json({ token, user: payload });
   } catch (err) {
     console.error('Error during login process: ', err);
@@ -196,7 +132,7 @@ app.get('/api/bets', authMiddleware, async (req, res, next) => {
 `;
     const queryParams: any[] = [];
 
-    const token = req.headers.authorization?.split(' ')[1]; // Extract token from authorization header
+    const token = req.headers.authorization?.split(' ')[1];
     if (token) {
       // Apply authMiddleware if user is logged in
       const userId = req.user?.userId; // Get userId from req.user
@@ -244,18 +180,60 @@ app.post('/api/bets', authMiddleware, async (req, res, next) => {
   }
 });
 
-const reactStaticDir = new URL('../client/dist', import.meta.url).pathname;
-const uploadsStaticDir = new URL('public', import.meta.url).pathname;
+app.get('*', (req, res) => res.sendFile(`${reactStaticDir}/index.html`));
 
-app.use(express.static(reactStaticDir));
-// Static directory for file uploads server/public/
-app.use(express.static(uploadsStaticDir));
-app.use(defaultMiddleware(reactStaticDir));
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
-  console.log(`express server listening on port ${process.env.PORT}`);
+  console.log('Listening on port', process.env.PORT);
 });
+
+// Environment configuration for database connection
+// const isProduction = process.env.NODE_ENV === 'production';
+// // Determine and set the path for environment variables early in the application lifecycle
+// const envPath =
+//   process.env.NODE_ENV === 'development'
+//     ? '.env' // Use local env for development
+//     : path.resolve(process.cwd(), 'server', '.env'); // Use server env for other environments
+
+// config({ path: envPath });
+
+// console.log('TOKEN_SECRET:', process.env.TOKEN_SECRET);
+// // const connectionString =
+// //   process.env.DATABASE_URL ||
+// //   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
+
+// // const db = new pg.Pool({
+// //   connectionString,
+// //   ssl: {
+// //     rejectUnauthorized: false,
+// //   },
+// // });
+
+// const connectionString =
+//   process.env.DATABASE_URL ||
+//   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
+// const db = new pg.Pool({
+//   connectionString,
+//   ssl:
+//     process.env.NODE_ENV === 'production'
+//       ? {
+//           rejectUnauthorized: false,
+//           ca: fs
+//             .readFileSync(
+//               path.resolve(process.cwd(), 'path/to/your/ca-certificate.crt')
+//             )
+//             .toString(),
+//         }
+//       : undefined,
+// });
+
+// const db = new pg.Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
 
 // import express from 'express';
 // import pg from 'pg';
@@ -271,8 +249,6 @@ app.listen(process.env.PORT, () => {
 // import { config } from 'dotenv';
 // import path from 'path';
 // import type { Auth, User, Bet } from '../client/src/utils/data-types.js';
-
-// console.log('process', process.env.NODE_ENV);
 
 // const hashKey = process.env.TOKEN_SECRET;
 // if (!hashKey) throw new Error('TOKEN_SECRET not found in .env');
