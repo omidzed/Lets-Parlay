@@ -11,38 +11,31 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_APP_NAME: ${{ secrets.AWS_APP_NAME }}
-      AWS_ENV_NAME: ${{ secrets.AWS_ENV_NAME }}
+      EC2_HOST: ${{ secrets.EC2_HOST }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js 18
-        uses: actions/setup-node@v3
+      - name: Copy project to EC2
+        uses: burnett01/rsync-deployments@7.0.1
         with:
-          node-version: '18'
-
-      - name: Generate deployment package
-        run: |
-          NODE_ENV=production npm install
-          npm run build
-          sed -i '/install:client/d' package.json
-          sed -i '/install:env/d' package.json
-          sed -i '/prepare/d' package.json
-          zip -r deploy.zip .platform client/dist server database package.json package-lock.json \
-            -x "*/.env*" "*/node_modules/*"
-
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v21
+          switches: -avzr --delete
+          path: ./*
+          remote_path: /home/ec2-user/project/
+          remote_host: ${{ env.EC2_HOST }}
+          remote_user: ec2-user
+          remote_key: "${{ env.SSH_PRIVATE_KEY }}"
+      - name: Install and run on EC2
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          aws_access_key: ${{ env.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          application_name: ${{ env.AWS_APP_NAME }}
-          environment_name: ${{ env.AWS_ENV_NAME }}
-          version_label: ${{ github.sha }}
-          use_existing_version_if_available: true
-          region: ${{ env.AWS_REGION }}
-          deployment_package: deploy.zip
+          host: ${{ env.EC2_HOST }}
+          username: ec2-user
+          key: ${{ env.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/ec2-user/project
+            npm install
+            sh scripts/ec2env.sh
+            npm run db:import
+            npm run build
+            pm2 start --time npm -- start
