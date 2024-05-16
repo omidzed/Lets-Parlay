@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { getToken } from '../utils/token-storage';
 import { uid } from 'react-uid';
 import type { Bet } from '../utils/data-types';
 import { formatDateTime } from '../utils/format-date-time';
-import { useFetchEvents } from '../hooks/useFetchEvents';
 
 export const Bets = () => {
   const [bets, setBets] = useState<Bet[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { events } = useFetchEvents();
 
-  const fetchBets = async () => {
+  const fetchBets = useCallback(async () => {
     try {
       setIsLoading(true);
       const token = getToken();
@@ -32,10 +30,7 @@ export const Bets = () => {
       const betsData = await res.json();
 
       const formattedBets: Bet[] = betsData.map((bet) => {
-        const event = events.find((e) => e.id === bet.eventId);
-        const commenceTime = event ? event.commenceTime : 'Time unknown';
         const formattedPlacedAt = formatDateTime(bet.placedAt);
-        const formattedDateTime = formatDateTime(commenceTime);
         const nowUtc = new Date();
         const isOpen = nowUtc < new Date(bet.dateTime);
 
@@ -45,7 +40,7 @@ export const Bets = () => {
           betType: bet.betType,
           betAmount: bet.betAmount,
           pick: bet.pick,
-          dateTime: formattedDateTime,
+          dateTime: bet.dateTime,
           placedAt: formattedPlacedAt,
           closed: !isOpen,
           status: isOpen ? 'Open' : 'Closed',
@@ -61,11 +56,12 @@ export const Bets = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchBets();
-  });
+  }, [fetchBets]);
+
 
   if (isLoading) return <div>Loading...</div>;
   if (error)
@@ -92,7 +88,7 @@ export const Bets = () => {
             className="flex flex-col text-white text-sm w-120 md:w-96  p-6 rounded-md bg-[#212123e3] mt-8">
             <div className={styling}>
               <div className={styling}> Bet date/time: </div>
-              <div className={styling}>{formatDateTime(bet.placedAt)}</div>
+              <div className={styling}>{bet.placedAt}</div>
             </div>
             <div className={styling}>
               <div className={styling}> Amount: </div>

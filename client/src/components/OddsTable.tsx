@@ -83,6 +83,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
     const moneyline = outcomes[0].moneyline;
     const moneylineTwo = outcomes[1].moneyline;
     const formattedDateTime = formatDateTime(commenceTime);
+    // const formattedDateTime = commenceTime;
     const nameOne = formatLongName(outcomes[0].name);
     const nameTwo = formatLongName(outcomes[1].name);
     const over = overUnderOdds[0].name;

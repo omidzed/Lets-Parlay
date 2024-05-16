@@ -26,8 +26,8 @@ export const BetForm = ({
 }: BetFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [betAmount, setBetAmount] = useState<number>(0);
-  const { funds, setFunds } = useContext(AppContext);
-  const { closeModal, openModal } = useModal();
+  const {funds, setFunds } = useContext(AppContext);
+  const {closeModal, openModal } = useModal();
   const token = getToken();
 
   const handleChange = (value: string | undefined) => {
@@ -71,7 +71,7 @@ export const BetForm = ({
         console.log('Opening insufficient funds modal');
         openModal(
           <AlertModal
-            message="Your bet amount cannot exceed your funds, please try again or replenish funds!"
+            message="Not enough funds to cover that bet, please try again!"
             onClose={() => {
               // Close the modal and stop loading when the modal is closed.
               setIsLoading(false);

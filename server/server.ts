@@ -182,6 +182,10 @@ app.listen(process.env.PORT, () => {
   console.log('Listening on port', process.env.PORT);
 });
 
+
+
+
+
 // Environment configuration for database connection
 // const isProduction = process.env.NODE_ENV === 'production';
 // // Determine and set the path for environment variables early in the application lifecycle

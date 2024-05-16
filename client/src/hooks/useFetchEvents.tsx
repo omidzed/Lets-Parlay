@@ -52,8 +52,8 @@ export const useFetchEvents = () => {
         });
 
         localStorage.setItem('events', JSON.stringify(filteredData));
+        console.log(filteredData)
         setEvents(filteredData);
-        console.log('filteredData', filteredData);
       } catch (err) {
         setError(
           err instanceof Error ? err : new Error('Failed to fetch data')
