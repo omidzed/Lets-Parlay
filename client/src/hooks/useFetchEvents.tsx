@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { Event } from '../utils/data-types';
+import { getOverUnderOdds } from '../utils/randomOverUnderOdds';
 import { apiKey } from '../utils/api-data';
 
 export const useFetchEvents = () => {
@@ -45,8 +46,8 @@ export const useFetchEvents = () => {
               { name: apiOutcomes[1]?.name, moneyline: apiOutcomes[1]?.price },
             ],
             overUnderOdds: [
-              { name: 'O 2.5', overUnderOdds: -190 },
-              { name: 'U 2.5', overUnderOdds: 150 },
+              { name: 'O 2.5', overUnderOdds: getOverUnderOdds() },
+              { name: 'U 2.5', overUnderOdds: getOverUnderOdds() },
             ],
           };
         });

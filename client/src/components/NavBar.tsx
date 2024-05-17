@@ -16,6 +16,7 @@ import { AppContext } from '../Context/AppContext';
 import { IoMdHelp } from 'react-icons/io';
 import { RiMenu2Line } from 'react-icons/ri';
 import { User } from '../utils';
+import { FaCircleUser } from 'react-icons/fa6';
 
 type ActionType = 'sign-up' | 'sign-in';
 
@@ -94,10 +95,11 @@ export const NavBar = () => {
     login:
       'lg:text-small text-black flex gap-1 text-tiny p-1 bg-yellow-400 border border-black hover:border-white rounded-md md:rounded-md px-4 md:px-8 py-1 md:py-2',
     logout:
-      'hidden md:block text-tiny md:mr-20 md:text-thead p-1 mx-2 md:mr-0 border border-black hover:border-red-700 rounded-sm md:rounded-md bg-black px-2 md:px-10 md:py-2',
-    list: 'flex md:justify-end md:items-end gap-0 md:mr-6 mr-2 flex-nowrap font-thin',
-    userName: 'text-sm leading-2 md:text-xl',
-    funds: 'text-sm leading-2 md:text-xl text-[#54D338] cursor-pointer',
+      'md:hidden md:block text-tiny whitespace-nowrap md:mr-20 md:text-thead p-1 mx-2 md:mr-0 border border-black hover:border-gray-200 hover:scale-95 rounded-sm md:rounded-md bg-black px-2 md:px-10 md:py-2 transition-transform duration-200 ease-in-out',
+    list: 'flex md:justify-end md:items-end gap-0 flex-nowrap font-thin transition-transform duration-500 ease-in-out',
+    userName: 'text-sm leading-2 md:text-xl tracking-widest',
+    funds:
+      'text-sm leading-2 md:text-lg cursor-pointer font-light tracking-tight',
   };
 
   const toggleMenu = () => {
@@ -141,8 +143,8 @@ export const NavBar = () => {
           <RiMenu2Line
             onClick={() => toggleMenu()}
             color="white"
-            size={40}
-            className="icon-resize md:ml-5 mr-1  p-3 md:p-2 cursor-pointer hover:border-2 hover:scale-90  hover:border-yellow-400 hover:bg-black rounded-full transform transition-transform duration-300 ease-in-out"
+            size={42}
+            className="icon-resize md:ml-7 mr-1  p-3 md:p-2 cursor-pointer hover:border-2 hover:scale-90  hover:border-yellow-400 hover:bg-black rounded-full transform transition-transform duration-300 ease-in-out"
           />
           <Link to={'/'} className={styles.appName}>
             <p className={styles.let}>LET</p>
@@ -155,9 +157,21 @@ export const NavBar = () => {
           <div className="flex justify-between items-center">
             <div className=" md:mr-4">
               <div className={styles.list}>
-                <Link to={'/bets'} className="flex gap-2 hover:scale-105">
-                  <p className={styles.userName}>{name}</p>
-                  <p className={styles.funds}>{`(${formattedFunds})`}</p>
+                <Link
+                  to={'/bets'}
+                  className="flex gap-2 transition-transform duration-300 ease-in-out">
+                  <div className="text-tiny">
+                    <p className={styles.userName}>{name}</p>
+                    <p className={styles.funds}>{`${formattedFunds}`}</p>
+                  </div>
+                  <div className="flex justify-center items-center ml-4">
+                    <FaCircleUser
+                      className="transform transition-transform duration-1000 ease-in-out hover:text-yellow-400"
+                      size={40}
+                    />
+                  </div>
+                  {/* <p className={styles.userName}>Funds:</p>
+                  <p className={styles.funds}>{`${formattedFunds}`}</p> */}
                 </Link>
               </div>
             </div>
@@ -178,10 +192,10 @@ export const NavBar = () => {
         {location.pathname !== '/faq' && (
           <Link
             to={'/faq'}
-            className="fixed top-5 md:top-4 right-4 md:right-10 z-50">
-            <span style={{ transition: 'all 0.2s ease-in-out' }}>
+            className="fixed top-5 md:top-28 right-4 md:right-9 z-50">
+            <span style={{ transition: 'all 0.1s ease-in-out' }}>
               <IoMdHelp
-                className="hidden md:block md:text-extraLarge p-1 text-white-300 transform transition-transform duration-500 ease-in-out hover:bg-black hover:text-white hover:scale-90 border-gray-400 hover:border-yellow-400 border-2 rounded-full"
+                className="hidden md:block md:text-2xl p-1 text-white-300 hover:bg-black hover:text-white hover:scale-150 border-gray-400 hover:border-yellow-400 border-2 rounded-full transform transition-transform duration-300 ease-in-out"
                 style={{ opacity: '0.75' }}
                 onMouseOver={({ currentTarget }) =>
                   (currentTarget.style.opacity = '1')

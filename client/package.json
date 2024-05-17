@@ -13,7 +13,7 @@
     "@api/sportradar-mma": "file:src/hooks/.api/apis/sportradar-mma",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
-    "@vitejs/plugin-react": "^4.0.3",
+    "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.17",
     "hamburger-react": "^2.5.0",
     "postcss": "^8.4.33",

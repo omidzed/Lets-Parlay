@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-export const apiKey = { apiKey: 'd7ceda39ec5fbe3fda4b5801d42bc5bd' };
+//export const apiKey = { apiKey: 'd7ceda39ec5fbe3fda4b5801d42bc5bd' };;
+export const apiKey = { apiKey: 'cb8e63bb6c42d3df0521346f6a068600' };
+
 
 // f1fad3088e09bbbe9bb3a126a2ea199a
 

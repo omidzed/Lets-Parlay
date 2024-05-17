@@ -90,6 +90,11 @@ export const OddsTable = ({ filteredEvents }: Props) => {
     const overOdds = overUnderOdds[0].overUnderOdds;
     const underOdds = overUnderOdds[1].overUnderOdds;
 
+    const formatOdds = (odds: number): string => {
+      return odds > 0 ? `+${odds}` : odds.toString();
+    };
+
+
     return (
       <div key={index} className="flex justify-center my-4 w-full lg:h-56">
         <div className="flex w-full h-32 py-2 rounded-lg bg-[#212123e3] md:w-[90%] md:h-56">
@@ -128,12 +133,12 @@ export const OddsTable = ({ filteredEvents }: Props) => {
               <span
                 className={`${style.boxStyling} cursor-pointer`}
                 onClick={() => betSlip(event, 'moneyline', '')}>
-                {moneyline > 0 ? `+${moneyline}` : moneyline}
+                {formatOdds(moneyline)}
               </span>
               <span
                 className={style.boxStyling}
                 onClick={() => betSlip(event, 'moneylineTwo', '')}>
-                {moneylineTwo > 0 ? `+${moneylineTwo}` : moneylineTwo}
+                {formatOdds(moneylineTwo)}
               </span>
             </div>
             <div className="flex-col  w-1/2 md:w-1/3  text-white text-tiny md:text-2xl">
@@ -145,15 +150,13 @@ export const OddsTable = ({ filteredEvents }: Props) => {
                 className={`group ${style.overUnder}`}
                 onClick={() => betSlip(event, '', 'O 2.5')}>
                 <span className={style.rounds}>{over}</span>
-                <span className="md:pr-4">{overOdds}</span>
+                <span className="md:pr-4">{formatOdds(overOdds)}</span>
               </div>
               <div
                 className={`group ${style.overUnder}`}
                 onClick={() => betSlip(event, '', 'U 2.5')}>
                 <span className={style.rounds}>{under}</span>
-                <span className="md:pr-4">
-                  {underOdds > 0 ? `+${underOdds}` : underOdds}
-                </span>
+                <span className="md:pr-4">{formatOdds(underOdds)}</span>
               </div>
             </div>
           </div>
