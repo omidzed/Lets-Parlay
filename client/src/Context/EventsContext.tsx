@@ -4,14 +4,10 @@ import { useFetchEvents } from '../hooks/useFetchEvents';
 
 export type EventsContextValues = {
   events: Event[] | undefined;
-  loading: boolean;
-  error: Error;
 };
 
 export const EventsContext = createContext<EventsContextValues>({
   events: undefined,
-  loading: false,
-  error: null,
 });
 
 type EventsProviderProps = {
@@ -19,10 +15,10 @@ type EventsProviderProps = {
 };
 
 export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
-  const { events, loading, error } = useFetchEvents();
+  const { events } = useFetchEvents();
 
   return (
-    <EventsContext.Provider value={{ events, loading, error }}>
+    <EventsContext.Provider value={{ events }}>
       {children}
     </EventsContext.Provider>
   );

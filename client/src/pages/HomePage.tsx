@@ -6,7 +6,7 @@ import { ScrollTopButton } from '../components/ScrollTopButton';
 import { OddsTable } from '../components/OddsTable';
 
 export const HomePage = () => {
-  const [inputValue, setInputValue] = useState<string | undefined>('');
+  const [inputValue, setInputValue] = useState<string>('');
   const { events } = useFetchEvents();
   const filteredEvents = events?.filter((event) =>
     event.outcomes.some((outcome) =>

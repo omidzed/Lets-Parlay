@@ -8,7 +8,7 @@ import { AlertModal } from './AlertModal';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 
 type Props = {
-  filteredEvents: Event[];
+  filteredEvents: Event[]|undefined;
 };
 
 export const OddsTable = ({ filteredEvents }: Props) => {
@@ -77,7 +77,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
     window.open(url, '_blank');
   };
 
-  const odds = filteredEvents.map((event, index) => {
+  const odds = filteredEvents?.map((event, index) => {
     const { commenceTime, outcomes, overUnderOdds } = event;
 
     const moneyline = outcomes[0].moneyline;

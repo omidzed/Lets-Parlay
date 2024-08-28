@@ -4,8 +4,8 @@ import { apiKey } from '../utils/api-data';
 
 export const useFetchEvents = () => {
   const [events, setEvents] = useState<Event[] | undefined>([]);
-  const [loading, setLoading] = useState<boolean | undefined>();
-  const [error, setError] = useState<Error | null>(null);
+  const [loading, setLoading] = useState<boolean>();
+  const [error, setError] = useState<Error | undefined>();
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export const useFetchEvents = () => {
 
   useEffect(() => {
     const extractedNames: Set<string> = new Set();
-    events.forEach((event) => {
+    events?.forEach((event) => {
       const fighterOne = event.outcomes[0].name;
       const fighterTwo = event.outcomes[1].name;
       extractedNames.add(fighterOne);

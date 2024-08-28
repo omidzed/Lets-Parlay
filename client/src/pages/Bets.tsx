@@ -32,7 +32,7 @@ export const Bets = () => {
       const betsData = await res.json();
 
       const formattedBets: Bet[] = betsData.map((bet) => {
-        const event = events.find((e) => e.id === bet.eventId);
+        const event = events?.find((e) => e.id === bet.eventId);
         const commenceTime = event ? event.commenceTime : 'Time unknown';
         const formattedPlacedAt = formatDateTime(bet.placedAt);
         const formattedDateTime = formatDateTime(commenceTime);
