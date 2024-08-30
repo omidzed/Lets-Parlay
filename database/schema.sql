@@ -3,6 +3,7 @@ set client_min_messages to warning;
 
 -- WARNING: Dropping and recreating the public schema. Use with caution!
 drop schema "public" cascade;
+
 create schema "public";
 
 CREATE TABLE "users" (

@@ -7,7 +7,7 @@ export type AppContextValues = {
   setUser: (user: User | undefined) => void;
   token: string | undefined;
   setToken: (token: string) => void;
-  funds: number | undefined;
+  funds: number;
   setFunds: (funds: number) => void;
   handleSignIn: (auth: Auth) => void;
   handleSignOut: () => void;
@@ -23,12 +23,14 @@ type UserProviderProps = {
 };
 
 const tokenKey = 'react-context-jwt';
-console.log('jwt', tokenKey);
+const INITIAL_FUNDS = 5000;
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [funds, setFunds] = useState<number | undefined>(() => {
+  const [funds, setFunds] = useState<number>(() => {
     const tokenData = getToken();
-    return tokenData ? parseFloat(tokenData.user.funds.toString()) : undefined;
+    return tokenData
+      ? parseFloat(tokenData.user.funds.toString())
+      : INITIAL_FUNDS;
   });
   const [token, setToken] = useState<string | undefined>(undefined);
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -44,7 +46,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     localStorage.removeItem(tokenKey);
     setUser(undefined);
     setToken(undefined);
-    setFunds(undefined);
+    setFunds(0);
   };
 
   const updateFunds = (newFunds: number) => {

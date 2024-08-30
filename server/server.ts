@@ -12,17 +12,23 @@ import {
 
 type User = {
   userId: number;
+  name: string;
   username: string;
   hashedPassword: string;
+  funds: number;
 };
+
 type Auth = {
+  name: string;
   username: string;
   password: string;
+  funds: number;
 };
 
 type Bet = {
   eventId: number;
   betType: string;
+  betId: number;
   betAmount: number;
 };
 
@@ -52,19 +58,21 @@ app.use(express.json());
 
 app.post('/api/auth/sign-up', async (req, res, next) => {
   try {
-    const { username, password } = req.body as Partial<Auth>;
-    if (!username || !password) {
-      throw new ClientError(400, 'username and password are required fields');
+    const { name, username, password, funds } = req.body as Partial<Auth>;
+    if (!name || !username || !password) {
+      throw new ClientError(
+        400,
+        'Name, username and password are required for registration!'
+      );
     }
 
     const sql = `
-      insert into "user" ("username", "hashedPassword")
-      values              ($1, $2)
+      insert into "users" ("name", "username", "hashedPassword", "funds")
+      values              ($1, $2, $3, $4)
       returning *;`;
 
     const hashedPassword = await argon2.hash(password);
-    console.log(hashedPassword);
-    const params = [username, hashedPassword];
+    const params = [name, username, hashedPassword, funds];
     const result = await db.query<User>(sql, params);
     const [user] = result.rows;
     res.status(201).json(user);
@@ -82,7 +90,7 @@ app.post('/api/auth/login', async (req, res, next) => {
     const sql = `
     select "userId",
            "hashedPassword"
-      from "user"
+      from "users"
      where "username" = $1
   `;
     const params = [username];

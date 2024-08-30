@@ -3,7 +3,7 @@ import { getToken, removeToken, hasToken } from '../utils/token-storage';
 import { useModal } from '../hooks/useModal';
 import { useUser } from '../hooks/useUser';
 import { AuthForm } from './AuthForm';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { AppDrawer } from './Menu/AppDrawer';
 import { Overlay } from './Menu/Overlay';
 import { MenuItem } from '../utils/data-types';
@@ -12,7 +12,6 @@ import { FaQuestion } from 'react-icons/fa6';
 import { FaRankingStar } from 'react-icons/fa6';
 import { SlHome } from 'react-icons/sl';
 import { TbDatabaseDollar } from 'react-icons/tb';
-import { AppContext } from '../Context/AppContext';
 import { IoMdHelp } from 'react-icons/io';
 import { RiMenu2Line } from 'react-icons/ri';
 import { User } from '../utils';
@@ -25,8 +24,7 @@ export const NavBar = () => {
   const [, setAction] = useState('');
 
   const { openModal, closeModal } = useModal();
-  const { setUser } = useUser();
-  const { funds, setFunds } = useContext(AppContext);
+  const { setUser, funds, setFunds } = useUser();
   const location = useLocation();
 
   const handleOpenModal = (action: ActionType) => {
@@ -74,7 +72,7 @@ export const NavBar = () => {
 
   const logOut = () => {
     removeToken();
-    setUser(null);
+    setUser(undefined);
     setIsAuthenticated(false);
   };
 

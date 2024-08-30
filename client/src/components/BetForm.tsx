@@ -1,11 +1,11 @@
 import type { Event } from '../utils/data-types';
-import { type FormEvent, useState, useContext } from 'react';
+import { type FormEvent, useState } from 'react';
 import { calculateWinnings } from '../utils/payout-calculator';
-import { AppContext } from '../Context/AppContext';
 import CurrencyInput from 'react-currency-input-field';
 import { useModal } from '../hooks/useModal';
 import { AlertModal } from './AlertModal';
 import { getToken } from '../utils/token-storage';
+import { useUser } from "../hooks/useUser";
 
 type BetFormProps = {
   event: Event;
@@ -26,7 +26,7 @@ export const BetForm = ({
 }: BetFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [betAmount, setBetAmount] = useState<number>(0);
-  const { funds, setFunds } = useContext(AppContext);
+  const { funds, setFunds } = useUser();
   const { closeModal, openModal } = useModal();
   const token = getToken();
 

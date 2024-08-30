@@ -6,7 +6,7 @@ type RotatingBannerProps = {
 
 export const RotatingBanner = ({ posters }: RotatingBannerProps) => {
   return (
-    <div className="flex justify-center mb-6 md:mb-12">
+    <div className="flex justify-center mb-6 md:mb-6">
       <Banner posters={posters} />
     </div>
   );
