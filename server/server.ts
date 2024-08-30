@@ -58,7 +58,7 @@ app.use(express.json());
 
 app.post('/api/auth/sign-up', async (req, res, next) => {
   try {
-    const { name, username, password, funds } = req.body as Partial<Auth>;
+    const { name, username, password } = req.body as Partial<Auth>;
     if (!name || !username || !password) {
       throw new ClientError(
         400,
@@ -72,6 +72,7 @@ app.post('/api/auth/sign-up', async (req, res, next) => {
       returning *;`;
 
     const hashedPassword = await argon2.hash(password);
+    const funds = 5000;
     const params = [name, username, hashedPassword, funds];
     const result = await db.query<User>(sql, params);
     const [user] = result.rows;

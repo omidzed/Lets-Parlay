@@ -28,9 +28,7 @@ const INITIAL_FUNDS = 5000;
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [funds, setFunds] = useState<number>(() => {
     const tokenData = getToken();
-    return tokenData
-      ? parseFloat(tokenData.user.funds.toString())
-      : INITIAL_FUNDS;
+    return tokenData ? tokenData.user.funds : INITIAL_FUNDS;
   });
   const [token, setToken] = useState<string | undefined>(undefined);
   const [user, setUser] = useState<User | undefined>(undefined);

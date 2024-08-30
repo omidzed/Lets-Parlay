@@ -24,7 +24,7 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
 
     const userData =
       action === 'sign-up'
-        ? { username, password, name }
+        ? { name, username, password }
         : { username, password };
 
     try {
