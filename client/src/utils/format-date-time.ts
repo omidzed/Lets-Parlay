@@ -29,7 +29,7 @@ export const formatDateTime = (dateTimeString: string): string => {
 
     return `${formattedDate} - ${timeWithoutTimeZone}`;
   } catch (error) {
-    console.error('Date formatting error:', error.message);
+    console.error('Date formatting error');
     return 'Invalid date';
   }
 };
