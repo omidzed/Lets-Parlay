@@ -37,14 +37,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     localStorage.setItem(tokenKey, JSON.stringify(auth));
     setUser(auth.user);
     setToken(auth.token);
-    setFunds(auth.user.funds);
   };
 
   const handleSignOut = () => {
     localStorage.removeItem(tokenKey);
     setUser(undefined);
     setToken(undefined);
-    setFunds(0);
   };
 
   const updateFunds = (newFunds: number) => {
