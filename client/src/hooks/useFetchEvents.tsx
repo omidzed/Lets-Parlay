@@ -32,6 +32,7 @@ export const useFetchEvents = () => {
           throw new Error('Network response was not ok');
         }
         const events = await response.json();
+        console.log('events', events);
         const filteredData: Event[] = events.map((event) => {
           const id = event.id;
           const commenceTime = event.commence_time;

@@ -32,7 +32,8 @@ export type OverUnder = [
 ];
 
 export type Event = {
-  id: string;
+  id:string;
+  eventId: string;
   commenceTime: string;
   outcomes: [
     { name: string; moneyline: number },

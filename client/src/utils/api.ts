@@ -1,4 +1,5 @@
 export type User = {
+  name: string;
   userId: number;
   username: string;
   funds: number;
@@ -13,7 +14,6 @@ export type Guest = {
   username: string;
   name: string;
   funds: number;
-  password: string;
 };
 
 export type GuestAuth = {

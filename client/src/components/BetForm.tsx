@@ -5,9 +5,10 @@ import CurrencyInput from 'react-currency-input-field';
 import { useModal } from '../hooks/useModal';
 import { AlertModal } from './AlertModal';
 import { getToken } from '../utils/token-storage';
-import { useUser } from "../hooks/useUser";
+import { useUser } from '../hooks/useUser';
 
 type BetFormProps = {
+  eventId: string;
   event: Event;
   outcomeIndex: number;
   overUnderIndex: number;
@@ -17,6 +18,7 @@ type BetFormProps = {
 };
 
 export const BetForm = ({
+  eventId,
   event,
   outcomeIndex,
   overUnderIndex,
@@ -49,13 +51,14 @@ export const BetForm = ({
     };
     console.log('auth HEADERRRR', authHeader);
     const formData = new FormData(e.currentTarget);
-    const userData = Object.fromEntries(formData.entries());
-    console.log('userdata', userData);
+    const betData = Object.fromEntries(formData.entries());
+    console.log('userdata', betData);
     const req = {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        ...userData,
+        ...betData,
+        eventId,
         userId,
         timeStamp,
         pick,
@@ -67,7 +70,7 @@ export const BetForm = ({
     try {
       setIsLoading(true);
       console.log(effectiveBetAmount, funds);
-      if (effectiveBetAmount > funds) {
+      if (effectiveBetAmount > (token?.user.funds ?? 0)) {
         console.log('Opening insufficient funds modal');
         openModal(
           <AlertModal
@@ -88,10 +91,10 @@ export const BetForm = ({
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
       }
-      const fundsAfterBet = funds - effectiveBetAmount;
+      const fundsAfterBet = (token?.user.funds ?? 0) - effectiveBetAmount;
       setFunds(fundsAfterBet);
 
-      localStorage.setItem('userData', JSON.stringify(userData));
+      localStorage.setItem('betData', JSON.stringify(betData));
 
       openModal(
         <AlertModal

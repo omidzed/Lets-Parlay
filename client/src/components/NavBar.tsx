@@ -24,7 +24,7 @@ export const NavBar = () => {
   const [, setAction] = useState('');
 
   const { openModal, closeModal } = useModal();
-  const { setUser, funds, setFunds } = useUser();
+  const { setUser, setFunds } = useUser();
   const location = useLocation();
 
   const handleOpenModal = (action: ActionType) => {
@@ -76,10 +76,13 @@ export const NavBar = () => {
     setIsAuthenticated(false);
   };
 
-  const formattedFunds = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(funds);
+  const formattedFunds =
+    token?.user && typeof token.user.funds === 'number'
+      ? new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(token.user.funds)
+      : 'N/A'; // Default or error handling value
 
   const styles = {
     nav: 'flex justify-between md:py-4 md:pr-10 bg-[#1F1F21] mb-4 pr-2',

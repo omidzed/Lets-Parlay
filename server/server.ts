@@ -90,7 +90,9 @@ app.post('/api/auth/login', async (req, res, next) => {
     }
     const sql = `
     select "userId",
-           "hashedPassword"
+           "name",
+           "hashedPassword",
+           "funds"
       from "users"
      where "username" = $1
   `;
@@ -100,13 +102,12 @@ app.post('/api/auth/login', async (req, res, next) => {
     if (!user) {
       throw new ClientError(401, 'invalid login');
     }
-    const { userId, hashedPassword } = user;
+    const { userId, name, hashedPassword, funds } = user;
     if (!(await argon2.verify(hashedPassword, password))) {
       throw new ClientError(401, 'invalid login');
     }
-    const payload = { userId, username };
-    const token = jwt.sign(payload, hashKey);
-    console.log(token);
+    const payload = { userId, name, username, funds };
+    const token = jwt.sign(payload, hashKey, { expiresIn: '1h' });
     res.json({ token, user: payload });
   } catch (err) {
     next(err);
@@ -145,59 +146,6 @@ app.post('/api/bets', authMiddleware, async (req, res, next) => {
     const result = await db.query<Bet>(sql, params);
     const [bet] = result.rows;
     res.status(201).json(bet);
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.put('/api/bets/:betId', authMiddleware, async (req, res, next) => {
-  try {
-    const betId = Number(req.params.betId);
-    const { eventId, betType, betAmount } = req.body as Partial<Bet>;
-    if (!Number.isInteger(betId) || !eventId || !betType || !betAmount) {
-      throw new ClientError(
-        400,
-        'eventId, betType, and betAmount are required fields'
-      );
-    }
-    const sql = `
-      update "bets"
-        set "eventId" = $1,
-            "betType" = $2,
-            "betAmount" = $3
-        where "betId" = $4 and "userId" = $5
-        returning *;
-    `;
-    const params = [eventId, betType, betAmount, betId, req.user?.userId];
-    const result = await db.query<Bet>(sql, params);
-    const [bet] = result.rows;
-    if (!bet) {
-      throw new ClientError(404, `Bet with id ${betId} not found`);
-    }
-    res.status(201).json(bet);
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.delete('/api/bets/:betId', authMiddleware, async (req, res, next) => {
-  try {
-    const betId = Number(req.params.betId);
-    if (!Number.isInteger(betId)) {
-      throw new ClientError(400, 'betId must be an integer');
-    }
-    const sql = `
-      delete from "bets"
-        where "betId" = $1 and "userId" = $2
-        returning *;
-    `;
-    const params = [betId, req.user?.userId];
-    const result = await db.query<Bet>(sql, params);
-    const [deleted] = result.rows;
-    if (!deleted) {
-      throw new ClientError(404, `Bet with id ${betId} not found`);
-    }
-    res.sendStatus(204);
   } catch (err) {
     next(err);
   }

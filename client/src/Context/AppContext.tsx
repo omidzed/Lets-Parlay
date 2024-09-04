@@ -7,7 +7,7 @@ export type AppContextValues = {
   setUser: (user: User | undefined) => void;
   token: string | undefined;
   setToken: (token: string) => void;
-  funds: number;
+  funds: number | undefined;
   setFunds: (funds: number) => void;
   handleSignIn: (auth: Auth) => void;
   handleSignOut: () => void;
@@ -23,26 +23,34 @@ type UserProviderProps = {
 };
 
 const tokenKey = 'react-context-jwt';
-const INITIAL_FUNDS = 5000;
+const tokenData = getToken();
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [funds, setFunds] = useState<number>(() => {
-    const tokenData = getToken();
-    return tokenData ? tokenData.user.funds : INITIAL_FUNDS;
-  });
   const [token, setToken] = useState<string | undefined>(undefined);
+ const [funds, setFunds] = useState<number | undefined>(() => {
+   if (
+     tokenData &&
+     tokenData.user &&
+     typeof tokenData.user.funds === 'number'
+   ) {
+     return parseFloat(tokenData.user.funds.toString());
+   }
+   return undefined;
+ });
   const [user, setUser] = useState<User | undefined>(undefined);
 
   const handleSignIn = (auth: Auth) => {
     localStorage.setItem(tokenKey, JSON.stringify(auth));
     setUser(auth.user);
     setToken(auth.token);
+    setFunds(auth.user.funds);
   };
 
   const handleSignOut = () => {
     localStorage.removeItem(tokenKey);
     setUser(undefined);
     setToken(undefined);
+    setFunds(undefined);
   };
 
   const updateFunds = (newFunds: number) => {
