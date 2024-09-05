@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import type { Event } from '../utils/data-types';
+import type { ApiEvent, Event } from '../utils/data-types';
 import { apiKey } from '../utils/api-data';
 
 export const useFetchEvents = () => {
   const [events, setEvents] = useState<Event[] | undefined>([]);
-  const [loading, setLoading] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | undefined>();
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
@@ -12,17 +12,16 @@ export const useFetchEvents = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Load cached data if available
         const cachedEvents = localStorage.getItem('events');
-        if (
-          cachedEvents &&
-          new Date().getTime() - JSON.parse(cachedEvents).timestamp <
-            259200 * 1000
-        ) {
-          const eventsData = JSON.parse(cachedEvents).data;
-          setEvents(eventsData);
-          setLoading(false);
-          return; // Avoid making an API call if cached data is recent
+        if (cachedEvents) {
+          const parsedCache = JSON.parse(cachedEvents);
+          const isCacheRecent =
+            new Date().getTime() - parsedCache.timestamp < 259200000; // 3 days in milliseconds
+          if (isCacheRecent) {
+            setEvents(parsedCache.data);
+            setLoading(false);
+            return;
+          }
         }
 
         const response = await fetch(
@@ -31,28 +30,30 @@ export const useFetchEvents = () => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const events = await response.json();
-        console.log('events', events);
-        const filteredData: Event[] = events.map((event) => {
-          const id = event.id;
-          const commenceTime = event.commence_time;
-          const apiOutcomes =
-            event.bookmakers?.[0]?.markets?.[0]?.outcomes || [];
-          return {
-            id,
-            commenceTime,
-            outcomes: [
-              { name: apiOutcomes[0]?.name, moneyline: apiOutcomes[0]?.price },
-              { name: apiOutcomes[1]?.name, moneyline: apiOutcomes[1]?.price },
-            ],
-            overUnderOdds: [
-              { name: 'O 2.5', overUnderOdds: -190 },
-              { name: 'U 2.5', overUnderOdds: 150 },
-            ],
-          };
-        });
+        const apiEvents = await response.json();
+        console.log('apiEvents', apiEvents);
 
-        localStorage.setItem('events', JSON.stringify(filteredData));
+        const filteredData: Event[] = apiEvents.map((event: ApiEvent) => ({
+          id: event.id,
+          commenceTime: event.commence_time,
+          outcomes:
+            event.bookmakers?.[0]?.markets?.[0]?.outcomes.map((outcome) => ({
+              name: outcome.name,
+              moneyline: outcome.price,
+            })) || [],
+          overUnderOdds: [
+            { name: 'O 2.5', overUnderOdds: -190 },
+            { name: 'U 2.5', overUnderOdds: 150 },
+          ],
+        }));
+
+        localStorage.setItem(
+          'events',
+          JSON.stringify({
+            data: filteredData,
+            timestamp: new Date().getTime(),
+          })
+        );
         setEvents(filteredData);
         console.log('filteredData', filteredData);
       } catch (err) {
@@ -63,20 +64,16 @@ export const useFetchEvents = () => {
         setLoading(false);
       }
     };
-    fetchData();
-    const interval = setInterval(fetchData, 259200 * 1000);
 
-    // Cleanup on unmount
+    fetchData();
+    const interval = setInterval(fetchData, 259200000); // Every 3 days
     return () => clearInterval(interval);
-  }, []); // Empty dependency array ensures this effect runs only on mount and unmount
+  }, []);
 
   useEffect(() => {
     const extractedNames: Set<string> = new Set();
     events?.forEach((event) => {
-      const fighterOne = event.outcomes[0].name;
-      const fighterTwo = event.outcomes[1].name;
-      extractedNames.add(fighterOne);
-      extractedNames.add(fighterTwo);
+      event.outcomes.forEach((outcome) => extractedNames.add(outcome.name));
     });
     setSuggestions(Array.from(extractedNames));
   }, [events]);

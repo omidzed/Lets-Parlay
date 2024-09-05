@@ -14,9 +14,11 @@ export const formatDateTime = (dateTimeString: string): string => {
     };
 
     const date = new Date(dateTimeString);
-    if (isNaN(date.getTime())) {
-      throw new Error('Invalid date time string');
-    }
+  if (isNaN(date.getTime())) {
+    console.error('Invalid date time string:', dateTimeString); // More specific error logging
+    throw new Error('Invalid date time string');
+  }
+
 
     const formattedDate = date.toLocaleDateString('en-US', optionsDate);
     const formattedTime = date.toLocaleTimeString('en-US', optionsTime);

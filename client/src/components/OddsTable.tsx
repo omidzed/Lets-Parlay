@@ -8,7 +8,7 @@ import { AlertModal } from './AlertModal';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 
 type Props = {
-  filteredEvents: Event[]|undefined;
+  filteredEvents: Event[] | undefined;
 };
 
 export const OddsTable = ({ filteredEvents }: Props) => {
@@ -51,7 +51,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
         overUnderIndex={overUnderIndex}
         pick={pick}
         dateTime={event.commenceTime}
-        status="open"
+        status='open'
       />,
       'Bet Slip'
     );

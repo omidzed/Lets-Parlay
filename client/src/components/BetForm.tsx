@@ -6,9 +6,9 @@ import { useModal } from '../hooks/useModal';
 import { AlertModal } from './AlertModal';
 import { getToken } from '../utils/token-storage';
 import { useUser } from '../hooks/useUser';
+//import { formatLongName } from '../utils/format-names';
 
 type BetFormProps = {
-  eventId: string;
   event: Event;
   outcomeIndex: number;
   overUnderIndex: number;
@@ -18,17 +18,16 @@ type BetFormProps = {
 };
 
 export const BetForm = ({
-  eventId,
   event,
   outcomeIndex,
   overUnderIndex,
   pick,
   dateTime,
-  status,
+  status
 }: BetFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [betAmount, setBetAmount] = useState<number>(0);
-  const { funds, setFunds } = useUser();
+  const { updateFunds } = useUser();
   const { closeModal, openModal } = useModal();
   const token = getToken();
 
@@ -49,16 +48,16 @@ export const BetForm = ({
       'Content-Type': 'application/json',
       ...(token && { Authorization: authHeader }),
     };
-    console.log('auth HEADERRRR', authHeader);
+
     const formData = new FormData(e.currentTarget);
     const betData = Object.fromEntries(formData.entries());
-    console.log('userdata', betData);
+    console.log('betData', betData);
+
     const req = {
       method: 'POST',
       headers,
       body: JSON.stringify({
         ...betData,
-        eventId,
         userId,
         timeStamp,
         pick,
@@ -69,14 +68,12 @@ export const BetForm = ({
 
     try {
       setIsLoading(true);
-      console.log(effectiveBetAmount, funds);
       if (effectiveBetAmount > (token?.user.funds ?? 0)) {
         console.log('Opening insufficient funds modal');
         openModal(
           <AlertModal
             message="Your bet amount cannot exceed your funds, please try again or replenish funds!"
             onClose={() => {
-              // Close the modal and stop loading when the modal is closed.
               setIsLoading(false);
               closeModal();
             }}
@@ -92,9 +89,7 @@ export const BetForm = ({
         throw new Error(`fetch Error ${res.status}`);
       }
       const fundsAfterBet = (token?.user.funds ?? 0) - effectiveBetAmount;
-      setFunds(fundsAfterBet);
-
-      localStorage.setItem('betData', JSON.stringify(betData));
+      updateFunds(fundsAfterBet);
 
       openModal(
         <AlertModal
@@ -136,13 +131,11 @@ export const BetForm = ({
       ? winningsUnder
       : winnings;
 
-  console.log('payout', payout);
-
   return (
     <>
-      <div className="flex-col justify-center items-center px-10 py-10 pb-6 md:mx-10 max-w-fit">
+      <div className="flex-col justify-center items-center  py-10 pb-6 md:mx-10 w-60">
         <div className="flex justify-center gap-4">
-          <span className="basis-1/2 text-center">
+          <span className="basis-1/2 text-right">
             {selectedOutcome?.name ?? selectedOverUnder?.name ?? 'Unknown'}
           </span>
           <span className="basis-1/2 text-left font-bold">
@@ -160,14 +153,14 @@ export const BetForm = ({
             className="flex-col items-center my-2 p-2"
             onSubmit={handleSubmit}>
             <input type="hidden" name="betType" value="moneyline" />
-            <input type="hidden" name="closed" value="false" />
+            <input type="hidden" name="status" value="open" />
             <div className="flex gap-5 flex-nowrap justify-center mt-6 mb-2">
               <div className="font-bold basis-1/2 text-right whitespace-nowrap">
                 Amount:
               </div>
 
               <div className="flex flex-nowrap basis-1/2 text-left">
-                <span className="mx-1">$</span>
+                <span className="ml-1 mr-1">$</span>
                 <CurrencyInput
                   className="bg-blue-200 rounded-md pl-1 w-16"
                   name="betAmount"
@@ -179,27 +172,23 @@ export const BetForm = ({
             </div>
 
             <div className="flex justify-center gap-5">
-              <div className="font-bold basis-1/2 text-center whitespace-nowrap">
+              <div className="font-bold basis-1/2 text-right whitespace-nowrap">
                 Payout:
               </div>
 
-              <div className="flex flex-nowrap basis-1/2 text-left">
-                <div className="mr-1">$</div>
-                <div className="pl-1 w-16">{payout}</div>
+              <div className="flex basis-1/2 text-left">
+                <div className="ml-1">$</div>
+                <div className="pl-2">{payout}</div>
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex justify-center">
               <button
                 className={`mt-7  ${
                   isLoading ? 'bg-blue-400' : 'bg-blue-700'
-                } text-white px-8 py-3 w-full rounded-md cursor-pointer`}
+                } text-white px-8 py-4 rounded-md cursor-pointer`}
                 type="submit"
                 disabled={isLoading}>
-                {isLoading ? 'Betting...' : 'Submit'}
-              </button>
-              or
-              <button className="bg-green-700 px-8 py-3 rounded-md w-full text-white">
-                Parlay
+                {isLoading ? 'Betting...' : 'SUBMIT'}
               </button>
             </div>
           </form>

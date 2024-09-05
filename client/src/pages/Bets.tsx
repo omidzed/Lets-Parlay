@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getToken } from '../utils/token-storage';
-import { uid } from 'react-uid';
 import type { Bet } from '../utils/data-types';
 import { formatDateTime } from '../utils/format-date-time';
-import { useFetchEvents } from '../hooks/useFetchEvents';
 
 export const Bets = () => {
   const [bets, setBets] = useState<Bet[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { events } = useFetchEvents();
 
   const fetchBets = async () => {
     try {
@@ -31,24 +28,22 @@ export const Bets = () => {
       }
       const betsData = await res.json();
 
-      const formattedBets: Bet[] = betsData.map((bet) => {
-        const event = events?.find((e) => e.id === bet.eventId);
-        const commenceTime = event ? event.commenceTime : 'Time unknown';
+      const formattedBets: Bet[] = betsData.map((bet: Bet) => {
         const formattedPlacedAt = formatDateTime(bet.placedAt);
-        const formattedDateTime = formatDateTime(commenceTime);
+        const formattedDateTime = formatDateTime(bet.dateTime);
         const nowUtc = new Date();
         const isOpen = nowUtc < new Date(bet.dateTime);
 
         return {
-          id: uid(bet), // Consider using a more persistent unique identifier if possible
-          eventId: bet.eventId, // Ensuring eventId is carried over
+          betId: bet.betId,
+          userId: bet.userId,
           betType: bet.betType,
           betAmount: bet.betAmount,
           pick: bet.pick,
           dateTime: formattedDateTime,
           placedAt: formattedPlacedAt,
-          closed: !isOpen,
           status: isOpen ? 'Open' : 'Closed',
+          payout: bet.payout,
         };
       });
 
@@ -65,7 +60,18 @@ export const Bets = () => {
 
   useEffect(() => {
     fetchBets();
-  });
+  }, []);
+
+  useEffect(() => {
+    console.log('Bets:', bets);
+  }, [bets]);
+
+  useEffect(() => {
+    console.log(
+      'Bet IDs:',
+      bets.map((bet) => bet.betId)
+    );
+  }, [bets]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error)
@@ -76,7 +82,7 @@ export const Bets = () => {
     );
 
   const styling =
-    'flex gap-6 text-answer md:text-lg justify-between items-center';
+    'flex gap-6 my-1 text-answer md:text-thead justify-between items-center';
 
   return (
     <div className="flex flex-col p-2 gap-4 items-center justify-center">
@@ -88,11 +94,11 @@ export const Bets = () => {
       <ul className="flex justify-center md:justify-start md:gap-10 md:px-20 mx-10 md:mx-20 flex-wrap">
         {bets.map((bet) => (
           <li
-            key={bet.id}
+            key={bet.betId}
             className="flex flex-col text-white text-sm w-120 md:w-96  p-6 rounded-md bg-[#212123e3] mt-8">
             <div className={styling}>
               <div className={styling}> Bet date/time: </div>
-              <div className={styling}>{formatDateTime(bet.placedAt)}</div>
+              <div className={styling}>{bet.placedAt}</div>
             </div>
             <div className={styling}>
               <div className={styling}> Amount: </div>
@@ -104,7 +110,7 @@ export const Bets = () => {
             </div>
             <div className={styling}>
               <div className={styling}>Fight date/time:</div>
-              <div className={styling}>{formatDateTime(bet.dateTime)}</div>
+              <div className={styling}>{bet.dateTime}</div>
             </div>
             <div className={styling}>
               <div className={styling}>Status:</div>

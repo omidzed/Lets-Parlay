@@ -8,6 +8,19 @@ export type ApiEvent = {
   bookmakers: Bookmaker[];
 };
 
+export type Event = {
+  id:string;
+  commenceTime: string;
+  outcomes: [
+    { name: string; moneyline: number },
+    { name: string; moneyline: number }
+  ];
+  overUnderOdds: [
+    { name: string; overUnderOdds: number },
+    { name: string; overUnderOdds: number }
+  ];
+};
+
 export type Bookmaker = {
   key: string;
   title: string;
@@ -31,19 +44,7 @@ export type OverUnder = [
   { name: string; odds: number }
 ];
 
-export type Event = {
-  id:string;
-  eventId: string;
-  commenceTime: string;
-  outcomes: [
-    { name: string; moneyline: number },
-    { name: string; moneyline: number }
-  ];
-  overUnderOdds: [
-    { name: string; overUnderOdds: number },
-    { name: string; overUnderOdds: number }
-  ];
-};
+
 
 export type MenuItem = {
   title: string;
@@ -64,16 +65,16 @@ export type Money = {
 export type BetType = MoneyLine | OverUnder;
 
 export type Bet = {
-  id: string;
+  betId: string;
   eventId: string;
   betAmount: number;
   pick: string;
-  closed: boolean;
   dateTime: string;
   status: string;
   userId: number;
   placedAt: string;
   betType: string;
+  payout: string;
 };
 
 export type User = {
