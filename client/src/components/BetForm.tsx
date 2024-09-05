@@ -42,7 +42,7 @@ export const BetForm = ({
     e.preventDefault();
     setIsLoading(true);
 
-    const effectiveBetAmount = betAmount ?? 0;
+    const effectiveBetAmount = betAmount;
     const userId = token ? Number(token.user.userId) : '';
     const authHeader = token ? `Bearer ${token.token}` : '';
     const headers = {
@@ -165,6 +165,7 @@ export const BetForm = ({
                 <CurrencyInput
                   className="bg-blue-200 rounded-md pl-1 w-16"
                   name="betAmount"
+                  disableGroupSeparators={true}
                   defaultValue={0}
                   decimalsLimit={2}
                   onValueChange={handleChange}
