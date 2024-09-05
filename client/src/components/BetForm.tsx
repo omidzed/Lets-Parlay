@@ -6,6 +6,7 @@ import { useModal } from '../hooks/useModal';
 import { AlertModal } from './AlertModal';
 import { getToken } from '../utils/token-storage';
 import { useUser } from '../hooks/useUser';
+import { updateFundsInDB } from '../utils/updateFundsInDB';
 //import { formatLongName } from '../utils/format-names';
 
 type BetFormProps = {
@@ -23,25 +24,25 @@ export const BetForm = ({
   overUnderIndex,
   pick,
   dateTime,
-  status
+  status,
 }: BetFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [betAmount, setBetAmount] = useState<number>(0);
   const { updateFunds } = useUser();
   const { closeModal, openModal } = useModal();
   const token = getToken();
+  const timeStamp = new Date().toISOString();
 
   const handleChange = (value: string | undefined) => {
     const amountNumber = parseFloat(value || '0'); // Default to '0' if value is undefined
     setBetAmount(amountNumber);
   };
 
-  const effectiveBetAmount = betAmount ?? 0;
-  const timeStamp = new Date().toISOString();
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+
+    const effectiveBetAmount = betAmount ?? 0;
     const userId = token ? Number(token.user.userId) : '';
     const authHeader = token ? `Bearer ${token.token}` : '';
     const headers = {
@@ -51,7 +52,6 @@ export const BetForm = ({
 
     const formData = new FormData(e.currentTarget);
     const betData = Object.fromEntries(formData.entries());
-    console.log('betData', betData);
 
     const req = {
       method: 'POST',
@@ -69,7 +69,6 @@ export const BetForm = ({
     try {
       setIsLoading(true);
       if (effectiveBetAmount > (token?.user.funds ?? 0)) {
-        console.log('Opening insufficient funds modal');
         openModal(
           <AlertModal
             message="Your bet amount cannot exceed your funds, please try again or replenish funds!"
@@ -83,12 +82,13 @@ export const BetForm = ({
 
         setIsLoading(false);
       }
+
       const res = await fetch('/api/bets', req);
-      console.log('Fetch response:', res);
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
       }
       const fundsAfterBet = (token?.user.funds ?? 0) - effectiveBetAmount;
+      await updateFundsInDB(userId, fundsAfterBet, token?.token);
       updateFunds(fundsAfterBet);
 
       openModal(
@@ -105,6 +105,7 @@ export const BetForm = ({
       setIsLoading(false);
     }
   };
+
   const selectedOutcome = event?.outcomes[outcomeIndex];
   const selectedOverUnder = event?.overUnderOdds[overUnderIndex];
   const betOdds = selectedOutcome?.moneyline ?? 0;
@@ -114,13 +115,13 @@ export const BetForm = ({
     (calculateWinnings(odds, amount) + amount).toFixed(2);
 
   const winningsOver = selectedOverUnder
-    ? calculatePayout(overUnderOdds, effectiveBetAmount)
+    ? calculatePayout(overUnderOdds, betAmount)
     : '0.00';
   const winningsUnder = selectedOverUnder
-    ? calculatePayout(overUnderOdds, effectiveBetAmount)
+    ? calculatePayout(overUnderOdds, betAmount)
     : '0.00';
   const winnings = selectedOutcome
-    ? calculatePayout(betOdds, effectiveBetAmount)
+    ? calculatePayout(betOdds, betAmount)
     : '0.00';
 
   // Determine the payout based on the type of bet

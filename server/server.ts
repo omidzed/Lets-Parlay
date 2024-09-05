@@ -137,6 +137,35 @@ app.get('/api/bets', authMiddleware, async (req, res, next) => {
   }
 });
 
+app.patch('/api/users/update-funds', authMiddleware, async (req, res, next) => {
+  const { userId, newFunds } = req.body;
+
+  if (!userId || newFunds === undefined) {
+    return res
+      .status(400)
+      .json({ message: 'User ID and new funds amount are required.' });
+  }
+
+  const sql = `
+    UPDATE "users"
+    SET "funds" = $2
+    WHERE "userId" = $1
+    RETURNING *;
+  `;
+
+  try {
+    const params = [userId, newFunds];
+    const result = await db.query(sql, params);
+    if (result.rows.length === 0) {
+      throw new ClientError(404, 'User not found');
+    }
+    res.status(200).json(result.rows[0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
+
 // app.post('/api/bets', authMiddleware, async (req, res, next) => {
 //   try {
 //     const { eventId, betType, betAmount } = req.body as Partial<Bet>;

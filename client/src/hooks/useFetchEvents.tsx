@@ -31,7 +31,6 @@ export const useFetchEvents = () => {
           throw new Error('Network response was not ok');
         }
         const apiEvents = await response.json();
-        console.log('apiEvents', apiEvents);
 
         const filteredData: Event[] = apiEvents.map((event: ApiEvent) => ({
           id: event.id,
@@ -55,7 +54,6 @@ export const useFetchEvents = () => {
           })
         );
         setEvents(filteredData);
-        console.log('filteredData', filteredData);
       } catch (err) {
         setError(
           err instanceof Error ? err : new Error('Failed to fetch data')
