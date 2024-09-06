@@ -72,20 +72,25 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
     setShowPassword(!showPassword);
   };
 
-  const handleGuestCheckIn = () => {
-    const guestData = {
-      username: 'guest$user',
-      name: 'Guest',
-      funds: 5000,
-      password: 'pass1234',
-    };
-    localStorage.setItem('userData', JSON.stringify(guestData));
-    onSignIn({
-      user: guestData,
-      token: 'guest-session',
+const handleGuestCheckIn = async () => {
+  try {
+    const response = await fetch('/api/auth/guest-check-in', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: 'Guest', password: 'Lje4whWB1mn6' }),
     });
-    closeModal();
-  };
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to check-in as guest');
+    }
+
+    onSignIn(data);
+  } catch (error) {
+    console.error('Error during guest check-in:', error);
+    setError('Guest check-in failed. Please try again.');
+  }
+};
 
   const styling =
     'block w-full border-2 border-slate-400 bg-blue-100 rounded-md mb-1 h-10 px-4';

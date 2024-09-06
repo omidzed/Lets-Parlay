@@ -9,8 +9,7 @@ import {
   errorMiddleware,
   authMiddleware,
 } from './lib/index.js';
-import type {User, Auth, Bet} from '../client/src/utils/data-types.js'
-
+import type { User, Auth, Bet } from '../client/src/utils/data-types.js';
 
 const connectionString =
   process.env.DATABASE_URL ||
@@ -96,8 +95,7 @@ app.post('/api/auth/login', async (req, res, next) => {
 
 app.post('/api/bets', authMiddleware, async (req, res, next) => {
   try {
-    const { pick, dateTime, betType, betAmount } =
-      req.body as Partial<Bet>;
+    const { pick, dateTime, betType, betAmount } = req.body as Partial<Bet>;
 
     if (!betType || betAmount === null) {
       throw new ClientError(400, 'betType, and betAmount are required fields');
@@ -108,13 +106,7 @@ app.post('/api/bets', authMiddleware, async (req, res, next) => {
         values ($1, $2, $3, $4, $5)
         returning *;
     `;
-    const params = [
-      req.user.userId,
-      pick,
-      dateTime,
-      betType,
-      betAmount,
-    ];
+    const params = [req.user.userId, pick, dateTime, betType, betAmount];
     const result = await db.query<Bet>(sql, params);
     const [bet] = result.rows;
     res.status(201).json(bet);
@@ -165,29 +157,40 @@ app.patch('/api/users/update-funds', authMiddleware, async (req, res, next) => {
   }
 });
 
+app.post('/api/auth/guest-check-in', async (req, res, next) => {
+  try {
+    const { username, password } = req.body as Partial<Auth>;
 
-// app.post('/api/bets', authMiddleware, async (req, res, next) => {
-//   try {
-//     const { eventId, betType, betAmount } = req.body as Partial<Bet>;
-//     if (!eventId || !betType || !betAmount) {
-//       throw new ClientError(
-//         400,
-//         'eventId, betType, and betAmount are required fields'
-//       );
-//     }
-//     const sql = `
-//       insert into "bets" ("userId", "eventId", "betType", "betAmount")
-//         values ($1, $2, $3, $4)
-//         returning *;
-//     `;
-//     const params = [req.user?.userId, eventId, betType, betAmount];
-//     const result = await db.query<Bet>(sql, params);
-//     const [bet] = result.rows;
-//     res.status(201).json(bet);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+    if (!username || !password) {
+      throw new ClientError(400, 'Username and password are required');
+    }
+
+    const sql = `
+      SELECT "userId", "name", "hashedPassword", "funds", "firstLogin"
+      FROM "users"
+      WHERE "username" = $1
+    `;
+    const params = [username];
+    const result = await db.query<User>(sql, params);
+    const user = result.rows[0];
+
+    if (!user) {
+      throw new ClientError(401, 'Invalid credentials');
+    }
+
+    const { userId, name, hashedPassword, funds } = user;
+
+    if (!(await argon2.verify(hashedPassword, password))) {
+      throw new ClientError(401, 'Invalid credentials');
+    }
+
+    const payload = { userId, name, username, funds };
+    const token = jwt.sign(payload, hashKey, { expiresIn: '1h' });
+    res.json({ token, user: payload });
+  } catch (err) {
+    next(err);
+  }
+});
 
 /*
  * Middleware that handles paths that aren't handled by static middleware
