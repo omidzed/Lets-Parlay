@@ -46,7 +46,7 @@ app.post('/api/auth/sign-up', async (req, res, next) => {
     }
 
     const sql = `
-      insert into "users" ("name", "username", "hashedPassword", "funds")
+      INSERT into "users" ("name", "username", "hashedPassword", "funds")
       values              ($1, $2, $3, $4)
       returning *;`;
 
@@ -68,12 +68,12 @@ app.post('/api/auth/login', async (req, res, next) => {
       throw new ClientError(401, 'invalid login');
     }
     const sql = `
-    select "userId",
+    SELECT "userId",
            "name",
            "hashedPassword",
            "funds"
-      from "users"
-     where "username" = $1
+      FROM "users"
+     WHERE "username" = $1
   `;
     const params = [username];
     const result = await db.query<User>(sql, params);
@@ -118,9 +118,9 @@ app.post('/api/bets', authMiddleware, async (req, res, next) => {
 app.get('/api/bets', authMiddleware, async (req, res, next) => {
   try {
     const sql = `
-      select * from "bets"
-        where "userId" = $1
-        order by "betId" desc;
+      SELECT * from "bets"
+      WHERE "userId" = $1
+      ORDER by "betId" desc;
     `;
     const result = await db.query<User>(sql, [req.user?.userId]);
     res.status(201).json(result.rows);
@@ -166,9 +166,12 @@ app.post('/api/auth/guest-check-in', async (req, res, next) => {
     }
 
     const sql = `
-      SELECT "userId", "name", "hashedPassword", "funds", "firstLogin"
-      FROM "users"
-      WHERE "username" = $1
+      SELECT "userId",
+             "name",
+             "hashedPassword",
+             "funds"
+      FROM   "users"
+      WHERE  "username" = $1
     `;
     const params = [username];
     const result = await db.query<User>(sql, params);
