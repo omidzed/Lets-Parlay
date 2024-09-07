@@ -72,25 +72,35 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
     setShowPassword(!showPassword);
   };
 
-const handleGuestCheckIn = async () => {
-  try {
-    const response = await fetch('/api/auth/guest-check-in', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'Guest', password: 'Lje4whWB1mn6' }),
-    });
+  const handleGuestCheckIn = async () => {
+    try {
+      const response = await fetch('/api/auth/guest-check-in', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: 'Guest', password: 'Lje4whWB1mn6' }),
+      });
 
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || 'Failed to check-in as guest');
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to check-in as guest');
+      }
+
+      onSignIn(data);
+      openModal(
+        <AlertModal
+          message="You can begin placing bets by clicking on the green numbers, or visit FAQ for more information!"
+          onClose={() => {
+            closeModal();
+            toggleAction();
+          }}
+        />,
+        `Welcome to Let's Parlay!`
+      );
+    } catch (error) {
+      console.error('Error during guest check-in:', error);
+      setError('Guest check-in failed. Please try again.');
     }
-
-    onSignIn(data);
-  } catch (error) {
-    console.error('Error during guest check-in:', error);
-    setError('Guest check-in failed. Please try again.');
-  }
-};
+  };
 
   const styling =
     'block w-full border-2 border-slate-400 bg-blue-100 rounded-md mb-1 h-10 px-4';
