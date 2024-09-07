@@ -162,6 +162,7 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
 
         <div className="flex justify-center mt-2">
           <button
+            type="button"
             className="bg-gray-500  text-white px-4 py-2 rounded-md cursor-pointer"
             onClick={handleGuestCheckIn}>
             Guest Check-In
