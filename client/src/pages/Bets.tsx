@@ -52,7 +52,7 @@ export const Bets = () => {
       setError(
         'No bets data to show, please log in or use Guest Check-In in order to place/view bets!'
       );
-      console.error(err);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -62,31 +62,17 @@ export const Bets = () => {
     fetchBets();
   }, []);
 
-  useEffect(() => {
-    console.log('Bets:', bets);
-  }, [bets]);
-
-  useEffect(() => {
-    console.log(
-      'Bet IDs:',
-      bets.map((bet) => bet.betId)
-    );
-  }, [bets]);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error)
-    return (
-      <div className="mx-auto w-[80%] text-center text-lg md:text-2xl mt-28">
-        {error}
-      </div>
-    );
-
   const styling =
     'flex gap-6 my-1 text-answer md:text-thead justify-between items-center';
 
   return (
     <div className="flex flex-col p-2 gap-4 items-center justify-center">
-      {bets.length === 0 && (
+      {isLoading && (
+        <p className="flex justify-center text-xl md:text-4xl py-40 px-2">
+          Loading bets...
+        </p>
+      )}
+      {!isLoading && bets.length === 0 && (
         <p className="flex justify-center text-xl md:text-4xl py-40 px-2">
           No recorded bets at the moment.
         </p>

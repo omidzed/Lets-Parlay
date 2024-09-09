@@ -16,7 +16,7 @@ export const useFetchEvents = () => {
         if (cachedEvents) {
           const parsedCache = JSON.parse(cachedEvents);
           const isCacheRecent =
-            new Date().getTime() - parsedCache.timestamp < 259200000; // 3 days in milliseconds
+            new Date().getTime() - parsedCache.timestamp < 86400000; // 1 day in milliseconds
           if (isCacheRecent) {
             setEvents(parsedCache.data);
             setLoading(false);
@@ -64,7 +64,7 @@ export const useFetchEvents = () => {
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 259200000); // Every 3 days
+    const interval = setInterval(fetchData, 86400000); // Every 3 days
     return () => clearInterval(interval);
   }, []);
 
