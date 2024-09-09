@@ -5,7 +5,7 @@ import { HomePage } from './pages/HomePage';
 import { Bets } from './pages/Bets';
 import { ModalProvider } from './Context/ModalContext';
 import { Modal } from './components/Modal';
-import { UserProvider } from './Context/AppContext';
+import { UserProvider } from './Context/UserContext';
 import { EventsProvider } from './Context/EventsContext';
 import { Rankings } from './components/Menu/Rankings';
 import { FAQ } from './pages/FAQ';

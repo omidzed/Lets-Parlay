@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, ReactNode } from 'react';
 import type { Auth, User } from '../utils';
 import { getToken, storeToken } from '../utils/token-storage';
 
-export type AppContextValues = {
+export type UserContextValues = {
   user: User | undefined;
   setUser: (user: User | undefined) => void;
   token: string | undefined;
@@ -14,7 +14,7 @@ export type AppContextValues = {
   updateFunds: (newFunds: number) => void;
 };
 
-export const AppContext = createContext<AppContextValues | undefined>(
+export const UserContext = createContext<UserContextValues | undefined>(
   undefined
 );
 
@@ -88,7 +88,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, [setToken, setUser, setFunds]);
 
   return (
-    <AppContext.Provider
+    <UserContext.Provider
       value={{
         user,
         setUser,
@@ -101,6 +101,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         updateFunds,
       }}>
       {children}
-    </AppContext.Provider>
+    </UserContext.Provider>
   );
 };

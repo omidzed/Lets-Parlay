@@ -15,6 +15,7 @@ import { TbDatabaseDollar } from 'react-icons/tb';
 import { IoMdHelp } from 'react-icons/io';
 import { RiMenu2Line } from 'react-icons/ri';
 import { User } from '../utils';
+import { useNavigate } from 'react-router-dom';
 
 type ActionType = 'sign-up' | 'sign-in';
 
@@ -22,6 +23,7 @@ export const NavBar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(hasToken());
   const [isOpen, setIsOpen] = useState(false);
   const [, setAction] = useState('');
+  const navigate = useNavigate();
 
   const { openModal, closeModal } = useModal();
   const { setUser, setFunds } = useUser();
@@ -74,6 +76,7 @@ export const NavBar = () => {
     removeToken();
     setUser(undefined);
     setIsAuthenticated(false);
+    navigate('/');
   };
 
   const formattedFunds =
