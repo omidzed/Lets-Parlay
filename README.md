@@ -63,11 +63,13 @@ npm run dev
 ```
 
 
-License
-This project is licensed under the MIT 
+
+## License
+This project is licensed under the [MIT License](LICENSE).
+
 
 Acknowledgments
-The developers of the Valorant API for providing access to the game's data.
+The developers of the Odds API for providing access to their excellent sports datasets.
 Any additional acknowledgments or credits for libraries, resources, or inspiration used in the project.
 
 <!-- MARKDOWN LINKS & IMAGES -->
