@@ -6,15 +6,9 @@
 
 A React, TypeScript, Node.JS, Express.JS, and PostgreSQL project, deployed on AWS EC2, "Let's Parlay" is a virtual sportsbook web application, that allows MMA fans to try online betting for fun, with zero financial risk!
 
-[![Let's Parlay][product-screenshot]](https://example.com)
 
-<br />
-<div>
-  <a href="https://github.com/omidzed/lets-parlay">
-    
-  <img src="letsparlay1.png" alt="Logo" width="300" height="60">
-    
-  </a>
+![Let's Parlay Screenshot](Screenshot%202024-09-10%20135426.png)
+
 
 
 
@@ -27,38 +21,54 @@ A React, TypeScript, Node.JS, Express.JS, and PostgreSQL project, deployed on AW
 - [![PostgreSQL][PostgreSQL.js]][PostgreSQL-url]
 - [![Express][Express.js]][Express-url]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+## Setup
 
-### Prerequisites
+1. Make sure you have Node JS installed. If you don't have it:
 
-This is an example of how to list things you need to use the software and how to install them.
+- [Download it from nodejs.org](https://nodejs.org)
+- [Install it using NVM ](https://github.com/nvm-sh/nvm)
+- If you're on Mac, Homebrew is a good option too:
 
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
+```
+brew install node
+```
 
-### Installation
+2. Clone the repo:
 
-Installation and Setup
-Clone the repository: git clone https://github.com/omidzed/Lets-Parlay.git
+```
+git clone https://github.com/omidzed/Lets-Parlay.git
+```
 
-Install dependencies: npm install
+3. Open the project folder:
 
-Start the application: npm start
+```
+cd lets-parlay
+```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+4. Install packages and dependencies:
 
-<!-- USAGE EXAMPLES -->
+```
+npm install
+```
+
+5. Start a local dev server at `http://localhost:5173`
+
+```
+npm run dev
+```
 
 
+License
+This project is licensed under the MIT 
+
+Acknowledgments
+The developers of the Valorant API for providing access to the game's data.
+Any additional acknowledgments or credits for libraries, resources, or inspiration used in the project.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
