@@ -7,7 +7,6 @@ import { AlertModal } from './AlertModal';
 import { getToken } from '../utils/token-storage';
 import { useUser } from '../hooks/useUser';
 import { updateFundsInDB } from '../utils/updateFundsInDB';
-//import { formatLongName } from '../utils/format-names';
 
 type BetFormProps = {
   event: Event;
@@ -50,6 +49,22 @@ export const BetForm = ({
       ...(token && { Authorization: authHeader }),
     };
 
+    if (effectiveBetAmount > (token?.user.funds ?? 0)) {
+      openModal(
+        <AlertModal
+          message="Your bet amount cannot exceed your funds, please try again or replenish funds!"
+          onClose={() => {
+            setIsLoading(false);
+            closeModal();
+          }}
+        />,
+        'Need more funds to cover bet!'
+      );
+
+      setIsLoading(false);
+      return;
+    }
+
     const formData = new FormData(e.currentTarget);
     const betData = Object.fromEntries(formData.entries());
 
@@ -68,21 +83,6 @@ export const BetForm = ({
 
     try {
       setIsLoading(true);
-      if (effectiveBetAmount > (token?.user.funds ?? 0)) {
-        openModal(
-          <AlertModal
-            message="Your bet amount cannot exceed your funds, please try again or replenish funds!"
-            onClose={() => {
-              setIsLoading(false);
-              closeModal();
-            }}
-          />,
-          'Need more funds to cover bet!'
-        );
-
-        setIsLoading(false);
-      }
-
       const res = await fetch('/api/bets', req);
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
@@ -124,7 +124,6 @@ export const BetForm = ({
     ? calculatePayout(betOdds, betAmount)
     : '0.00';
 
-  // Determine the payout based on the type of bet
   const payout =
     winningsOver !== '0.00'
       ? winningsOver

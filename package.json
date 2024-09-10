@@ -19,7 +19,8 @@
     "lint:server": "npm run lint --prefix server",
     "lint": "npm-run-all --parallel lint:*",
     "prepare": "husky install",
-    "deploy": "git push --force origin main:pub"
+    "deploy": "git push --force origin main:pub",
+    "test": "jest"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
@@ -27,6 +28,7 @@
     "npm-run-all": "^4.1.5",
     "pg": "^8.11.5",
     "react-calendar": "^4.8.0",
+    "react-currency-input-field": "^3.8.0",
     "react-icons": "^5.0.1",
     "react-scroll-to-top": "^3.0.0",
     "react-uid": "^2.3.3",
@@ -36,6 +38,8 @@
   },
   "devDependencies": {
     "@learningfuze/lfz-config": "^1.0.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
     "@types/dotenv": "^8.2.0",
     "@types/node": "^20.11.25",
     "@types/pg": "^8.11.5",

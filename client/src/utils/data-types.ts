@@ -9,7 +9,7 @@ export type ApiEvent = {
 };
 
 export type Event = {
-  id:string;
+  id: string;
   commenceTime: string;
   outcomes: [
     { name: string; moneyline: number },
@@ -43,8 +43,6 @@ export type OverUnder = [
   { name: string; odds: number },
   { name: string; odds: number }
 ];
-
-
 
 export type MenuItem = {
   title: string;
@@ -91,3 +89,5 @@ export type Auth = {
   name: string;
   funds: number;
 };
+
+export type ActionType = 'sign-up' | 'sign-in';
