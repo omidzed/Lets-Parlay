@@ -20,7 +20,7 @@
     "lint": "npm-run-all --parallel lint:*",
     "prepare": "husky install",
     "deploy": "git push --force origin main:pub",
-    "test": "jest"
+    "test": "jest --watchAll"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
@@ -33,14 +33,15 @@
     "react-scroll-to-top": "^3.0.0",
     "react-uid": "^2.3.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5",
-    "vercel": "^32.3.0"
+    "typescript": "^5.4.5"
   },
   "devDependencies": {
     "@learningfuze/lfz-config": "^1.0.0",
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
     "@types/dotenv": "^8.2.0",
+    "@types/jest": "^29.5.2",
     "@types/node": "^20.11.25",
     "@types/pg": "^8.11.5",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
@@ -50,16 +51,19 @@
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-html": "^7.1.0",
     "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.1",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "jest": "^29.5.0",
     "lint-staged": "^13.2.1",
     "markuplint": "^3.7.0",
     "prettier": "^2.8.7",
     "stylelint": "^15.4.0",
     "stylelint-config-recommended": "^11.0.0",
     "stylelint-config-standard": "^32.0.0",
+    "ts-jest": "^29.1.0",
     "vite": "^4.5.2"
   }
 }

@@ -11,10 +11,10 @@ import '@testing-library/jest-dom';
 jest.mock('../../hooks/useModal', () => ({
   useModal: jest.fn(),
 }));
-jest.mock('../hooks/useUser', () => ({
+jest.mock('../../hooks/useUser', () => ({
   useUser: jest.fn(),
 }));
-jest.mock('../utils/token-storage', () => ({
+jest.mock('../../utils/token-storage', () => ({
   getToken: jest.fn(),
   hasToken: jest.fn(),
   removeToken: jest.fn(),
