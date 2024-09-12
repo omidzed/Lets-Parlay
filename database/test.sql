@@ -31,7 +31,7 @@ VALUES
     -- Example betType
     1000,
     1500,
-    '2024-09-07T16:00:00Z' -- Example betAmount
+    '2024-09-07T16:10:00Z' -- Example betAmount
   );
 
 COMMIT;
