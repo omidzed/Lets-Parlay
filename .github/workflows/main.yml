@@ -36,7 +36,7 @@ jobs:
             cd /home/ec2-user/project
             npm install
             sh scripts/ec2env.sh
-            # npm run db:import
+            npm run db:import
             npm run build
             pm2 start --time npm -- start
 
