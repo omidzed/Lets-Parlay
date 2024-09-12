@@ -2,14 +2,11 @@ import { useEffect, useState } from 'react';
 import { getToken } from '../utils/token-storage';
 import type { Bet } from '../utils/data-types';
 import { formatDateTime } from '../utils/format-date-time';
-import { updateFundsInDB } from '../utils/updateFundsInDB';
-import { useUser } from '../hooks/useUser';
 
 export const Bets = () => {
   const [bets, setBets] = useState<Bet[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { updateFunds } = useUser();
 
   const fetchBets = async () => {
     try {
@@ -37,12 +34,6 @@ export const Bets = () => {
           const formattedDateTime = formatDateTime(bet.dateTime);
           const nowUtc = new Date();
           const isOpen = nowUtc < new Date(bet.dateTime);
-
-          if (!isOpen && bet.winner) {
-            const newFunds = Number(bet.payout) + Number(token.user.funds);
-            await updateFundsInDB(bet.userId, newFunds, token?.token);
-            updateFunds(newFunds);
-          }
 
           return {
             betId: bet.betId,
