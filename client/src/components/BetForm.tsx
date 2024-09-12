@@ -154,6 +154,8 @@ export const BetForm = ({
             onSubmit={handleSubmit}>
             <input type="hidden" name="betType" value="moneyline" />
             <input type="hidden" name="status" value="open" />
+            <input type="hidden" name="payout" value={payout} />
+
             <div className="flex gap-5 flex-nowrap justify-center mt-6 mb-2">
               <div className="font-bold basis-1/2 text-right whitespace-nowrap">
                 Amount:

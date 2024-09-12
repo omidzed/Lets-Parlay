@@ -95,18 +95,26 @@ app.post('/api/auth/login', async (req, res, next) => {
 
 app.post('/api/bets', authMiddleware, async (req, res, next) => {
   try {
-    const { pick, dateTime, betType, betAmount } = req.body as Partial<Bet>;
+    const { pick, dateTime, betType, betAmount, payout } =
+      req.body as Partial<Bet>;
 
     if (!betType || betAmount === null) {
       throw new ClientError(400, 'betType, and betAmount are required fields');
     }
 
     const sql = `
-      insert into "bets" ("userId", "pick", "dateTime" , "betType", "betAmount")
-        values ($1, $2, $3, $4, $5)
+      insert into "bets" ("userId", "pick", "dateTime" , "betType", "betAmount", "payout")
+        values ($1, $2, $3, $4, $5, $6)
         returning *;
     `;
-    const params = [req.user.userId, pick, dateTime, betType, betAmount];
+    const params = [
+      req.user.userId,
+      pick,
+      dateTime,
+      betType,
+      betAmount,
+      payout,
+    ];
     const result = await db.query<Bet>(sql, params);
     const [bet] = result.rows;
     res.status(201).json(bet);
@@ -153,6 +161,7 @@ app.patch('/api/users/update-funds', authMiddleware, async (req, res, next) => {
     }
     res.status(200).json(result.rows[0]);
   } catch (err) {
+    console.error('Error updating funds:', err);
     next(err);
   }
 });

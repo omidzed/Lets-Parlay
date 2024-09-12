@@ -25,7 +25,7 @@ CREATE TABLE "bets" (
   "winner" boolean,
   "betType" text,
   "betAmount" int NOT NULL,
-  "payout" int,
+  "payout" NUMERIC,
   "placedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

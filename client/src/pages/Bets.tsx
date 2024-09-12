@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { getToken } from '../utils/token-storage';
 import type { Bet } from '../utils/data-types';
 import { formatDateTime } from '../utils/format-date-time';
+import { updateFundsInDB } from '../utils/updateFundsInDB';
+import { useUser } from '../hooks/useUser';
 
 export const Bets = () => {
   const [bets, setBets] = useState<Bet[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { updateFunds } = useUser();
 
   const fetchBets = async () => {
     try {
@@ -28,24 +31,33 @@ export const Bets = () => {
       }
       const betsData = await res.json();
 
-      const formattedBets: Bet[] = betsData.map((bet: Bet) => {
-        const formattedPlacedAt = formatDateTime(bet.placedAt);
-        const formattedDateTime = formatDateTime(bet.dateTime);
-        const nowUtc = new Date();
-        const isOpen = nowUtc < new Date(bet.dateTime);
+      const formattedBets: Bet[] = await Promise.all(
+        betsData.map(async (bet: Bet) => {
+          const formattedPlacedAt = formatDateTime(bet.placedAt);
+          const formattedDateTime = formatDateTime(bet.dateTime);
+          const nowUtc = new Date();
+          const isOpen = nowUtc < new Date(bet.dateTime);
 
-        return {
-          betId: bet.betId,
-          userId: bet.userId,
-          betType: bet.betType,
-          betAmount: bet.betAmount,
-          pick: bet.pick,
-          dateTime: formattedDateTime,
-          placedAt: formattedPlacedAt,
-          status: isOpen ? 'Open' : 'Closed',
-          payout: bet.payout,
-        };
-      });
+          if (!isOpen && bet.winner) {
+            const newFunds = Number(bet.payout) + Number(token.user.funds);
+            await updateFundsInDB(bet.userId, newFunds, token?.token);
+            updateFunds(newFunds);
+          }
+
+          return {
+            betId: bet.betId,
+            userId: bet.userId,
+            betType: bet.betType,
+            betAmount: bet.betAmount,
+            pick: bet.pick,
+            dateTime: formattedDateTime,
+            placedAt: formattedPlacedAt,
+            status: isOpen ? 'Open' : 'Closed',
+            payout: bet.payout,
+            winner: bet.winner,
+          };
+        })
+      );
 
       setBets(formattedBets);
     } catch (err) {
@@ -101,6 +113,10 @@ export const Bets = () => {
             <div className={styling}>
               <div className={styling}>Status:</div>
               <div className={styling}>{bet.status}</div>
+            </div>
+            <div className={styling}>
+              <div className={styling}>Payout:</div>
+              <div className={styling}>{bet.payout}</div>
             </div>
           </li>
         ))}

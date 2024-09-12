@@ -3,6 +3,6 @@
 -- INSERT INTO "rankings" ("division", "r
 
 
-UPDATE your_table_name
-SET winner = true
-WHERE betId = 1;
+-- UPDATE your_table_name
+-- SET winner = true
+-- WHERE betId = 1;

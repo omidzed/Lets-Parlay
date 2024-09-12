@@ -73,6 +73,7 @@ export type Bet = {
   placedAt: string;
   betType: string;
   payout: string;
+  winner: boolean;
 };
 
 export type User = {
