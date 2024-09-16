@@ -74,6 +74,7 @@ export type Bet = {
   betType: string;
   payout: string;
   winner: boolean;
+  matchId: string;
 };
 
 export type User = {

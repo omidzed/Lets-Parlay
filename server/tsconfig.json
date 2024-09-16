@@ -13,12 +13,13 @@
     "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["jest"]
+    "types": ["jest"],
+    "allowImportingTsExtensions": true
   },
   "include": ["."]
 }

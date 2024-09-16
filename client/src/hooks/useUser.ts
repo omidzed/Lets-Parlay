@@ -1,9 +1,7 @@
-import { UserContextValues, UserContext } from '../Context/UserContext';
 import { useContext } from 'react';
+import { UserContextValues, UserContext } from '../Context/UserContext';
 
 export const useUser = (): UserContextValues => {
-  const userContext = useContext(UserContext);
-  if (!userContext) {
-    throw new Error('useUser must only be used inside the UserProvider tree.');
-  } else return userContext;
+  // Directly return the context as it's guaranteed to be defined
+  return useContext(UserContext);
 };

@@ -26,12 +26,10 @@ if (!hashKey) throw new Error('TOKEN_SECRET not found in .env');
 
 const app = express();
 
-// Create paths for static directories
 const reactStaticDir = new URL('../client/dist', import.meta.url).pathname;
 const uploadsStaticDir = new URL('public', import.meta.url).pathname;
 
 app.use(express.static(reactStaticDir));
-// Static directory for file uploads server/public/
 app.use(express.static(uploadsStaticDir));
 app.use(express.json());
 
@@ -93,6 +91,44 @@ app.post('/api/auth/login', async (req, res, next) => {
   }
 });
 
+app.post('/api/auth/guest-check-in', async (req, res, next) => {
+  try {
+    const { username, password } = req.body as Partial<Auth>;
+
+    if (!username || !password) {
+      throw new ClientError(400, 'Username and password are required');
+    }
+
+    const sql = `
+      SELECT "userId",
+             "name",
+             "hashedPassword",
+             "funds"
+      FROM   "users"
+      WHERE  "username" = $1
+    `;
+    const params = [username];
+    const result = await db.query<User>(sql, params);
+    const user = result.rows[0];
+
+    if (!user) {
+      throw new ClientError(401, 'Invalid credentials');
+    }
+
+    const { userId, name, hashedPassword, funds } = user;
+
+    if (!(await argon2.verify(hashedPassword, password))) {
+      throw new ClientError(401, 'Invalid credentials');
+    }
+
+    const payload = { userId, name, username, funds };
+    const token = jwt.sign(payload, hashKey, { expiresIn: '1h' });
+    res.json({ token, user: payload });
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.post('/api/bets', authMiddleware, async (req, res, next) => {
   try {
     const { pick, dateTime, betType, betAmount, payout } =
@@ -137,6 +173,40 @@ app.get('/api/bets', authMiddleware, async (req, res, next) => {
   }
 });
 
+app.patch('/api/bets/:betId', authMiddleware, async (req, res, next) => {
+  const { betId } = req.params;
+  const { winner, status } = req.body; // Extract `winner` and `status` from the request body
+
+  // Validate status against enum values
+  const validStatuses = ['open', 'closed', 'canceled'];
+  if (status && !validStatuses.includes(status)) {
+    return res.status(400).json({ message: 'Invalid status value provided.' });
+  }
+
+  try {
+    const sql = `
+      UPDATE "bets"
+      SET "winner" = COALESCE($1, "winner"),
+          "status" = COALESCE($2, "status")
+      WHERE "betId" = $3
+      RETURNING *;
+    `;
+    const params = [winner, status, betId];
+    const result = await db.query(sql, params);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Bet not found' });
+    }
+
+    res.status(200).json(result.rows[0]);
+  } catch (err) {
+    console.error('Error updating bet:', err);
+    next(err);
+  }
+});
+
+
+
 app.patch('/api/users/update-funds', authMiddleware, async (req, res, next) => {
   const { userId, newFunds } = req.body;
 
@@ -166,43 +236,32 @@ app.patch('/api/users/update-funds', authMiddleware, async (req, res, next) => {
   }
 });
 
-app.post('/api/auth/guest-check-in', async (req, res, next) => {
-  try {
-    const { username, password } = req.body as Partial<Auth>;
+// app.patch('/api/bets/:betId', authMiddleware, async (req, res, next) => {
+//   const { betId } = req.params;
+//   const { winner, status } = req.body; // Only accept the fields that can be updated
 
-    if (!username || !password) {
-      throw new ClientError(400, 'Username and password are required');
-    }
+//   try {
+//     const sql = `
+//       UPDATE "bets"
+//       SET "winner" = COALESCE($1, "winner"),
+//           "status" = COALESCE($2, "status")
+//       WHERE "betId" = $3
+//       RETURNING *;
+//     `;
+//     const params = [winner, status, betId];
+//     const result = await db.query(sql, params);
 
-    const sql = `
-      SELECT "userId",
-             "name",
-             "hashedPassword",
-             "funds"
-      FROM   "users"
-      WHERE  "username" = $1
-    `;
-    const params = [username];
-    const result = await db.query<User>(sql, params);
-    const user = result.rows[0];
+//     if (result.rows.length === 0) {
+//       return res.status(404).json({ message: 'Bet not found' });
+//     }
 
-    if (!user) {
-      throw new ClientError(401, 'Invalid credentials');
-    }
+//     res.status(200).json(result.rows[0]);
+//   } catch (err) {
+//     console.error('Error updating bet:', err);
+//     next(err);
+//   }
+// });
 
-    const { userId, name, hashedPassword, funds } = user;
-
-    if (!(await argon2.verify(hashedPassword, password))) {
-      throw new ClientError(401, 'Invalid credentials');
-    }
-
-    const payload = { userId, name, username, funds };
-    const token = jwt.sign(payload, hashKey, { expiresIn: '1h' });
-    res.json({ token, user: payload });
-  } catch (err) {
-    next(err);
-  }
-});
 
 /*
  * Middleware that handles paths that aren't handled by static middleware

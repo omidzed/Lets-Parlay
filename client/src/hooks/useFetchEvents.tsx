@@ -31,20 +31,25 @@ export const useFetchEvents = () => {
           throw new Error('Network response was not ok');
         }
         const apiEvents = await response.json();
-
-        const filteredData: Event[] = apiEvents.map((event: ApiEvent) => ({
-          id: event.id,
-          commenceTime: event.commence_time,
-          outcomes:
-            event.bookmakers?.[0]?.markets?.[0]?.outcomes.map((outcome) => ({
-              name: outcome.name,
-              moneyline: outcome.price,
-            })) || [],
-          overUnderOdds: [
-            { name: 'O 2.5', overUnderOdds: -190 },
-            { name: 'U 2.5', overUnderOdds: 150 },
-          ],
-        }));
+        const now = new Date().getTime();
+        const filteredData: Event[] = apiEvents
+          .filter((event: ApiEvent) => {
+            const eventTime = new Date(event.commence_time).getTime();
+            return eventTime > now;
+          })
+          .map((event: ApiEvent) => ({
+            id: event.id,
+            commenceTime: event.commence_time,
+            outcomes:
+              event.bookmakers?.[0]?.markets?.[0]?.outcomes.map((outcome) => ({
+                name: outcome.name,
+                moneyline: outcome.price,
+              })) || [],
+            overUnderOdds: [
+              { name: 'O 2.5', overUnderOdds: -190 },
+              { name: 'U 2.5', overUnderOdds: 150 },
+            ],
+          }));
 
         localStorage.setItem(
           'events',

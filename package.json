@@ -9,7 +9,7 @@
     "build": "npm run build --prefix client",
     "db:import": "sh database/import.sh",
     "db:settle": "sh database/settle.sh",
-    "db:test": "sh database/test.sh",
+    "db:test": "sh database/settle.sh",
     "dev:client": "npm run dev --prefix client",
     "dev:server": "npm run dev --prefix server",
     "dev": "npm-run-all --parallel --print-label dev:*",

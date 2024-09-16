@@ -1,72 +1,31 @@
-import { useEffect, useState } from 'react';
-import { getToken } from '../utils/token-storage';
 import type { Bet } from '../utils/data-types';
 import { formatDateTime } from '../utils/format-date-time';
+import { useBets } from '../hooks/useBets';
+
+export const styling =
+  'flex gap-6 my-1 text-answer md:text-thead justify-between items-center';
 
 export const Bets = () => {
-  const [bets, setBets] = useState<Bet[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const { bets, isLoading } = useBets();
 
-  const fetchBets = async () => {
-    try {
-      setIsLoading(true);
-      const token = getToken();
-      if (!token) {
-        throw new Error('Token not found.');
-      }
-      const req = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token.token}`,
-        },
-      };
-      const res = await fetch('/api/bets', req);
-      if (!res.ok) {
-        throw new Error(`fetch Error ${res.status}`);
-      }
-      const betsData = await res.json();
-
-      const formattedBets: Bet[] = await Promise.all(
-        betsData.map(async (bet: Bet) => {
-          const formattedPlacedAt = formatDateTime(bet.placedAt);
-          const formattedDateTime = formatDateTime(bet.dateTime);
-          const nowUtc = new Date();
-          const isOpen = nowUtc < new Date(bet.dateTime);
-
-          return {
-            betId: bet.betId,
-            userId: bet.userId,
-            betType: bet.betType,
-            betAmount: bet.betAmount,
-            pick: bet.pick,
-            dateTime: formattedDateTime,
-            placedAt: formattedPlacedAt,
-            status: isOpen ? 'Open' : 'Closed',
-            payout: bet.payout,
-            winner: bet.winner,
-          };
-        })
-      );
-
-      setBets(formattedBets);
-    } catch (err) {
-      setError(
-        'No bets data to show, please log in or use Guest Check-In in order to place/view bets!'
-      );
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchBets();
-  }, []);
-
-  const styling =
-    'flex gap-6 my-1 text-answer md:text-thead justify-between items-center';
+  bets.map((bet: Bet) => {
+    const formattedPlacedAt = formatDateTime(bet.placedAt);
+    const formattedDateTime = formatDateTime(bet.dateTime);
+    const isOpen = 'Open';
+    return {
+      betId: bet.betId,
+      userId: bet.userId,
+      betType: bet.betType,
+      betAmount: bet.betAmount,
+      pick: bet.pick,
+      dateTime: formattedDateTime,
+      placedAt: formattedPlacedAt,
+      status: isOpen ? 'Open' : 'Closed',
+      payout: bet.payout,
+      winner: bet.winner,
+      mathId: bet.matchId,
+    };
+  });
 
   return (
     <div className="flex flex-col p-2 gap-4 items-center justify-center">

@@ -67,6 +67,7 @@ export const BetForm = ({
 
     const formData = new FormData(e.currentTarget);
     const betData = Object.fromEntries(formData.entries());
+    const matchId = event.id;
 
     const req = {
       method: 'POST',
@@ -78,6 +79,7 @@ export const BetForm = ({
         pick,
         dateTime,
         status,
+        matchId
       }),
     };
 

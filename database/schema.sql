@@ -1,5 +1,6 @@
 -- Set the client's minimum message level to warning to reduce console clutter
-set client_min_messages to warning;
+set
+  client_min_messages to warning;
 
 -- WARNING: Dropping and recreating the public schema. Use with caution!
 drop schema "public" cascade;
@@ -26,24 +27,25 @@ CREATE TABLE "bets" (
   "betType" text,
   "betAmount" int NOT NULL,
   "payout" NUMERIC,
-  "placedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  "placedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  "matchId" text
 );
 
 CREATE TABLE "fighters" (
-    "fighterId" SERIAL PRIMARY KEY,
-    "name" VARCHAR(255) UNIQUE NOT NULL
+  "fighterId" SERIAL PRIMARY KEY,
+  "name" VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE "divisions" (
-    "divisionId" SERIAL PRIMARY KEY,
-    "name" VARCHAR(255) UNIQUE NOT NULL
+  "divisionId" SERIAL PRIMARY KEY,
+  "name" VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE "rankings" (
-    "rankingId" SERIAL PRIMARY KEY,
-    "divisionId" INT REFERENCES "divisions" ("divisionId"),
-    "fighterId" INT REFERENCES "fighters" ("fighterId"),
-    "rank" INT,
-    "isChampion" BOOLEAN DEFAULT FALSE,
-    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  "rankingId" SERIAL PRIMARY KEY,
+  "divisionId" INT REFERENCES "divisions" ("divisionId"),
+  "fighterId" INT REFERENCES "fighters" ("fighterId"),
+  "rank" INT,
+  "isChampion" BOOLEAN DEFAULT FALSE,
+  "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

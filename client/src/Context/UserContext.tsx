@@ -14,9 +14,18 @@ export type UserContextValues = {
   updateFunds: (newFunds: number) => void;
 };
 
-export const UserContext = createContext<UserContextValues | undefined>(
-  undefined
-);
+export const UserContext = createContext<UserContextValues>({
+  user: undefined,
+  setUser: () => {},
+  token: undefined,
+  setToken: () => {},
+  funds: undefined,
+  setFunds: () => {},
+  handleSignIn: () => {},
+  handleSignOut: () => {},
+  updateFunds: () => {},
+});
+
 
 type UserProviderProps = {
   children: ReactNode;
@@ -26,18 +35,18 @@ const tokenKey = 'react-context-jwt';
 const tokenData = getToken();
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [token, setToken] = useState<string | undefined>(undefined);
- const [funds, setFunds] = useState<number | undefined>(() => {
-   if (
-     tokenData &&
-     tokenData.user &&
-     typeof tokenData.user.funds === 'number'
-   ) {
-     return parseFloat(tokenData.user.funds.toString());
-   }
-   return undefined;
- });
   const [user, setUser] = useState<User | undefined>(undefined);
+  const [token, setToken] = useState<string | undefined>(undefined);
+  const [funds, setFunds] = useState<number | undefined>(() => {
+    if (
+      tokenData &&
+      tokenData.user &&
+      typeof tokenData.user.funds === 'number'
+    ) {
+      return parseFloat(tokenData.user.funds.toString());
+    }
+    return undefined;
+  });
 
   const handleSignIn = (auth: Auth) => {
     localStorage.setItem(tokenKey, JSON.stringify(auth));
