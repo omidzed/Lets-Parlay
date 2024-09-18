@@ -83,6 +83,7 @@ export type User = {
   hashedPassword: string;
   name: string;
   funds: number;
+  isAdmin: boolean;
 };
 
 export type Auth = {

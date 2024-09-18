@@ -1,4 +1,3 @@
-import { hasToken } from '../utils/token-storage';
 import { formatDateTime } from '../utils/format-date-time';
 import { BetForm } from './BetForm';
 import { useModal } from '../hooks/useModal';
@@ -6,6 +5,7 @@ import type { Event } from '../utils/data-types';
 import { formatLongName } from '../utils/format-names';
 import { AlertModal } from './AlertModal';
 import { FaExternalLinkAlt } from 'react-icons/fa';
+import { useUser } from '../hooks/useUser';
 
 type Props = {
   filteredEvents: Event[] | undefined;
@@ -13,13 +13,14 @@ type Props = {
 
 export const OddsTable = ({ filteredEvents }: Props) => {
   const { openModal, closeModal } = useModal();
+  const { user } = useUser();
 
   const betSlip = (
     event: Event,
     outcome: 'moneyline' | 'moneylineTwo' | '',
     overUnder: 'O 2.5' | 'U 2.5' | ''
   ) => {
-    if (!hasToken()) {
+    if (!user) {
       openModal(
         <AlertModal
           message="You must be logged in to place bets!"
@@ -51,7 +52,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
         overUnderIndex={overUnderIndex}
         pick={pick}
         dateTime={event.commenceTime}
-        status='open'
+        status="open"
       />,
       'Bet Slip'
     );

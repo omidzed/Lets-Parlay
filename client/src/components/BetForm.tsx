@@ -27,7 +27,7 @@ export const BetForm = ({
 }: BetFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [betAmount, setBetAmount] = useState<number>(0);
-  const { updateFunds } = useUser();
+  const { user, updateFunds } = useUser();
   const { closeModal, openModal } = useModal();
   const token = getToken();
   const timeStamp = new Date().toISOString();
@@ -42,14 +42,14 @@ export const BetForm = ({
     setIsLoading(true);
 
     const effectiveBetAmount = betAmount;
-    const userId = token ? Number(token.user.userId) : '';
+    const userId = user?.userId ?? '';
     const authHeader = token ? `Bearer ${token.token}` : '';
     const headers = {
       'Content-Type': 'application/json',
       ...(token && { Authorization: authHeader }),
     };
 
-    if (effectiveBetAmount > (token?.user.funds ?? 0)) {
+    if (effectiveBetAmount > (user?.funds ?? 0)) {
       openModal(
         <AlertModal
           message="Your bet amount cannot exceed your funds, please try again or replenish funds!"
@@ -79,17 +79,17 @@ export const BetForm = ({
         pick,
         dateTime,
         status,
-        matchId
+        matchId,
       }),
     };
-
+console.log('betData', betData)
     try {
       setIsLoading(true);
       const res = await fetch('/api/bets', req);
       if (!res.ok) {
         throw new Error(`fetch Error ${res.status}`);
       }
-      const fundsAfterBet = (token?.user.funds ?? 0) - effectiveBetAmount;
+      const fundsAfterBet = (user?.funds ?? 0) - effectiveBetAmount;
       await updateFundsInDB(userId, fundsAfterBet, token?.token);
       updateFunds(fundsAfterBet);
 

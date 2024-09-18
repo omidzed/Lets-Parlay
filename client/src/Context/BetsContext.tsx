@@ -1,7 +1,6 @@
-import React, { createContext, ReactNode, useState, useEffect } from 'react';
-import { getToken } from '../utils/token-storage';
+import { createContext, ReactNode, useState, useEffect } from 'react';
 import type { Bet } from '../utils/data-types';
-import { formatDateTime } from '../utils/format-date-time';
+import { getToken } from '../utils/token-storage';
 
 export type BetsContextValues = {
   bets: Bet[];
@@ -10,6 +9,7 @@ export type BetsContextValues = {
   setIsLoading: (isLoading: boolean) => void;
   error: string | null;
   setError: (error: string | null) => void;
+  refreshBets: () => Promise<void>;
 };
 
 export const BetsContext = createContext<BetsContextValues>({
@@ -19,6 +19,7 @@ export const BetsContext = createContext<BetsContextValues>({
   setIsLoading: () => {},
   error: null,
   setError: () => {},
+  refreshBets: async () => {},
 });
 
 type BetsProviderProps = {
@@ -31,12 +32,15 @@ export const BetsProvider: React.FC<BetsProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchBets = async () => {
+    const token = getToken();
+    if (!token) {
+      console.log('no token Betcontext');
+      return;
+    }
+
     setIsLoading(true);
+    setError(null);
     try {
-      const token = getToken();
-      if (!token) {
-        throw new Error('Token not found.');
-      }
       const req = {
         method: 'GET',
         headers: {
@@ -46,24 +50,13 @@ export const BetsProvider: React.FC<BetsProviderProps> = ({ children }) => {
       };
       const res = await fetch('/api/bets', req);
       if (!res.ok) {
-        throw new Error(`fetch Error ${res.status}`);
+        const errorText = await res.text();
+        throw new Error(`fetch Error ${res.status}: ${errorText}`);
       }
+      console.log('token', token);
+      console.log('token string', token.token);
       const betsData = await res.json();
-      const formattedBets: Bet[] = await Promise.all(
-        betsData.map(async (bet: Bet) => {
-          const formattedPlacedAt = formatDateTime(bet.placedAt);
-          const formattedDateTime = formatDateTime(bet.dateTime);
-          const isOpen = 'Open';
-
-          return {
-            ...bet,
-            dateTime: formattedDateTime,
-            placedAt: formattedPlacedAt,
-            status: isOpen ? 'Open' : 'Closed',
-          };
-        })
-      );
-      setBets(formattedBets);
+      setBets(betsData);
     } catch (err) {
       setError('Failed to fetch bets.');
       console.error(err);
@@ -76,9 +69,21 @@ export const BetsProvider: React.FC<BetsProviderProps> = ({ children }) => {
     fetchBets();
   }, []);
 
+  const refreshBets = async () => {
+    await fetchBets();
+  };
+
   return (
     <BetsContext.Provider
-      value={{ bets, setBets, isLoading, setIsLoading, error, setError }}>
+      value={{
+        bets,
+        setBets,
+        isLoading,
+        setIsLoading,
+        error,
+        setError,
+        refreshBets,
+      }}>
       {children}
     </BetsContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { IoMdHelp } from 'react-icons/io';
 import { RiMenu2Line } from 'react-icons/ri';
@@ -8,25 +8,26 @@ import { IoCalendarNumberOutline } from 'react-icons/io5';
 import { FaRankingStar, FaQuestion } from 'react-icons/fa6';
 import { useModal } from '../../hooks/useModal';
 import { useUser } from '../../hooks/useUser';
-import { getToken, removeToken, hasToken } from '../../utils/token-storage';
 import { AuthForm } from '../AuthForm';
 import { AppDrawer } from '../Menu/AppDrawer';
 import { Overlay } from '../Menu/Overlay';
-import { MenuItem, User } from '../../utils/data-types';
+import { MenuItem } from '../../utils/data-types';
 import { ActionType } from '../../utils/data-types';
+import { useBets } from '../../hooks/useBets';
 
-export const NavBar: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(hasToken());
+export const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { openModal, closeModal } = useModal();
-  const { setUser, setFunds } = useUser();
+  const { openModal } = useModal();
+  const { user, handleSignOut, funds } = useUser();
+  const { setBets } = useBets();
+
   const location = useLocation();
   const navigate = useNavigate();
 
-  const token = getToken();
-  const name = token?.user.name;
-  const formattedFunds = formatFunds(token?.user.funds);
+  const isAuthenticated = !!user;
+  const name = user?.name;
+  const formattedFunds = formatFunds(funds);
 
   const menuItems: MenuItem[] = [
     { title: 'Home', path: '/', icon: <SlHome /> },
@@ -47,21 +48,11 @@ export const NavBar: React.FC = () => {
     { title: 'FAQ', path: '/faq', icon: <FaQuestion /> },
   ];
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      const tokenData = getToken();
-      setFunds(tokenData?.user.funds ?? 0);
-    } else {
-      setFunds(0);
-    }
-  }, [isAuthenticated, setFunds]);
-
   const handleOpenModal = (action: ActionType) => {
     openModal(
       <AuthForm
         key={action}
         action={action}
-        onSignIn={handleAuthSuccess}
         toggleAction={() =>
           handleOpenModal(action === 'sign-up' ? 'sign-in' : 'sign-up')
         }
@@ -70,17 +61,9 @@ export const NavBar: React.FC = () => {
     );
   };
 
-  const handleAuthSuccess = (data: { user: User }) => {
-    localStorage.setItem('token', JSON.stringify(data));
-    setUser(data.user);
-    setIsAuthenticated(true);
-    closeModal();
-  };
-
   const logOut = () => {
-    removeToken();
-    setUser(undefined);
-    setIsAuthenticated(false);
+    setBets([]);
+    handleSignOut();
     navigate('/');
   };
 

@@ -1,31 +1,39 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import { useModal } from '../hooks/useModal';
 import { AlertModal } from './AlertModal';
+import { useUser } from '../hooks/useUser';
 
 type Props = {
   action: 'sign-up' | 'sign-in';
-  onSignIn: (auth: any) => void;
   toggleAction: () => void;
 };
 
-export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [name, setName] = useState<string>('');
+export const AuthForm = ({ action, toggleAction }: Props) => {
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    name: '',
+  });
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>();
 
+  const { handleSignIn } = useUser();
   const { closeModal, openModal } = useModal();
 
   const apiUrl = action === 'sign-up' ? '/api/auth/sign-up' : '/api/auth/login';
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     const userData =
       action === 'sign-up'
-        ? { name, username, password }
-        : { username, password };
+        ? formData
+        : { username: formData.username, password: formData.password };
 
     try {
       const response = await fetch(apiUrl, {
@@ -50,7 +58,7 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
           'Congratulations!'
         );
       } else if (action === 'sign-in') {
-        onSignIn(data); // Switch to the sign-in form if you want
+        handleSignIn(data); // Switch to the sign-in form if you want
         openModal(
           <AlertModal
             message="You can begin placing bets by clicking on the green numbers, or visit FAQ for more information!"
@@ -68,10 +76,6 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
   const handleGuestCheckIn = async () => {
     try {
       const response = await fetch('/api/auth/guest-check-in', {
@@ -85,7 +89,7 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
         throw new Error(data.message || 'Failed to check-in as guest');
       }
 
-      onSignIn(data);
+      handleSignIn(data);
       openModal(
         <AlertModal
           message="You can begin placing bets by clicking on the green numbers, or visit FAQ for more information!"
@@ -108,45 +112,51 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
   return (
     <div>
       <form
-        className="flex flex-col justify-center md:my-6 md:m-8 px-10 py-4"
-        onSubmit={handleSubmit}>
+        onSubmit={handleSubmit}
+        className="flex flex-col justify-center md:my-6 md:m-8 px-10 py-4">
         <div className="my-4">
           {action === 'sign-up' && (
             <div>
               <label>Name</label>
               <input
+                name="name"
                 className={styling}
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={formData.name}
+                onChange={handleInputChange}
                 required
-                autoComplete=""
+                autoComplete="name"
               />
               <input name="funds" value={1} type="hidden" />
             </div>
           )}
           <label>Username</label>
           <input
+            name="username"
             className={styling}
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={formData.username}
+            onChange={handleInputChange}
             required
-            autoComplete=""
+            autoComplete="username"
           />
           <label>Password</label>
           <div className="relative">
             <input
+              name="password"
               className={`${styling} w-full`}
               type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete=""
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+              autoComplete={
+                action === 'sign-up' ? 'new-password' : 'current-password'
+              }
             />
             <button
               type="button"
               className="absolute inset-y-0 right-0 px-3 flex items-center text-xs leading-5"
-              onClick={togglePasswordVisibility}>
+              onClick={() => setShowPassword((prev) => !prev)}>
               {showPassword ? 'Hide' : 'Show'}
             </button>
           </div>
@@ -170,25 +180,18 @@ export const AuthForm = ({ action, onSignIn, toggleAction }: Props) => {
         </div>
       </form>
 
-      {action === 'sign-in' ? (
-        <div>
-          <p className="text-md mt-4 text-center">Not a member yet?</p>
-          <a
-            onClick={() => toggleAction()}
-            className="flex tracking-wide text-logout md:mb-8 mb-6 justify-center items-center font-bold text-md text-[#3d86ec] hover:underline cursor-pointer">
-            Join Now
-          </a>
-        </div>
-      ) : (
-        <div className=" flex flex-col justify-center items center">
-          <p className="text-md text-center">Already have an account?</p>
-          <a
-            onClick={() => toggleAction()}
-            className="tracking-wide font-bold text-center text-md md:mb-8 text-[#3d86ec] underline cursor-pointer">
-            Log In
-          </a>
-        </div>
-      )}
+      <div className="text-center mt-4 mb-8">
+        <p>
+          {action === 'sign-in'
+            ? 'Not a member yet?'
+            : 'Already have an account?'}
+        </p>
+        <a
+          onClick={toggleAction}
+          className="font-bold text-[#3d86ec] hover:underline cursor-pointer">
+          {action === 'sign-in' ? 'Join Now' : 'Log In'}
+        </a>
+      </div>
     </div>
   );
 };

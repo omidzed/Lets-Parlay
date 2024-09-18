@@ -84,7 +84,7 @@ app.post('/api/auth/login', async (req, res, next) => {
       throw new ClientError(401, 'invalid login');
     }
     const payload = { userId, name, username, funds };
-    const token = jwt.sign(payload, hashKey, { expiresIn: '1h' });
+    const token = jwt.sign(payload, hashKey, { expiresIn: '2h' });
     res.json({ token, user: payload });
   } catch (err) {
     next(err);
@@ -122,7 +122,7 @@ app.post('/api/auth/guest-check-in', async (req, res, next) => {
     }
 
     const payload = { userId, name, username, funds };
-    const token = jwt.sign(payload, hashKey, { expiresIn: '1h' });
+    const token = jwt.sign(payload, hashKey, { expiresIn: '2h' });
     res.json({ token, user: payload });
   } catch (err) {
     next(err);
@@ -167,13 +167,24 @@ app.get('/api/bets', authMiddleware, async (req, res, next) => {
       ORDER by "betId" desc;
     `;
     const result = await db.query<User>(sql, [req.user?.userId]);
+    console.log(result, 'api call to get bets');
     res.status(201).json(result.rows);
   } catch (err) {
     next(err);
   }
 });
 
-app.patch('/api/bets/:betId', authMiddleware, async (req, res, next) => {
+// app.get('/api/admin/bets', adminMiddleware, async (req, res, next) => {
+//   try {
+//     const sql = `SELECT * from "bets" ORDER by "betId" desc;`;
+//     const result = await db.query(sql);
+//     res.status(200).json(result.rows);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+app.patch('/api/admin/bets/:betId', authMiddleware, async (req, res, next) => {
   const { betId } = req.params;
   const { winner, status } = req.body; // Extract `winner` and `status` from the request body
 
@@ -204,8 +215,6 @@ app.patch('/api/bets/:betId', authMiddleware, async (req, res, next) => {
     next(err);
   }
 });
-
-
 
 app.patch('/api/users/update-funds', authMiddleware, async (req, res, next) => {
   const { userId, newFunds } = req.body;
@@ -261,7 +270,6 @@ app.patch('/api/users/update-funds', authMiddleware, async (req, res, next) => {
 //     next(err);
 //   }
 // });
-
 
 /*
  * Middleware that handles paths that aren't handled by static middleware

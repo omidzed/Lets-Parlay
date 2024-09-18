@@ -4,34 +4,30 @@ import { getToken, storeToken } from '../utils/token-storage';
 
 export type UserContextValues = {
   user: User | undefined;
-  setUser: (user: User | undefined) => void;
   token: string | undefined;
-  setToken: (token: string) => void;
   funds: number | undefined;
-  setFunds: (funds: number) => void;
   handleSignIn: (auth: Auth) => void;
   handleSignOut: () => void;
   updateFunds: (newFunds: number) => void;
 };
 
-export const UserContext = createContext<UserContextValues>({
+const initialContextValue: UserContextValues = {
   user: undefined,
-  setUser: () => {},
   token: undefined,
-  setToken: () => {},
   funds: undefined,
-  setFunds: () => {},
   handleSignIn: () => {},
   handleSignOut: () => {},
   updateFunds: () => {},
-});
+};
 
+export const UserContext =
+  createContext<UserContextValues>(initialContextValue);
 
 type UserProviderProps = {
   children: ReactNode;
 };
 
-const tokenKey = 'react-context-jwt';
+const tokenKey = 'token';
 const tokenData = getToken();
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
@@ -80,36 +76,23 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     const auth = localStorage.getItem(tokenKey);
     if (auth) {
-      const a = JSON.parse(auth);
-      setUser(a.user);
-      setToken(a.token);
-    }
-  }, [setToken, setUser]);
-
-  useEffect(() => {
-    const auth = localStorage.getItem(tokenKey);
-    if (auth) {
       const parsedAuth = JSON.parse(auth);
       setUser(parsedAuth.user);
       setToken(parsedAuth.token);
       setFunds(parsedAuth.user.funds);
     }
-  }, [setToken, setUser, setFunds]);
+  }, []);
+
+  const contextValue: UserContextValues = {
+    user,
+    token,
+    funds,
+    handleSignIn,
+    handleSignOut,
+    updateFunds,
+  };
 
   return (
-    <UserContext.Provider
-      value={{
-        user,
-        setUser,
-        token,
-        setToken,
-        funds,
-        setFunds,
-        handleSignIn,
-        handleSignOut,
-        updateFunds,
-      }}>
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
   );
 };

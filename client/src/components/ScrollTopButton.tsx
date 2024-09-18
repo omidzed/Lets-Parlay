@@ -1,4 +1,4 @@
-import { useScrollToTop } from '../hooks/useScrollToTop';
+import { useScrollToTop } from "../hooks/useScrollToTop";
 import { FaCircleChevronUp } from 'react-icons/fa6';
 import { useState, useEffect } from 'react';
 

@@ -1,4 +1,3 @@
-import { FormEvent } from 'react';
 import type { Bet } from '../utils/data-types';
 import { getToken } from '../utils/token-storage';
 import { formatDateTime } from '../utils/format-date-time';
@@ -10,13 +9,8 @@ export const SettleBets = () => {
   const { bets, setBets, isLoading } = useBets();
 
   bets.map((bet: Bet) => {
-    //const formattedPlacedAt = formatDateTime(bet.placedAt);
-   // const formattedDateTime = formatDateTime(bet.dateTime);
-
     return {
       ...bet,
-      //dateTime: formattedDateTime,
-     // placedAt: formattedPlacedAt,
     };
   });
 
@@ -60,15 +54,14 @@ export const SettleBets = () => {
     }
   };
 
-const handleSubmit = (event, betId: string) => {
-  event.preventDefault();
-  const betToUpdate = bets.find((bet) => bet.betId === betId);
-  if (betToUpdate) {
-    betToUpdate.winner = betToUpdate.winner; // Ensure winner is set from checkbox
-    updateBetWinner(betToUpdate);
-  }
-};
-
+  const handleSubmit = (event, betId: string) => {
+    event.preventDefault();
+    const betToUpdate = bets.find((bet) => bet.betId === betId);
+    if (betToUpdate) {
+      betToUpdate.winner = betToUpdate.winner; // Ensure winner is set from checkbox
+      updateBetWinner(betToUpdate);
+    }
+  };
 
   return (
     <div className="flex flex-col p-2 gap-4 items-center justify-center">
@@ -90,7 +83,7 @@ const handleSubmit = (event, betId: string) => {
             <form onSubmit={(e) => handleSubmit(e, bet.betId)}>
               <div className={styling}>
                 <div className={styling}>Bet date/time:</div>
-                <div className={styling}>{bet.placedAt}</div>
+                <div className={styling}>{formatDateTime(bet.placedAt)}</div>
               </div>
               <div className={styling}>
                 <div className={styling}>Amount:</div>
@@ -102,7 +95,7 @@ const handleSubmit = (event, betId: string) => {
               </div>
               <div className={styling}>
                 <div className={styling}>Fight date/time:</div>
-                <div className={styling}>{bet.dateTime}</div>
+                <div className={styling}>{formatDateTime(bet.dateTime)}</div>
               </div>
               <div className={styling}>
                 <div className={styling}>Status:</div>
