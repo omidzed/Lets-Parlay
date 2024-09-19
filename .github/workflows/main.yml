@@ -36,51 +36,6 @@ jobs:
             cd /home/ec2-user/project
             npm install
             sh scripts/ec2env.sh
-            npm run db:import
+            # npm run db:import
             npm run build
             pm2 start --time npm -- start
-
-# name: Deploy
-# on:
-#   push:
-#     branches:
-#       - pub
-
-#   # Allow deploy to be triggered manually
-#   workflow_dispatch:
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-#     env:
-#       EC2_HOST: ${{ secrets.EC2_HOST }}
-#       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-#     steps:
-#       - name: Checkout source code
-#         uses: actions/checkout@v3
-
-#       - name: Build project
-#         run: |
-#           npm ci
-#           npm run build
-
-#       - name: Copy project to EC2
-#         uses: burnett01/rsync-deployments@7.0.1
-#         with:
-#           switches: -avzr --delete
-#           path: ./*
-#           remote_path: /home/ec2-user/project/
-#           remote_host: ${{ env.EC2_HOST }}
-#           remote_user: ec2-user
-#           remote_key: "${{ env.SSH_PRIVATE_KEY }}"
-#       - name: Install and run on EC2
-#         uses: appleboy/ssh-action@v1.0.3
-#         with:
-#           host: ${{ env.EC2_HOST }}
-#           username: ec2-user
-#           key: ${{ env.SSH_PRIVATE_KEY }}
-#           script: |
-#             cd /home/ec2-user/project
-#             sh scripts/ec2env.sh
-#             npm run db:import
-#             pm2 start --time npm -- start
