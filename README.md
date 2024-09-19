@@ -7,7 +7,7 @@
 A React, TypeScript, Node.JS, Express.JS, and PostgreSQL project, deployed on AWS EC2, "Let's Parlay" is a virtual sportsbook web application, that allows MMA fans to try online betting for fun, with zero financial risk!
 
 
-![Let's Parlay Screenshot](Screenshot%202024-09-10%20135426.png)
+![Let's Parlay Screenshot](Screenshot 2024-09-19 073135.png)
 
 
 
