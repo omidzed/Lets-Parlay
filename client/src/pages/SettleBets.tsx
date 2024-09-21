@@ -8,11 +8,13 @@ export const SettleBets = () => {
   const token = getToken();
   const { bets, setBets, isLoading } = useBets();
 
-  bets.map((bet: Bet) => {
-    return {
-      ...bet,
-    };
-  });
+  if (token?.user.isAdmin) {
+    bets.map((bet: Bet) => {
+      return {
+        ...bet,
+      };
+    });
+  }
 
   const handleWinnerChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -30,7 +32,7 @@ export const SettleBets = () => {
 
   const updateBetWinner = async (bet: Bet) => {
     try {
-      const response = await fetch(`/api/bets/${bet.betId}`, {
+      const response = await fetch(`/api/admin/bets/${bet.betId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

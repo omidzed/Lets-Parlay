@@ -8,6 +8,7 @@ import {
   defaultMiddleware,
   errorMiddleware,
   authMiddleware,
+  adminMiddleware,
 } from './lib/index.js';
 import type { User, Auth, Bet } from '../client/src/utils/data-types.js';
 
@@ -69,7 +70,8 @@ app.post('/api/auth/login', async (req, res, next) => {
     SELECT "userId",
            "name",
            "hashedPassword",
-           "funds"
+           "funds",
+           "isAdmin"
       FROM "users"
      WHERE "username" = $1
   `;
@@ -79,11 +81,11 @@ app.post('/api/auth/login', async (req, res, next) => {
     if (!user) {
       throw new ClientError(401, 'invalid login');
     }
-    const { userId, name, hashedPassword, funds } = user;
+    const { userId, name, hashedPassword, funds, isAdmin } = user;
     if (!(await argon2.verify(hashedPassword, password))) {
       throw new ClientError(401, 'invalid login');
     }
-    const payload = { userId, name, username, funds };
+    const payload = { userId, name, username, funds, isAdmin };
     const token = jwt.sign(payload, hashKey, { expiresIn: '2h' });
     res.json({ token, user: payload });
   } catch (err) {
@@ -115,13 +117,13 @@ app.post('/api/auth/guest-check-in', async (req, res, next) => {
       throw new ClientError(401, 'Invalid credentials');
     }
 
-    const { userId, name, hashedPassword, funds } = user;
+    const { userId, name, hashedPassword, funds, isAdmin } = user;
 
     if (!(await argon2.verify(hashedPassword, password))) {
       throw new ClientError(401, 'Invalid credentials');
     }
 
-    const payload = { userId, name, username, funds };
+    const payload = { userId, name, username, funds, isAdmin };
     const token = jwt.sign(payload, hashKey, { expiresIn: '2h' });
     res.json({ token, user: payload });
   } catch (err) {
@@ -167,54 +169,104 @@ app.get('/api/bets', authMiddleware, async (req, res, next) => {
       ORDER by "betId" desc;
     `;
     const result = await db.query<User>(sql, [req.user?.userId]);
-    console.log(result, 'api call to get bets');
     res.status(201).json(result.rows);
   } catch (err) {
     next(err);
   }
 });
 
-// app.get('/api/admin/bets', adminMiddleware, async (req, res, next) => {
-//   try {
-//     const sql = `SELECT * from "bets" ORDER by "betId" desc;`;
-//     const result = await db.query(sql);
-//     res.status(200).json(result.rows);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
-app.patch('/api/admin/bets/:betId', authMiddleware, async (req, res, next) => {
-  const { betId } = req.params;
-  const { winner, status } = req.body; // Extract `winner` and `status` from the request body
-
-  // Validate status against enum values
-  const validStatuses = ['open', 'closed', 'canceled'];
-  if (status && !validStatuses.includes(status)) {
-    return res.status(400).json({ message: 'Invalid status value provided.' });
-  }
-
+app.post('/api/create-admin', async (req, res, next) => {
   try {
+    const { name, username, password, hashKey } = req.body;
+    if (!name || !username || !password || !hashKey) {
+      throw new ClientError(400, 'Name, username and password are required');
+    }
+
+    const hashedPassword = await argon2.hash(password);
     const sql = `
+      INSERT into "users" ("name", "username", "hashedPassword", "funds", "isAdmin")
+      values ($1, $2, $3, $4, $5)
+      returning *;
+    `;
+    const params = [name, username, hashedPassword, 5000, true]; // Set isAdmin to true
+    const result = await db.query(sql, params);
+    const [user] = result.rows;
+    res.status(201).json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get(
+  '/api/admin/bets',
+  authMiddleware,
+  adminMiddleware,
+  async (_req, res, next) => {
+    try {
+      const sql = `SELECT * from "bets" ORDER by "betId" desc;`;
+      const result = await db.query(sql);
+      res.status(200).json(result.rows);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+app.patch(
+  '/api/admin/bets/:betId',
+  authMiddleware,
+  adminMiddleware,
+  async (req, res, next) => {
+    const { betId } = req.params;
+    const { winner, status } = req.body; // Extract `winner` and `status` from the request body
+
+    // Validate status against enum values
+    const validStatuses = ['open', 'closed', 'canceled'];
+    if (status && !validStatuses.includes(status)) {
+      return res
+        .status(400)
+        .json({ message: 'Invalid status value provided.' });
+    }
+
+    try {
+      const sql = `
       UPDATE "bets"
       SET "winner" = COALESCE($1, "winner"),
           "status" = COALESCE($2, "status")
       WHERE "betId" = $3
       RETURNING *;
     `;
-    const params = [winner, status, betId];
-    const result = await db.query(sql, params);
+      const params = [winner, status, betId];
+      const result = await db.query(sql, params);
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Bet not found' });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ message: 'Bet not found' });
+      }
+
+      const bet = result.rows[0];
+
+      // If the bet is marked as won, update user funds
+      if (winner) {
+        const updateFundsSql = `
+        UPDATE "users"
+        SET "funds" = "funds" + $1
+        WHERE "userId" = $2
+        RETURNING "funds";
+      `;
+        const updateFundsParams = [bet.payout, bet.userId];
+        const fundsResult = await db.query(updateFundsSql, updateFundsParams);
+
+        // Include new funds in the response for clarity
+        bet.updatedFunds = fundsResult.rows[0].funds;
+      }
+
+      res.status(200).json(bet);
+    } catch (err) {
+      console.error('Error updating bet:', err);
+      next(err);
     }
-
-    res.status(200).json(result.rows[0]);
-  } catch (err) {
-    console.error('Error updating bet:', err);
-    next(err);
   }
-});
+);
 
 app.patch('/api/users/update-funds', authMiddleware, async (req, res, next) => {
   const { userId, newFunds } = req.body;
@@ -244,32 +296,6 @@ app.patch('/api/users/update-funds', authMiddleware, async (req, res, next) => {
     next(err);
   }
 });
-
-// app.patch('/api/bets/:betId', authMiddleware, async (req, res, next) => {
-//   const { betId } = req.params;
-//   const { winner, status } = req.body; // Only accept the fields that can be updated
-
-//   try {
-//     const sql = `
-//       UPDATE "bets"
-//       SET "winner" = COALESCE($1, "winner"),
-//           "status" = COALESCE($2, "status")
-//       WHERE "betId" = $3
-//       RETURNING *;
-//     `;
-//     const params = [winner, status, betId];
-//     const result = await db.query(sql, params);
-
-//     if (result.rows.length === 0) {
-//       return res.status(404).json({ message: 'Bet not found' });
-//     }
-
-//     res.status(200).json(result.rows[0]);
-//   } catch (err) {
-//     console.error('Error updating bet:', err);
-//     next(err);
-//   }
-// });
 
 /*
  * Middleware that handles paths that aren't handled by static middleware

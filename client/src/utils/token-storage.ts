@@ -4,6 +4,7 @@ export type User = {
   username: string;
   hashedPassword: string;
   name: string;
+  isAdmin: boolean;
 };
 
 export type Token = {

@@ -77,20 +77,23 @@ export type Bet = {
   matchId: string;
 };
 
-export type User = {
-  userId: number;
-  username: string;
-  hashedPassword: string;
-  name: string;
-  funds: number;
-  isAdmin: boolean;
-};
-
 export type Auth = {
   username: string;
   password: string;
   name: string;
   funds: number;
+  user: User;
+  token: string;
+  isAdmin: boolean;
+};
+
+export type User = {
+  userId: number;
+  name: string;
+  username: string;
+  hashedPassword: string;
+  funds: number;
+  isAdmin: boolean;
 };
 
 export type ActionType = 'sign-up' | 'sign-in';

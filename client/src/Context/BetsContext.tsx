@@ -10,6 +10,11 @@ export type BetsContextValues = {
   error: string | null;
   setError: (error: string | null) => void;
   refreshBets: () => Promise<void>;
+  updateBetStatus: (
+    betId: string,
+    status: string,
+    winner: boolean
+  ) => Promise<void>;
 };
 
 export const BetsContext = createContext<BetsContextValues>({
@@ -20,6 +25,7 @@ export const BetsContext = createContext<BetsContextValues>({
   error: null,
   setError: () => {},
   refreshBets: async () => {},
+  updateBetStatus: async () => {},
 });
 
 type BetsProviderProps = {
@@ -45,16 +51,19 @@ export const BetsProvider: React.FC<BetsProviderProps> = ({ children }) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token.token}`,
+          Authorization: `Bearer ${token?.token}`,
         },
       };
-      const res = await fetch('/api/bets', req);
+
+      // const isAdmin = token?.user.
+      const endpoint = token.user.isAdmin ? '/api/admin/bets' : '/api/bets';
+
+      const res = await fetch(endpoint, req);
       if (!res.ok) {
         const errorText = await res.text();
         throw new Error(`fetch Error ${res.status}: ${errorText}`);
       }
-      console.log('token', token);
-      console.log('token string', token.token);
+
       const betsData = await res.json();
       setBets(betsData);
     } catch (err) {
@@ -73,6 +82,38 @@ export const BetsProvider: React.FC<BetsProviderProps> = ({ children }) => {
     await fetchBets();
   };
 
+  const updateBetStatus = async (
+    betId: string,
+    status: string,
+    winner: boolean
+  ) => {
+    const token = getToken();
+    if (!token) {
+      console.log('no token BetsContext');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/admin/bets/${betId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token.token}`,
+        },
+        body: JSON.stringify({ status, winner }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to update bet status');
+      }
+
+      await refreshBets();
+    } catch (err) {
+      setError('Failed to update bet status.');
+      console.error(err);
+    }
+  };
+
   return (
     <BetsContext.Provider
       value={{
@@ -83,6 +124,7 @@ export const BetsProvider: React.FC<BetsProviderProps> = ({ children }) => {
         error,
         setError,
         refreshBets,
+        updateBetStatus,
       }}>
       {children}
     </BetsContext.Provider>

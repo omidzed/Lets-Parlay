@@ -3,6 +3,7 @@ node_modules
 .vscode
 *.log
 .env
+createAdmin.mjs
 
 # Environment Variables
 .env

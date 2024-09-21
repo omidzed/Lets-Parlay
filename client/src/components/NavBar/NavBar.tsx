@@ -159,13 +159,17 @@ const FaqButton: React.FC<{ location: { pathname: string } }> = ({
     </Link>
   );
 
-const formatFunds = (funds?: number): string => {
-  if (typeof funds !== 'number') return 'N/A';
+
+const formatFunds = (funds?: number | string): string => {
+  let numericFunds = Number(funds); // Convert to number if it's a string
+  if (isNaN(numericFunds)) return 'N/A'; // Check if the conversion result is a valid number
+
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-  }).format(funds);
+  }).format(numericFunds);
 };
+
 
 const styles = {
   nav: 'flex justify-between md:py-4 md:pr-10 bg-[#1F1F21] mb-4 pr-2',

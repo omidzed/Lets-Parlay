@@ -82,7 +82,6 @@ export const BetForm = ({
         matchId,
       }),
     };
-console.log('betData', betData)
     try {
       setIsLoading(true);
       const res = await fetch('/api/bets', req);

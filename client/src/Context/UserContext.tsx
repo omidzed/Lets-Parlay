@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, ReactNode } from 'react';
-import type { Auth, User } from '../utils';
+import type { Auth, User } from '../utils/data-types';
 import { getToken, storeToken } from '../utils/token-storage';
 
 export type UserContextValues = {
@@ -9,6 +9,7 @@ export type UserContextValues = {
   handleSignIn: (auth: Auth) => void;
   handleSignOut: () => void;
   updateFunds: (newFunds: number) => void;
+  isAdmin: boolean;
 };
 
 const initialContextValue: UserContextValues = {
@@ -18,6 +19,7 @@ const initialContextValue: UserContextValues = {
   handleSignIn: () => {},
   handleSignOut: () => {},
   updateFunds: () => {},
+  isAdmin: false,
 };
 
 export const UserContext =
@@ -33,6 +35,7 @@ const tokenData = getToken();
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | undefined>(undefined);
   const [token, setToken] = useState<string | undefined>(undefined);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [funds, setFunds] = useState<number | undefined>(() => {
     if (
       tokenData &&
@@ -49,6 +52,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setUser(auth.user);
     setToken(auth.token);
     setFunds(auth.user.funds);
+    setIsAdmin(auth.user.isAdmin || false);
   };
 
   const handleSignOut = () => {
@@ -56,6 +60,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setUser(undefined);
     setToken(undefined);
     setFunds(undefined);
+    setIsAdmin(false);
   };
 
   const updateFunds = (newFunds: number) => {
@@ -80,6 +85,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setUser(parsedAuth.user);
       setToken(parsedAuth.token);
       setFunds(parsedAuth.user.funds);
+      setIsAdmin(parsedAuth.user.isAdmin || false);
     }
   }, []);
 
@@ -90,6 +96,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     handleSignIn,
     handleSignOut,
     updateFunds,
+    isAdmin,
   };
 
   return (

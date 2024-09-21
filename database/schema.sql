@@ -10,9 +10,10 @@ create schema "public";
 CREATE TABLE "users" (
   "userId" serial PRIMARY KEY,
   "name" text,
-  "funds" int,
+  "funds" numeric,
   "username" text,
-  "hashedPassword" text
+  "hashedPassword" text,
+  "isAdmin" boolean DEFAULT false
 );
 
 CREATE TYPE bet_status AS ENUM ('open', 'closed', 'canceled');
@@ -26,7 +27,7 @@ CREATE TABLE "bets" (
   "winner" boolean,
   "betType" text,
   "betAmount" int NOT NULL,
-  "payout" NUMERIC,
+  "payout" numeric,
   "placedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   "matchId" text
 );
