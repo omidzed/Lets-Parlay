@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { NavBar } from './NavBar';
-import { useModal } from '../../hooks/useModal';
-import { useUser } from '../../hooks/useUser';
+import { useModal } from '../../Hooks/useModal';
+import { useUser } from '../../Hooks/useUser';
 import { getToken, hasToken } from "../../utils/token-storage";
 import '@testing-library/jest-dom';
 
