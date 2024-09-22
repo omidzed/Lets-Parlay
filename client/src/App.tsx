@@ -1,16 +1,16 @@
 import { NavBar } from './components/NavBar/NavBar';
 import { Routes, Route } from 'react-router-dom';
-import { NotFound } from './pages/NotFound';
-import { HomePage } from './pages/HomePage';
-import { Bets } from './pages/Bets';
+import { NotFound } from './Pages/NotFound';
+import { HomePage } from './Pages/HomePage';
+import { Bets } from './Pages/Bets';
 import { ModalProvider } from './Context/ModalContext';
 import { Modal } from './components/Modal';
 import { UserProvider } from './Context/UserContext';
 import { EventsProvider } from './Context/EventsContext';
 import { Rankings } from './components/Menu/Rankings';
-import { FAQ } from './pages/FAQ';
+import { FAQ } from './Pages/FAQ';
 import { UfcSchedule } from './components/Menu/UfcSchedule';
-import { SettleBets } from './pages/SettleBets';
+import { SettleBets } from './Pages/SettleBets';
 import { BetsProvider } from './Context/BetsContext';
 
 export const App = () => {

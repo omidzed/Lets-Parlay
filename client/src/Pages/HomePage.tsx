@@ -1,7 +1,7 @@
 import { EventsCarousel } from "../components/Carousel/EventsCarousel";
 import { useState } from 'react';
 import { SearchBox } from '../components/SearchBox';
-import { useFetchEvents } from '../hooks/useFetchEvents';
+import { useFetchEvents } from '../Hooks/useFetchEvents';
 import { ScrollTopButton } from '../components/ScrollTopButton';
 import { OddsTable } from '../components/OddsTable';
 

@@ -1,4 +1,4 @@
-import { useModal } from '../hooks/useModal';
+import { useModal } from '../Hooks/useModal';
 
 type AlertModalProps = {
   message: string;

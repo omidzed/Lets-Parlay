@@ -6,14 +6,14 @@ import { SlHome } from 'react-icons/sl';
 import { TbDatabaseDollar } from 'react-icons/tb';
 import { IoCalendarNumberOutline } from 'react-icons/io5';
 import { FaRankingStar, FaQuestion } from 'react-icons/fa6';
-import { useModal } from '../../hooks/useModal';
-import { useUser } from '../../hooks/useUser';
-import { AuthForm } from '../AuthForm';
+import { useModal } from '../../Hooks/useModal';
+import { useUser } from '../../Hooks/useUser';
+import { AuthForm } from '../Forms/AuthForm';
 import { AppDrawer } from '../Menu/AppDrawer';
 import { Overlay } from '../Menu/Overlay';
 import { MenuItem } from '../../utils/data-types';
 import { ActionType } from '../../utils/data-types';
-import { useBets } from '../../hooks/useBets';
+import { useBets } from '../../Hooks/useBets';
 
 export const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -159,7 +159,6 @@ const FaqButton: React.FC<{ location: { pathname: string } }> = ({
     </Link>
   );
 
-
 const formatFunds = (funds?: number | string): string => {
   let numericFunds = Number(funds); // Convert to number if it's a string
   if (isNaN(numericFunds)) return 'N/A'; // Check if the conversion result is a valid number
@@ -169,7 +168,6 @@ const formatFunds = (funds?: number | string): string => {
     currency: 'USD',
   }).format(numericFunds);
 };
-
 
 const styles = {
   nav: 'flex justify-between md:py-4 md:pr-10 bg-[#1F1F21] mb-4 pr-2',

@@ -1,5 +1,5 @@
 import { GrFormClose } from 'react-icons/gr';
-import { useModal } from '../hooks/useModal';
+import { useModal } from '../Hooks/useModal';
 import { useEffect } from 'react';
 
 export const Modal = () => {

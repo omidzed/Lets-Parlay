@@ -1,12 +1,12 @@
-import type { Event } from '../utils/data-types';
+import type { Event } from '../../utils/data-types';
 import { type FormEvent, useState } from 'react';
-import { calculateWinnings } from '../utils/payout-calculator';
+import { calculateWinnings } from '../../utils/payout-calculator';
 import CurrencyInput from 'react-currency-input-field';
-import { useModal } from '../hooks/useModal';
-import { AlertModal } from './AlertModal';
-import { getToken } from '../utils/token-storage';
-import { useUser } from '../hooks/useUser';
-import { updateFundsInDB } from '../utils/updateFundsInDB';
+import { useModal } from '../../Hooks/useModal';
+import { AlertModal } from '../AlertModal';
+import { getToken } from '../../utils/token-storage';
+import { useUser } from '../../Hooks/useUser';
+import { updateFundsInDB } from '../../utils/updateFundsInDB';
 
 type BetFormProps = {
   event: Event;

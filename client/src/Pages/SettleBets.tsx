@@ -1,7 +1,7 @@
 import type { Bet } from '../utils/data-types';
 import { getToken } from '../utils/token-storage';
 import { formatDateTime } from '../utils/format-date-time';
-import { useBets } from '../hooks/useBets';
+import { useBets } from '../Hooks/useBets';
 import { styling } from './Bets';
 
 export const SettleBets = () => {

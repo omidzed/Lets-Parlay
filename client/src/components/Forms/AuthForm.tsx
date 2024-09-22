@@ -1,7 +1,7 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
-import { useModal } from '../hooks/useModal';
-import { AlertModal } from './AlertModal';
-import { useUser } from '../hooks/useUser';
+import { useModal } from "../../Hooks/useModal";
+import { AlertModal } from '../AlertModal';
+import { useUser } from '../../Hooks/useUser';
 
 type Props = {
   action: 'sign-up' | 'sign-in';

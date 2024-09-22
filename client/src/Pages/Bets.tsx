@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import type { Bet } from '../utils/data-types';
 import { formatDateTime } from '../utils/format-date-time';
-import { useBets } from '../hooks/useBets';
-import { useUser } from '../hooks/useUser';
+import { useBets } from '../Hooks/useBets';
+import { useUser } from '../Hooks/useUser';
 
 export const styling =
   'flex gap-6 my-1 text-answer md:text-thead justify-between items-center';

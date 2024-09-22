@@ -1,11 +1,11 @@
 import { formatDateTime } from '../utils/format-date-time';
-import { BetForm } from './BetForm';
-import { useModal } from '../hooks/useModal';
+import { BetForm } from './Forms/BetForm';
+import { useModal } from '../Hooks/useModal';
 import type { Event } from '../utils/data-types';
 import { formatLongName } from '../utils/format-names';
 import { AlertModal } from './AlertModal';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { useUser } from '../hooks/useUser';
+import { useUser } from '../Hooks/useUser';
 
 type Props = {
   filteredEvents: Event[] | undefined;

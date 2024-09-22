@@ -1,6 +1,6 @@
 import { useEffect, ChangeEvent, useState, KeyboardEvent } from 'react';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
-import { useFetchEvents } from '../hooks/useFetchEvents';
+import { useFetchEvents } from '../Hooks/useFetchEvents';
 import { IoIosClose } from 'react-icons/io';
 
 type SearchBoxProps = {
