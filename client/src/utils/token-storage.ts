@@ -1,13 +1,7 @@
-export type User = {
-  funds: number;
-  userId: number;
-  username: string;
-  hashedPassword: string;
-  name: string;
-  isAdmin: boolean;
-};
+import { User } from "./data-types";
 
-export type Token = {
+
+export interface Token extends User {
   token: string;
   user: User;
   funds: number;

@@ -87,13 +87,13 @@ export type Auth = {
   isAdmin: boolean;
 };
 
-export type User = {
+export interface User {
   userId: number;
   name: string;
   username: string;
   hashedPassword: string;
   funds: number;
   isAdmin: boolean;
-};
+}
 
 export type ActionType = 'sign-up' | 'sign-in';

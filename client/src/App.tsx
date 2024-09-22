@@ -12,6 +12,7 @@ import { FAQ } from './Pages/FAQ';
 import { UfcSchedule } from './components/Menu/UfcSchedule';
 import { SettleBets } from './Pages/SettleBets';
 import { BetsProvider } from './Context/BetsContext';
+import ProtectedAdminRoute from './Pages/ProtectedAdminRoute';
 
 export const App = () => {
   return (
@@ -27,7 +28,14 @@ export const App = () => {
               <Route path="rankings" element={<Rankings />} />
               <Route path="schedule" element={<UfcSchedule />} />
               <Route path="faq" element={<FAQ />} />
-              <Route path="settle" element={<SettleBets />} />
+              <Route
+                path="settle"
+                element={
+                  <ProtectedAdminRoute>
+                    <SettleBets />
+                  </ProtectedAdminRoute>
+                }
+              />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </UserProvider>

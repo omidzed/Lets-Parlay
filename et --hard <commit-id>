@@ -1,0 +1,59 @@
+[33mcommit 55af85b72a875671519c3f6ffc367c3311345cf9[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/pub[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Omid Asadi <omiddzedd@gmail.com>
+Date:   Sun Sep 22 14:59:19 2024 +0000
+
+    posters update
+
+[33mcommit 14dc39e7d5d8a59b746632c6c0db150379799848[m
+Author: Omid Asadi <omiddzedd@gmail.com>
+Date:   Sun Sep 22 03:09:21 2024 +0000
+
+    Test update
+
+[33mcommit ad68e4624a10edf26a01865ce2c760f27ecedb22[m
+Author: Omid Asadi <omiddzedd@gmail.com>
+Date:   Sun Sep 22 03:05:23 2024 +0000
+
+    began ParlayBetForm Design, optimized some older files
+
+[33mcommit ac696a43f4d0ed1d69be64320f0a5a134f33435f[m
+Author: Omid Asadi <omiddzedd@gmail.com>
+Date:   Sat Sep 21 03:00:21 2024 +0000
+
+    workflows update
+
+[33mcommit a980c52f250596e3b677f5ea485b3a0f40ce2b5c[m
+Author: Omid Asadi <omiddzedd@gmail.com>
+Date:   Sat Sep 21 02:55:51 2024 +0000
+
+    temp api change
+
+[33mcommit 7da260ab689cc8b3f41d39d710098965b60e7309[m
+Author: Omid Asadi <omiddzedd@gmail.com>
+Date:   Sat Sep 21 02:49:16 2024 +0000
+
+    workflow temp update
+
+[33mcommit a7348e4ee3ce4246dd02dc30701394b7adde1f10[m
+Author: Omid Asadi <omiddzedd@gmail.com>
+Date:   Sat Sep 21 02:47:35 2024 +0000
+
+    created admin, and admin can now settle bets, which successfully pay winners their payouts!
+
+[33mcommit c9ca0c47cb5bca0c951b84f9ebbdc9d66ac02f69[m
+Author: Omid Asadi <omiddzedd@gmail.com>
+Date:   Thu Sep 19 08:00:40 2024 -0700
+
+    Delete Screenshot 2024-09-19 073135.png
+
+[33mcommit aaa1f52c821e548ad893a6bb816cb7af5653b1ab[m
+Author: Omid Asadi <omiddzedd@gmail.com>
+Date:   Thu Sep 19 07:59:51 2024 -0700
+
+    Update README.md
+
+[33mcommit 2861432fd0871b6eb991bfe50e20bfb1f5285315[m
+Author: Omid Asadi <omid.develops@gmail.com>
+Date:   Thu Sep 19 07:59:20 2024 -0700
+
+    Add files via upload
