@@ -5,6 +5,7 @@ export const EventsCarousel = () => {
     'images/2024-09-28.png',
     'images/2024-10-12.png',
     'images/2024-10-5.png',
+    'images/2024-10-19.png',
   ];
 
   return (
