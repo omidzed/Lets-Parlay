@@ -1,6 +1,6 @@
 /* stylelint-disable media-feature-range-notation */
 @tailwind base;
-@tailwind components;
+@tailwind Components;
 @tailwind utilities;
 
 body {
