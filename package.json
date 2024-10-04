@@ -22,7 +22,8 @@
     "lint": "npm-run-all --parallel lint:*",
     "prepare": "husky install",
     "deploy": "git push --force origin main:pub",
-    "test": "jest --watchAll"
+    "test": "vitest",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
@@ -35,7 +36,8 @@
     "react-scroll-to-top": "^3.0.0",
     "react-uid": "^2.3.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@learningfuze/lfz-config": "^1.0.0",
@@ -59,6 +61,7 @@
     "eslint-plugin-react": "^7.33.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^29.7.0",
+    "jsdom": "^25.0.1",
     "lint-staged": "^13.2.1",
     "markuplint": "^3.7.0",
     "prettier": "^2.8.7",
@@ -66,6 +69,7 @@
     "stylelint-config-recommended": "^11.0.0",
     "stylelint-config-standard": "^32.0.0",
     "ts-jest": "^29.2.5",
-    "vite": "^4.5.2"
+    "vite": "^5.0.8",
+    "vitest": "^2.1.2"
   }
 }

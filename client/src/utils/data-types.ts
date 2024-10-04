@@ -21,6 +21,7 @@ export type Event = {
   ];
 };
 
+
 export type Bookmaker = {
   key: string;
   title: string;
