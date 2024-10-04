@@ -1,5 +1,5 @@
 import type { Event } from '../../utils/data-types';
-import { type FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { calculateWinnings } from '../../utils/payout-calculator';
 import CurrencyInput from 'react-currency-input-field';
 import { useModal } from '../../Hooks/useModal';
@@ -8,7 +8,7 @@ import { getToken } from '../../utils/token-storage';
 import { useUser } from '../../Hooks/useUser';
 import { updateFundsInDB } from '../../utils/updateFundsInDB';
 
-type BetFormProps = {
+export type BetFormProps = {
   event: Event;
   outcomeIndex: number;
   overUnderIndex: number;
@@ -32,7 +32,7 @@ export const BetForm = ({
   const token = getToken();
   const timeStamp = new Date().toISOString();
 
-  const handleChange = (value: string | undefined) => {
+ const handleChange = (value: string | undefined) => {
     const amountNumber = parseFloat(value || '0'); // Default to '0' if value is undefined
     setBetAmount(amountNumber);
   };
@@ -185,7 +185,7 @@ export const BetForm = ({
                 <div className="pl-2">{payout}</div>
               </div>
             </div>
-            <div className="flex justify-center">
+            <div className="flex flex-col justify-center">
               <button
                 className={`mt-7  ${
                   isLoading ? 'bg-blue-400' : 'bg-blue-700'
@@ -193,6 +193,14 @@ export const BetForm = ({
                 type="submit"
                 disabled={isLoading}>
                 {isLoading ? 'Betting...' : 'SUBMIT'}
+              </button>
+              <button
+                className={`mt-7  ${
+                  isLoading ? 'bg-green-400' : 'bg-green-600'
+                } text-white px-8 py-4 rounded-md cursor-pointer`}
+                type="submit"
+                disabled={isLoading}>
+                {isLoading ? 'Betting...' : 'Parlay'}
               </button>
             </div>
           </form>

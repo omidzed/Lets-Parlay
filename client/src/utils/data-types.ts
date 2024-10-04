@@ -60,7 +60,12 @@ export type Money = {
   currency: string;
 };
 
-export type BetType = MoneyLine | OverUnder;
+export type Parlay = {
+  amount: number;
+  currency: string;
+};
+
+export type BetType = MoneyLine | OverUnder | Parlay;
 
 export type Bet = {
   betId: string;
@@ -75,6 +80,15 @@ export type Bet = {
   payout: string;
   winner: boolean;
   matchId: string;
+};
+
+export type ParlayBet = {
+  betId: string;
+  betAmount: number;
+  status: string;
+  userId: number;
+  betType: string;
+  payout: string;
 };
 
 export type Auth = {

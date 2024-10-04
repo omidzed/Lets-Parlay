@@ -6,6 +6,7 @@ import { formatLongName } from '../utils/format-names';
 import { AlertModal } from './AlertModal';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { useUser } from '../Hooks/useUser';
+//import { ParlayForm } from "./Forms/ParlayForm";
 
 type Props = {
   filteredEvents: Event[] | undefined;
