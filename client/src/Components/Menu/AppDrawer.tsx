@@ -60,9 +60,9 @@ export const AppDrawer = ({
 
   return (
     <div
-      className={`fixed top-0 left-0 h-screen z-50 transition-transform duration-700 ease-in-out bg-[#141414] ${
+      className={`${styles.appDrawer} ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
-      } w-[90%] sm:w-[60%] md:w-[40%] lg:w-[30%] xl:w-[25%] 2xl:w-[17%]`}>
+      }`}>
       <div className={'drawer-container'}>
         <div className={isOpen ? 'hidden' : 'hamburger-container'}></div>
         <div className={isOpen ? 'menu-drawer open' : 'menu-drawer closed'}>
@@ -72,7 +72,7 @@ export const AppDrawer = ({
                 onClick={() => toggleMenu()}
                 color="white"
                 size={45}
-                className="md:ml-5 p-2 cursor-pointer hover:border-2 hover:scale-90 duration-200 hover:border-yellow-400 hover:bg-black rounded-full transition ease-out"
+                className={styles.close}
               />
             </div>
             <div className="mt-14 flex flex-col justify-center items-center">
@@ -92,7 +92,7 @@ export const AppDrawer = ({
               ) : (
                 <button
                   onClick={wrappedHandleLogin}
-                  className="text-small bg-yellow-400 border text-black border-black hover:border-white px-8 py-2 mt-2 rounded-md"
+                  className={styles.login}
                   aria-label="Log in">
                   Log In | Sign Up
                 </button>
@@ -106,6 +106,12 @@ export const AppDrawer = ({
 };
 
 const styles = {
+  appDrawer:
+    'w-[90%] sm:w-[60%] md:w-[40%] lg:w-[30%] xl:w-[25%] 2xl:w-[17%] fixed top-0 left-0 h-screen z-50 transition-transform duration-700 ease-in-out bg-[#141414]',
   button:
     'transition duration-300 ease-in-out text-thead bg-black border text-white border-black hover:border-yellow-500 hover:text-yellow-400 px-10 py-2 mt-2 rounded-md',
+  close:
+    'md:ml-5 p-2 cursor-pointer hover:border-2 hover:scale-90 duration-200 hover:border-yellow-400 hover:bg-black rounded-full transition ease-out',
+  login:
+    'transition duration-300 ease-in-out text-small bg-yellow-500 hover:bg-yellow-400 border text-black border-black hover:border-white px-8 py-2 mt-2 rounded-md',
 };

@@ -7,12 +7,6 @@ type BannerProps = {
   posters: string[];
 };
 
-const chevronStyling =
-  'absolute top-1/2  ease-in-out duration-200 transform -translate-y-1/2 z-35  text-[#ffff] opacity-20 group-hover:opacity-100 cursor-pointer group-hover:scale-125';
-
-const overlayStyling =
-  'absolute bg-white opacity-0 w-[2.8rem] h-full  group-hover:opacity-15 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';
-
 export const Banner = ({ posters }: BannerProps) => {
   const [index, setIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -100,3 +94,9 @@ export const Banner = ({ posters }: BannerProps) => {
     </div>
   );
 };
+
+const chevronStyling =
+  'absolute top-1/2  ease-in-out duration-200 transform -translate-y-1/2 z-35 text-[#ffff] opacity-20 group-hover:opacity-100 cursor-pointer group-hover:scale-125';
+
+const overlayStyling =
+  'absolute bg-white opacity-0 w-[2.8rem] h-full  group-hover:opacity-15 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';
