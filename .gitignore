@@ -3,6 +3,7 @@ node_modules
 .vscode
 *.log
 .env
+.env.example
 createAdmin.mjs
 
 # Environment Variables
@@ -18,7 +19,6 @@ createAdmin.mjs
 
 .vercel
 .env
-.env.example
 .env.local
 .platform/
 .husky/
