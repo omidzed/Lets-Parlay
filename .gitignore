@@ -18,6 +18,7 @@ createAdmin.mjs
 
 .vercel
 .env
+.env.example
 .env.local
 .platform/
 .husky/
