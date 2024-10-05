@@ -5,11 +5,15 @@ import { IoIosClose } from 'react-icons/io';
 
 type SearchBoxProps = {
   setInputValue: (value: string) => void;
+  className?: string;
 };
 
-export const SearchBox = ({ setInputValue }: SearchBoxProps) => {
+export const SearchBox = ({
+  setInputValue,
+  className = '',
+}: SearchBoxProps) => {
   const [inputValueLocal, setInputValueLocal] = useState<string>('');
-  const [placeholder, setPlaceholder] = useState('Search fighters...');
+  const [placeholder, setPlaceholder] = useState('Fighters...');
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
@@ -20,16 +24,18 @@ export const SearchBox = ({ setInputValue }: SearchBoxProps) => {
   };
 
   const handleBlur = () => {
-    setPlaceholder('Search fighters...');
+    setPlaceholder('Fighters...');
     setTimeout(() => setShowSuggestions(false), 100);
   };
 
-  const onSuggestionClick = (suggestion: string) => {
-    setInputValueLocal(suggestion); // This updates the search box to show the full suggestion
-    setInputValue(suggestion); // Update the external state, if necessary
-    setShowSuggestions(false);
-    setActiveSuggestionIndex(0);
-  };
+ const onSuggestionClick = (e: React.MouseEvent, suggestion: string) => {
+   e.preventDefault();
+   e.stopPropagation();
+   setInputValueLocal(suggestion);
+   setInputValue(suggestion);
+   setShowSuggestions(false);
+   setActiveSuggestionIndex(0);
+ };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -78,18 +84,25 @@ export const SearchBox = ({ setInputValue }: SearchBoxProps) => {
     if (!userInput) {
       setFilteredSuggestions([]);
       setShowSuggestions(false);
-      return;
     }
     // No immediate filtering here; useEffect => debounce the input
   };
 
+  const clearInput = () => {
+    setInputValueLocal('');
+    setInputValue('');
+    setFilteredSuggestions([]);
+    setShowSuggestions(false);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center relative">
-      <div className="relative w-[55%] md:w-1/3 lg:w-1/4">
-        <FaMagnifyingGlass className="absolute z-20 md:text-bigger text-thead left-4 top-5 [#2E2E31] text-zinc-500" />
+    <div
+      className={`flex flex-col items-center justify-center relative ${className}`}>
+      <div className="relative w-full md:w-1/3 lg:w-full transition-all duration-300">
+        <FaMagnifyingGlass className="absolute z-20 md:text-bigger text-thead left-4 top-5 [#2E2E31] text-black" />
         <input
-          className="w-full absolute-50 md:bg-contain text-black lg:text-custom p-2 text-sm focus:outline-none
-            2xl:text-lg pl-10 md:pl-16 pr-14 py-3 rounded-2xl"
+          className=" md:w-full absolute-50 bg-gray-300 focus:bg-white md:bg-contain text-black lg:text-custom p-2 text-sm focus:outline-none
+            2xl:text-lg pl-12 md:pl-16 pr-14 py-1 focus:py-2.5 rounded-2xl"
           placeholder={placeholder}
           onBlur={handleBlur}
           onChange={onChange}
@@ -97,26 +110,28 @@ export const SearchBox = ({ setInputValue }: SearchBoxProps) => {
           value={inputValueLocal}
           onClick={handleClick}
         />
-        <IoIosClose
-          onClick={() => {
-            setInputValueLocal('');
-            setInputValue('');
-          }}
-          className={`absolute z-20 text-gray-500 text-4xl cursor-pointer right-5 top-3 ${
-            inputValueLocal ? '' : 'hidden'
-          }`}
-        />
+        {inputValueLocal && (
+          <button
+            className="absolute right-4 top-7 -translate-y-1/2 text-gray-500 hover:text-gray-900 transition-colors z-30"
+            onClick={clearInput}
+            type="button"
+            aria-label="Clear search">
+            <IoIosClose size={30} />
+          </button>
+        )}
       </div>
       {showSuggestions && filteredSuggestions.length > 0 && (
         <div className=" flex flex-col flex-nowrap items-center justify-start">
-          <ul className="absolute z-10 pt-2 w-[55%] md:w-1/3 lg:w-1/4 top-9 md:top-10  rounded-b-xl bg-white lg:text-custom 2xl:text-lg text-sm">
+          <ul
+            className="absolute z-10 pt-2 md:w-[55%]  lg:w-full top-9 md:top-10 rounded-b-xl bg-white lg:text-custom 2xl:text-lg text-sm"
+            onMouseDown={(e) => e.preventDefault()}>
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={index}
-                className={`cursor-pointer text-black my-2 pl-10 md:pl-16 ${
-                  index === activeSuggestionIndex ? 'bg-blue-100' : ''
+                className={`cursor-pointer text-black my-3 pl-12 md:pl-16 ${
+                  index === activeSuggestionIndex ? 'bg-blue-200' : ''
                 }`}
-                onClick={() => onSuggestionClick(suggestion)}>
+                onMouseDown={(e) => onSuggestionClick(e, suggestion)}>
                 {index === activeSuggestionIndex
                   ? suggestion
                       .split('')

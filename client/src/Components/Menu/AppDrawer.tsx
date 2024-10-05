@@ -84,7 +84,7 @@ export const AppDrawer = ({
               {isAuthenticated ? (
                 <button
                   onClick={wrappedOnLogout}
-                  className="text-thead bg-black border text-white border-black hover:border-red-600 px-10 py-2 mt-2 rounded-md"
+                  className={styles.button}
                   aria-label="Log out"
                   style={{ transition: 'background-color 0.2s' }}>
                   Log Out
@@ -103,4 +103,9 @@ export const AppDrawer = ({
       </div>
     </div>
   );
+};
+
+const styles = {
+  button:
+    'transition duration-300 ease-in-out text-thead bg-black border text-white border-black hover:border-yellow-500 hover:text-yellow-400 px-10 py-2 mt-2 rounded-md',
 };

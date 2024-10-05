@@ -7,7 +7,6 @@ body {
   margin: 0;
   background-color: #0f0f0f;
   font-family: Play, sans-serif;
-  font-weight: 300;
   font-size: 2rem;
   color: white;
 }
@@ -54,11 +53,11 @@ input::placeholder {
 }
 
 .gradient-hover {
-  background: black; /* Initial background */
+  background: black;
   transition: background 0.3s ease-out, transform 0.3s ease-out;
-  border-radius: 9999px; /* Tailwind's rounded-full */
+  border-radius: 9999px;
   display: flex;
-  gap: 0.5rem; /* Equivalent to Tailwind's gap-2 */
+  gap: 0.5rem;
 }
 
 .gradient-hover:hover {
@@ -72,12 +71,14 @@ input::placeholder {
     black,
     black,
     black,
-    rgb(96, 96, 64),
-    rgb(163, 163, 61),
-    rgb(240, 200, 40),
-    rgb(250, 204, 20)
+    black,
+    black,
+    rgb(59, 59, 48),
+    rgb(155, 155, 65),
+    rgb(214, 178, 33),
+    rgb(248, 199, 4)
   );
-  transform: scale(0.95); /* Equivalent to Tailwind's scale-110 */
+  transform: scale(0.9);
 }
 
 .full-width-border {
@@ -93,27 +94,8 @@ input::placeholder {
   border-bottom: 1px solid #343541;
 }
 
-.gradient-hover2:hover {
-  background: linear-gradient(
-    0.3turn,
-    blue,
-    blue,
-    blue,
-    rgb(67, 51, 154),
-    rgb(48, 26, 173),
-    rgb(64, 65, 132),
-    rgb(143, 67, 67),
-    red,
-    rgb(157, 49, 49),
-    rgb(198, 28, 28),
-    red,
-    red
-  );
-  transform: scale(1.1);
-}
-
 .icon-resize {
-  transform: scale(1); /* default scale */
+  transform: scale(1);
   transition: transform 300ms ease-in-out;
 }
 
@@ -121,4 +103,12 @@ input::placeholder {
   .icon-resize {
     transform: scale(0.8);
   }
+}
+
+#question {
+  font-family: Roboto-condensed, sans-serif;
+}
+
+#answer {
+  font-family: Roboto-condensed, sans-serif;
 }

@@ -7,11 +7,11 @@ import { UserProvider } from './UserProvider';
 export const Providers = ({ children }: PropsWithChildren) => {
   return (
     <UserProvider>
-      <ModalProvider>
-        <EventsProvider>
+      <EventsProvider>
+        <ModalProvider>
           <BetsProvider>{children}</BetsProvider>
-        </EventsProvider>
-      </ModalProvider>
+        </ModalProvider>
+      </EventsProvider>
     </UserProvider>
   );
 };

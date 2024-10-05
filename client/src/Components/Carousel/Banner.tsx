@@ -45,7 +45,7 @@ export const Banner = ({ posters }: BannerProps) => {
   return (
     <div className="relative my-3 w-3/4 md:w-2/5">
       <img
-        className="w-full mx-auto h-full rounded-md object-contain cursor-pointer"
+        className="w-full mx-auto h-full rounded-lg object-contain cursor-pointer border border-[#1f1f21]"
         src={posters[index]}
         onClick={togglePlayPause}
       />
@@ -78,20 +78,20 @@ export const Banner = ({ posters }: BannerProps) => {
           className={`${overlayStyling} right-0 h-full rounded-r-lg`}
           onClick={handleNextClick}></div>
       </div>
-      <div className="absolute bottom-[.5rem] md:bottom-[1rem] left-1/2 transform -translate-x-1/2 flex gap-1 space-x-0">
+      <div className="absolute bottom-[.5rem] md:bottom-[.5rem] left-1/2 transform -translate-x-1/2 flex gap-1 space-x-0">
         {posters.map((_, idx) =>
           index === idx ? (
             <FaCircle
               key={idx}
               className="text-white cursor-pointer"
-              size={7}
+              size={5}
               onClick={() => handleCircleClick(idx)}
             />
           ) : (
             <FaCircle
               key={idx}
               className="text-white cursor-pointer opacity-30 hover:scale-125"
-              size={7}
+              size={5}
               onClick={() => handleCircleClick(idx)}
             />
           )

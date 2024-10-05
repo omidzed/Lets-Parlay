@@ -3,7 +3,7 @@ import type { ApiEvent, Event } from '../utils/data-types';
 import { apiKey } from '../utils/api-data';
 
 export const useFetchEvents = () => {
-  const [events, setEvents] = useState<Event[] | undefined>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | undefined>();
   const [suggestions, setSuggestions] = useState<string[]>([]);

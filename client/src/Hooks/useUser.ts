@@ -2,6 +2,8 @@ import { useContext } from 'react';
 import { UserContextValues, UserContext } from '../Providers/UserProvider';
 
 export const useUser = (): UserContextValues => {
-  // Directly return the context as it's guaranteed to be defined
-  return useContext(UserContext);
+  if (!UserContext) {
+    throw new Error('useUser must be used within a UserProvider');
+  }
+return useContext(UserContext);
 };

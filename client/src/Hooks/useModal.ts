@@ -5,8 +5,8 @@ import {
 } from '../Providers/ModalProvider';
 
 export const useModal = (): ModalContextValues => {
-  const modalContext = useContext(ModalContext);
-  if (!modalContext) {
+  if (!ModalContext) {
     throw new Error('useModal must be used within a ModalProvider');
-  } else return modalContext;
+  }
+  return useContext(ModalContext);
 };

@@ -8,9 +8,16 @@ export type ModalContextValues = {
   header: string;
 };
 
-export const ModalContext = createContext<ModalContextValues | undefined>(
-  undefined
-);
+const initialContextValue: ModalContextValues = {
+  isModalOpen: false,
+  modalContent: null,
+  openModal: () => {},
+  closeModal: () => {},
+  header: '',
+};
+
+export const ModalContext =
+  createContext<ModalContextValues>(initialContextValue);
 
 export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   children,
