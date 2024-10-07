@@ -1,4 +1,4 @@
-import { useEffect, ChangeEvent, useState, KeyboardEvent } from 'react';
+import { useEffect, ChangeEvent, useState, KeyboardEvent, useRef } from 'react';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { useFetchEvents } from '../Hooks/useFetchEvents';
 import { IoIosClose } from 'react-icons/io';
@@ -18,6 +18,7 @@ export const SearchBox = ({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
   const { suggestions } = useFetchEvents();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
     setPlaceholder('');
@@ -28,14 +29,14 @@ export const SearchBox = ({
     setTimeout(() => setShowSuggestions(false), 100);
   };
 
- const onSuggestionClick = (e: React.MouseEvent, suggestion: string) => {
-   e.preventDefault();
-   e.stopPropagation();
-   setInputValueLocal(suggestion);
-   setInputValue(suggestion);
-   setShowSuggestions(false);
-   setActiveSuggestionIndex(0);
- };
+  const onSuggestionClick = (e: React.MouseEvent, suggestion: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setInputValueLocal(suggestion);
+    setInputValue(suggestion);
+    setShowSuggestions(false);
+    setActiveSuggestionIndex(0);
+  };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -91,8 +92,10 @@ export const SearchBox = ({
   const clearInput = () => {
     setInputValueLocal('');
     setInputValue('');
+    setPlaceholder('');
     setFilteredSuggestions([]);
     setShowSuggestions(false);
+    inputRef.current?.focus();
   };
 
   return (
@@ -101,8 +104,13 @@ export const SearchBox = ({
       <div className="relative w-full md:w-1/3 lg:w-full transition-all duration-300">
         <FaMagnifyingGlass className="absolute z-20 md:text-bigger text-thead left-4 top-5 [#2E2E31] text-black" />
         <input
-          className=" md:w-full absolute-50 bg-gray-300 focus:bg-white md:bg-contain text-black lg:text-custom p-2 text-sm focus:outline-none
-            2xl:text-lg pl-12 md:pl-16 pr-14 py-1 focus:py-2.5 rounded-2xl"
+          ref={inputRef}
+          className={` md:w-full absolute-50 z-50 bg-gray-300 focus:bg-white md:bg-contain text-black lg:text-custom p-2 text-sm focus:outline-none
+            2xl:text-lg pl-12 md:pl-16 pr-14 py-1 ${
+              showSuggestions && filteredSuggestions.length > 0
+                ? 'rounded-t-2xl'
+                : 'rounded-full'
+            }`}
           placeholder={placeholder}
           onBlur={handleBlur}
           onChange={onChange}
@@ -123,7 +131,7 @@ export const SearchBox = ({
       {showSuggestions && filteredSuggestions.length > 0 && (
         <div className=" flex flex-col flex-nowrap items-center justify-start">
           <ul
-            className="absolute z-10 pt-2 md:w-[55%]  lg:w-full top-9 md:top-10 rounded-b-xl bg-white lg:text-custom 2xl:text-lg text-sm"
+            className="absolute z-10 pt-2 md:w-[55%] lg:w-full top-9 md:top-10 rounded-b-xl bg-white lg:text-custom 2xl:text-lg text-sm"
             onMouseDown={(e) => e.preventDefault()}>
             {filteredSuggestions.map((suggestion, index) => (
               <li

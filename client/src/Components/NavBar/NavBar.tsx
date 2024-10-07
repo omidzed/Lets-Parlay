@@ -147,7 +147,7 @@ const NavBarRightSection: React.FC<{
             </Link>
           </div>
         </div>
-        <button className={`${styles.logout} md:mr-20`} onClick={logOut}>
+        <button className={`${styles.logout} md:mr-20 whitespace-nowrap`} onClick={logOut}>
           Log Out
         </button>
       </>
@@ -182,7 +182,7 @@ const styles = {
   login:
     'transition duration-300 ease-in-out hover:bg-yellow-400 lg:text-small text-black flex gap-1 text-tiny p-1 bg-yellow-500 border border-black hover:border-white rounded-md md:rounded-md px-4 md:px-8 py-1 md:py-2',
   logout:
-    'hidden md:block text-tiny md:mr-10 md:text-thead p-1 mx-2 md:mr-0 border border-black hover:border-yellow-500 hover:text-yellow-500 transition duration-300 ease-in-out rounded-sm md:rounded-md bg-[#070707] px-2 md:px-10 md:py-2',
+    'hidden xl:block text-tiny md:mr-8 md:text-thead p-1 mx-2 md:mr-0 border border-black hover:border-yellow-500 hover:text-yellow-500 transition duration-300 ease-in-out rounded-sm md:rounded-md bg-[#070707] px-2 md:px-10 md:py-2',
   list: 'flex md:justify-end md:items-end gap-0 md:mr-6 mr-2 flex-nowrap font-thin',
   userName: 'text-sm leading-2 md:text-xl',
   funds: 'text-sm leading-2 md:text-xl text-[#54D338] cursor-pointer',
