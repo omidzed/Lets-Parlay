@@ -1,5 +1,5 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
-import { useModal } from "../../Hooks/useModal";
+import { useModal } from '../../Hooks/useModal';
 import { AlertModal } from '../AlertModal';
 import { useUser } from '../../Hooks/useUser';
 
@@ -106,21 +106,27 @@ export const AuthForm = ({ action, toggleAction }: Props) => {
     }
   };
 
-  const styling =
-    'block w-full border-2 border-slate-400 bg-blue-100 rounded-md mb-1 h-10 px-4';
+  const styling = {
+    label: 'absolute bottom-8 left-3 z-50 bg-white px-1 text-small',
+    input: 'block w-full border border-slate-400 rounded-md mb-1 h-10 px-4',
+    blueButton:
+      'transition duration-300 ease-in-out w-full tracking-wider bg-blue-800 hover:bg-blue-600 mt-4 text-white py-1.5 rounded-md cursor-pointer',
+    grayButton:
+      'transition duration-300 ease-in-out w-full bg-gray-600 hover:bg-gray-500 text-white px-4 py-1.5 rounded-md cursor-pointer',
+  };
 
   return (
     <div>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col justify-center md:my-6 md:m-8 px-10 py-4">
-        <div className="my-4">
+        className="flex flex-col justify-center md:my-6 md:m-8 px-10 py-4 lg:min-w-80">
+        <div className="my-4 flex flex-col gap-4">
           {action === 'sign-up' && (
-            <div>
-              <label>Name</label>
+            <div className="relative">
+              <label className={styling.label}>Name</label>
               <input
                 name="name"
-                className={styling}
+                className={styling.input}
                 type="text"
                 value={formData.name}
                 onChange={handleInputChange}
@@ -130,29 +136,33 @@ export const AuthForm = ({ action, toggleAction }: Props) => {
               <input name="funds" value={1} type="hidden" />
             </div>
           )}
-          <label>Username</label>
-          <input
-            name="username"
-            className={styling}
-            type="text"
-            value={formData.username}
-            onChange={handleInputChange}
-            required
-            autoComplete="username"
-          />
-          <label>Password</label>
           <div className="relative">
+            <label className={styling.label}>Username</label>
             <input
-              name="password"
-              className={`${styling} w-full`}
-              type={showPassword ? 'text' : 'password'}
-              value={formData.password}
+              name="username"
+              className={styling.input}
+              type="text"
+              value={formData.username}
               onChange={handleInputChange}
               required
-              autoComplete={
-                action === 'sign-up' ? 'new-password' : 'current-password'
-              }
+              autoComplete="username"
             />
+          </div>
+          <div className="relative">
+            <label className={styling.label}>Password</label>
+            <div className="relative">
+              <input
+                name="password"
+                className={`${styling.input} w-full`}
+                type={showPassword ? 'text' : 'password'}
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+                autoComplete={
+                  action === 'sign-up' ? 'new-password' : 'current-password'
+                }
+              />
+            </div>
             <button
               type="button"
               className="absolute inset-y-0 right-0 px-3 flex items-center text-xs leading-5"
@@ -164,7 +174,7 @@ export const AuthForm = ({ action, toggleAction }: Props) => {
         {error && <p className="text-red-500 mt-8">{error}</p>}
         <div className="flex justify-center">
           <button
-            className=" tracking-wider  bg-blue-700 mt-4 text-white px-4 py-2 rounded-md cursor-pointer"
+            className={styling.blueButton}
             type="submit">
             {action === 'sign-up' ? 'Register' : 'Log In'}
           </button>
@@ -173,7 +183,7 @@ export const AuthForm = ({ action, toggleAction }: Props) => {
         <div className="flex justify-center mt-2">
           <button
             type="button"
-            className="bg-gray-500  text-white px-4 py-2 rounded-md cursor-pointer"
+            className={styling.grayButton}
             onClick={handleGuestCheckIn}>
             Guest Check-In
           </button>
@@ -188,7 +198,7 @@ export const AuthForm = ({ action, toggleAction }: Props) => {
         </p>
         <a
           onClick={toggleAction}
-          className="font-bold text-[#3d86ec] hover:underline cursor-pointer">
+          className="transition duration-300 ease-in-out font-bold text-blue-600 hover:underline cursor-pointer">
           {action === 'sign-in' ? 'Join Now' : 'Log In'}
         </a>
       </div>

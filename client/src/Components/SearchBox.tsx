@@ -102,11 +102,11 @@ export const SearchBox = ({
     <div
       className={`flex flex-col items-center justify-center relative ${className}`}>
       <div className="relative w-full md:w-1/3 lg:w-full transition-all duration-300">
-        <FaMagnifyingGlass className="absolute z-20 md:text-bigger text-thead left-4 top-5 [#2E2E31] text-black" />
+        <FaMagnifyingGlass className="absolute z-20 text-thead left-4 top-5 [#2E2E31] text-black" />
         <input
           ref={inputRef}
-          className={` md:w-full absolute-50 z-50 bg-gray-300 focus:bg-white md:bg-contain text-black lg:text-custom p-2 text-sm focus:outline-none
-            2xl:text-lg pl-12 md:pl-16 pr-14 py-1 ${
+          className={` md:w-full absolute-50 z-50 bg-gray-200 focus:bg-white md:bg-contain text-black text-custom p-2 focus:outline-none
+             pl-12 md:pl-16 pr-14 py-1 ${
               showSuggestions && filteredSuggestions.length > 0
                 ? 'rounded-t-2xl'
                 : 'rounded-full'
@@ -120,24 +120,24 @@ export const SearchBox = ({
         />
         {inputValueLocal && (
           <button
-            className="absolute right-4 top-7 -translate-y-1/2 text-gray-500 hover:text-gray-900 transition-colors z-30"
+            className="absolute border border-transparent hover:border-blue-100 rounded-full right-2 top-4  text-black hover:bg-blue-100 transition-colors z-30"
             onClick={clearInput}
             type="button"
             aria-label="Clear search">
-            <IoIosClose size={30} />
+            <IoIosClose size={25} />
           </button>
         )}
       </div>
       {showSuggestions && filteredSuggestions.length > 0 && (
         <div className=" flex flex-col flex-nowrap items-center justify-start">
           <ul
-            className="absolute z-10 pt-2 md:w-[55%] lg:w-full top-9 md:top-10 rounded-b-xl bg-white lg:text-custom 2xl:text-lg text-sm"
+            className="absolute z-10 pt-2 md:w-[55%] lg:w-full top-9 md:top-10 rounded-b-xl bg-white text-custom"
             onMouseDown={(e) => e.preventDefault()}>
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={index}
                 className={`cursor-pointer text-black my-3 pl-12 md:pl-16 ${
-                  index === activeSuggestionIndex ? 'bg-blue-200' : ''
+                  index === activeSuggestionIndex ? 'bg-blue-100' : ''
                 }`}
                 onMouseDown={(e) => onSuggestionClick(e, suggestion)}>
                 {index === activeSuggestionIndex
