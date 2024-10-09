@@ -99,13 +99,12 @@ export const SearchBox = ({
   };
 
   return (
-    <div
-      className={`flex flex-col items-center justify-center relative ${className}`}>
-      <div className="relative w-full md:w-1/3 lg:w-full transition-all duration-300">
-        <FaMagnifyingGlass className="absolute z-20 text-thead left-4 top-5 [#2E2E31] text-black" />
+    <div className={`relative w-3/4 md:w-1/3 lg:w-full ${className}`}>
+      <div className="relative w-full">
+        <FaMagnifyingGlass className="absolute z-20 text-thead left-4 top-5 text-black" />
         <input
           ref={inputRef}
-          className={` md:w-full absolute-50 z-50 bg-gray-200 focus:bg-white md:bg-contain text-black text-custom p-2 focus:outline-none
+          className={`w-full bg-gray-200 focus:bg-white text-black text-custom p-2 focus:outline-none
              pl-12 md:pl-16 pr-14 py-1 ${
               showSuggestions && filteredSuggestions.length > 0
                 ? 'rounded-t-2xl'
@@ -120,7 +119,7 @@ export const SearchBox = ({
         />
         {inputValueLocal && (
           <button
-            className="absolute border border-transparent hover:border-blue-100 rounded-full right-2 top-4  text-black hover:bg-blue-100 transition-colors z-30"
+            className="absolute border border-transparent hover:border-blue-100 rounded-full right-2 top-4 text-black hover:bg-blue-100 transition-colors z-30"
             onClick={clearInput}
             type="button"
             aria-label="Clear search">
@@ -129,9 +128,9 @@ export const SearchBox = ({
         )}
       </div>
       {showSuggestions && filteredSuggestions.length > 0 && (
-        <div className=" flex flex-col flex-nowrap items-center justify-start">
+        <div className="absolute top-10 z-10 w-full bg-white rounded-b-xl shadow-lg">
           <ul
-            className="absolute z-10 pt-2 md:w-[55%] lg:w-full top-9 md:top-10 rounded-b-xl bg-white text-custom"
+            className="w-full pt-2 text-custom"
             onMouseDown={(e) => e.preventDefault()}>
             {filteredSuggestions.map((suggestion, index) => (
               <li

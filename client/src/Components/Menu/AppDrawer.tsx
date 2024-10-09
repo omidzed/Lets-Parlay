@@ -2,7 +2,7 @@ import { Menu } from './Menu';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { MenuItem } from '../../utils/data-types';
-import { IoClose } from 'react-icons/io5';
+import { FaArrowLeft } from 'react-icons/fa6';
 
 type AppDrawerProps = {
   isOpen: boolean;
@@ -68,11 +68,11 @@ export const AppDrawer = ({
         <div className={isOpen ? 'menu-drawer open' : 'menu-drawer closed'}>
           <div className="flex justify-center ">
             <div className="fixed top-12 right-6 md:top-16 cursor-pointer">
-              <IoClose
+              <FaArrowLeft
                 onClick={() => toggleMenu()}
                 color="white"
-                size={45}
-                className={styles.close}
+                size={40}
+                className={styles.back}
               />
             </div>
             <div className="mt-14 flex flex-col justify-center items-center">
@@ -110,8 +110,7 @@ const styles = {
     'w-[90%] sm:w-[60%] md:w-[40%] lg:w-[30%] xl:w-[25%] 2xl:w-[17%] fixed top-0 left-0 h-screen z-50 transition-transform duration-700 ease-in-out bg-[#141414]',
   button:
     'transition duration-300 ease-in-out text-thead bg-black border text-white border-black hover:border-yellow-500 hover:text-yellow-400 px-10 py-2 mt-2 rounded-md',
-  close:
-    'md:ml-5 p-2 cursor-pointer hover:border-2 hover:scale-90 duration-200 hover:border-yellow-400 hover:bg-black rounded-full transition ease-out',
+  back: 'md:ml-5 p-2 cursor-pointer hover:border-2 hover:scale-90 transition-all duration-200 hover:border-yellow-400 hover:bg-black rounded-full',
   login:
     'transition duration-300 ease-in-out text-small bg-yellow-500 hover:bg-yellow-400 border text-black border-black hover:border-white px-8 py-2 mt-2 rounded-md',
 };

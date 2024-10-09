@@ -107,12 +107,12 @@ const NavBarLeftSection: React.FC<NavBarLeftSectionProps> = ({
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center justify-center">
-        <RiMenu2Line
+        <button
           onClick={toggleMenu}
-          color="white"
-          size={40}
           className={styles.menuIcon}
-        />
+          aria-label="Toggle menu">
+          <RiMenu2Line className="w-5 h-5 md:w-6 md:h-6" />
+        </button>
         <Link to={'/'} className={styles.appName}>
           <p className={styles.let}>LET</p>
           <p className={styles.s}>$</p>
@@ -147,7 +147,9 @@ const NavBarRightSection: React.FC<{
             </Link>
           </div>
         </div>
-        <button className={`${styles.logout} md:mr-20 whitespace-nowrap`} onClick={logOut}>
+        <button
+          className={`${styles.logout} md:mr-20 whitespace-nowrap`}
+          onClick={logOut}>
           Log Out
         </button>
       </>
@@ -172,9 +174,9 @@ const formatFunds = (funds?: number | string): string => {
 };
 
 const styles = {
-  nav: 'flex justify-between md:py-6 md:pr-2 bg-[#1F1F21] mb-4 pr-2',
+  nav: 'flex justify-between py-2 md:py-6 md:pr-2 bg-[#1F1F21] mb-4 pr-2',
   appName:
-    'flex justify-start items-center text-custom italic flex md:text-2xl lg:text-3xl xl:text-4xl md:ml-4 lg:ml-10 md:px-10',
+    'flex justify-start items-center text-custom italic flex md:text-2xl lg:text-3xl xl:text-4xl md:ml-4 lg:ml-8 md:px-10',
   let: 'text-yellow-400 italic mr-1',
   s: 'mr-1 text-smallest md:text-xl lg:text-2xl xl:text-3xl flex items-end font-light',
   parlay: 'text-yellow-400',
@@ -187,5 +189,5 @@ const styles = {
   userName: 'text-sm leading-2 md:text-xl',
   funds: 'text-sm leading-2 md:text-xl text-[#54D338] cursor-pointer',
   menuIcon:
-    'icon-resize md:ml-5 mr-1 p-3 md:p-2 cursor-pointer hover:border-2 hover:scale-90 hover:border-yellow-400 hover:bg-black rounded-full transform transition-transform duration-300 ease-in-out',
+    'flex items-center mr-2 hover:scale-75 p-2 border-2 border-transparent hover:border-yellow-400 justify-center w-8 h-8 md:w-10 md:h-10 ml-2 md:ml-4 hover:bg-black rounded-full transition-all duration-300',
 };
