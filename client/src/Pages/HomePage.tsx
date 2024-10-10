@@ -13,7 +13,10 @@ export const HomePage = () => {
   return (
     <div>
       <div className="block flex justify-center md:hidden">
-        <SearchBox className="" setInputValue={setInputValue} />
+        <SearchBox
+          className=""
+          setInputValue={setInputValue}
+        />
       </div>
       <EventsCarousel />
       <div className="2xl:w-[60%] w-10/12 mx-auto md:mb-10">
