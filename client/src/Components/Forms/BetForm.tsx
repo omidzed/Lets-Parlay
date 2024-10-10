@@ -32,8 +32,24 @@ export const BetForm = ({
   const token = getToken();
   const timeStamp = new Date().toISOString();
 
- const handleChange = (value: string | undefined) => {
-    const amountNumber = parseFloat(value || '0'); // Default to '0' if value is undefined
+  const handleChange = (value: string | undefined) => {
+    if (!value || value === '-') {
+      setBetAmount(0);
+      return;
+    }
+
+    // Convert to integer and handle validation
+    const parsedValue = parseInt(value, 10);
+    if (isNaN(parsedValue) || parsedValue < 0) {
+      setBetAmount(0);
+      return;
+    }
+
+    // Ensure the value matches our constraints
+    const amountNumber = Math.max(
+      1, // Minimum bet of 1
+      Math.min(999999999, parsedValue) // Maximum bet of 999,999,999
+    );
     setBetAmount(amountNumber);
   };
 
@@ -167,10 +183,17 @@ export const BetForm = ({
                 <CurrencyInput
                   className="bg-blue-200 rounded-md pl-1 w-16"
                   name="betAmount"
+                  placeholder="0"
                   disableGroupSeparators={true}
-                  defaultValue={0}
-                  decimalsLimit={2}
+                  allowDecimals={false}
                   onValueChange={handleChange}
+                  allowNegativeValue={false}
+                  min={1}
+                  max={999999999}
+                  transformRawValue={(rawValue: string) => {
+                    // Only allow digits, no decimal points
+                    return rawValue.replace(/[^\d]/g, '');
+                  }}
                 />
               </div>
             </div>
@@ -209,274 +232,3 @@ export const BetForm = ({
     </>
   );
 };
-
-// import { FormEvent, useState } from 'react';
-// import CurrencyInput from 'react-currency-input-field';
-// import { useModal } from '../../Hooks/useModal';
-// import { AlertModal } from '../AlertModal';
-// import { getToken } from '../../utils/token-storage';
-// import { useUser } from '../../Hooks/useUser';
-// import { updateFundsInDB } from '../../utils/updateFundsInDB';
-// import { calculateWinnings } from '../../utils/payout-calculator';
-// import { Event, Outcome, OverUnder } from '../../utils/data-types';
-
-// export type BetFormProps = {
-//   event: Event;
-//   outcomeOptions: Outcome[]; // Outcomes passed as props
-//   overUnderOptions: OverUnder[]; // Over/Under options passed as props
-//   pick: string;
-//   dateTime: string;
-//   status: string;
-// };
-
-// export const BetForm = ({
-//   event,
-//   outcomeIndex,
-//   overUnderIndex,
-//   pick,
-//   dateTime,
-//   status,
-// }: BetFormProps) => {
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [betAmount1, setBetAmount1] = useState<number>(0);
-//   const [betAmount2, setBetAmount2] = useState<number>(0);
-//   const [outcomeIndex1, setOutcomeIndex1] = useState<number>(0);
-//   const [outcomeIndex2, setOutcomeIndex2] = useState<number>(0);
-//   const [isParlayMode, setIsParlayMode] = useState(false);
-
-//   const { user, updateFunds } = useUser();
-//   const { closeModal, openModal } = useModal();
-//   const token = getToken();
-//   const timeStamp = new Date().toISOString();
-
-//   const handleChange1 = (value: string | undefined) => {
-//     const amountNumber = parseFloat(value || '0');
-//     setBetAmount1(amountNumber);
-//   };
-
-//   const handleChange2 = (value: string | undefined) => {
-//     const amountNumber = parseFloat(value || '0');
-//     setBetAmount2(amountNumber);
-//   };
-
-//   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-//     setIsLoading(true);
-
-//     const totalBetAmount = betAmount1 + (isParlayMode ? betAmount2 : 0);
-
-//     if (totalBetAmount > (user?.funds ?? 0)) {
-//       openModal(
-//         <AlertModal
-//           message="Your total bet amount cannot exceed your funds, please try again!"
-//           onClose={() => {
-//             setIsLoading(false);
-//             closeModal();
-//           }}
-//         />,
-//         'Insufficient Funds'
-//       );
-//       setIsLoading(false);
-//       return;
-//     }
-
-//     const matchId = event.id;
-//     const userId = user?.userId ?? '';
-
-//     const headers = {
-//       'Content-Type': 'application/json',
-//       Authorization: token ? `Bearer ${token.token}` : '',
-//     };
-
-//     try {
-//       const betRequests: Promise<Response>[] = [];
-
-//       const firstBetRequest = fetch('/api/bets', {
-//         method: 'POST',
-//         headers,
-//         body: JSON.stringify({
-//           userId,
-//           timeStamp,
-//           pick: event.outcomeIndex.name, // Use outcome index 1
-//           dateTime,
-//           status,
-//           matchId,
-//           betAmount: betAmount1,
-//         }),
-//       });
-//       betRequests.push(firstBetRequest);
-
-//       if (isParlayMode) {
-//         const secondBetRequest = fetch('/api/bets', {
-//           method: 'POST',
-//           headers,
-//           body: JSON.stringify({
-//             userId,
-//             timeStamp,
-//             pick: outcomeOptions[outcomeIndex2].name, // Use outcome index 2
-//             dateTime,
-//             status,
-//             matchId,
-//             betAmount: betAmount2,
-//           }),
-//         });
-//         betRequests.push(secondBetRequest);
-//       }
-
-//       const responses = await Promise.all(betRequests);
-
-//       for (const response of responses) {
-//         if (!response.ok) {
-//           throw new Error(`Failed to submit bet: ${response.status}`);
-//         }
-//       }
-
-//       const fundsAfterBet = (user?.funds ?? 0) - totalBetAmount;
-//       const updateResponse = await updateFundsInDB(
-//         userId,
-//         fundsAfterBet,
-//         token?.token
-//       );
-
-//       if (updateResponse.success) {
-//         updateFunds(fundsAfterBet);
-//         openModal(
-//           <AlertModal
-//             message="Your bet was placed successfully!"
-//             onClose={closeModal}
-//           />,
-//           'Successful Bet'
-//         );
-//       } else {
-//         openModal(
-//           <AlertModal
-//             message={
-//               updateResponse.message ||
-//               'Failed to update funds after placing the bet.'
-//             }
-//             onClose={closeModal}
-//           />,
-//           'Error Updating Funds'
-//         );
-//       }
-//     } catch (err) {
-//       console.error('Error placing bet:', err);
-//       alert(`Error placing bet: ${err}`);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   const handleParlayClick = () => {
-//     setIsParlayMode(true);
-//   };
-
-//   const calculatePayout = (odds: number, amount: number) =>
-//     (calculateWinnings(odds, amount) + amount).toFixed(2);
-
-//   const winnings1 = calculatePayout(
-//     outcomeOptions[outcomeIndex1].moneyline,
-//     betAmount1
-//   );
-//   const winnings2 = isParlayMode
-//     ? calculatePayout(outcomeOptions[outcomeIndex2].moneyline, betAmount2)
-//     : '0.00';
-
-//   return (
-//     <div className="flex-col justify-center items-center py-10 pb-6 md:mx-10 w-60">
-//       <form className="flex-col items-center my-2 p-2" onSubmit={handleSubmit}>
-//         <div className="flex justify-between">
-//           <label htmlFor="outcome1">First Bet Outcome:</label>
-//           <select
-//             id="outcome1"
-//             value={outcomeIndex1}
-//             onChange={(e) => setOutcomeIndex1(parseInt(e.target.value))}>
-//             {outcomeOptions.map((outcome, index) => (
-//               <option key={index} value={index}>
-//                 {outcome.name} (
-//                 {outcome.moneyline > 0
-//                   ? `+${outcome.moneyline}`
-//                   : outcome.moneyline}
-//                 )
-//               </option>
-//             ))}
-//           </select>
-//         </div>
-
-//         <div className="flex gap-5 flex-nowrap justify-center mt-6 mb-2">
-//           <div className="font-bold">Amount:</div>
-//           <CurrencyInput
-//             className="bg-blue-200 rounded-md pl-1 w-16"
-//             name="betAmount1"
-//             disableGroupSeparators={true}
-//             decimalsLimit={2}
-//             onValueChange={handleChange1}
-//           />
-//         </div>
-
-//         {isParlayMode && (
-//           <>
-//             <div className="flex justify-between">
-//               <label htmlFor="outcome2">Second Bet Outcome:</label>
-//               <select
-//                 id="outcome2"
-//                 value={outcomeIndex2}
-//                 onChange={(e) => setOutcomeIndex2(parseInt(e.target.value))}>
-//                 {outcomeOptions.map((outcome, index) => (
-//                   <option key={index} value={index}>
-//                     {outcome.name} (
-//                     {outcome.moneyline > 0
-//                       ? `+${outcome.moneyline}`
-//                       : outcome.moneyline}
-//                     )
-//                   </option>
-//                 ))}
-//               </select>
-//             </div>
-
-//             <div className="flex gap-5 flex-nowrap justify-center mt-6 mb-2">
-//               <div className="font-bold">Parlay Amount:</div>
-//               <CurrencyInput
-//                 className="bg-blue-200 rounded-md pl-1 w-16"
-//                 name="betAmount2"
-//                 disableGroupSeparators={true}
-//                 decimalsLimit={2}
-//                 onValueChange={handleChange2}
-//               />
-//             </div>
-
-//             <div className="flex justify-center gap-5">
-//               <div className="font-bold">Parlay Payout:</div>
-//               <div>{winnings2}</div>
-//             </div>
-//           </>
-//         )}
-
-//         <div className="flex justify-center gap-5">
-//           <div className="font-bold">Payout:</div>
-//           <div>{winnings1}</div>
-//         </div>
-
-//         <div className="flex flex-col justify-center">
-//           <button
-//             className={`mt-7 ${
-//               isLoading ? 'bg-blue-400' : 'bg-blue-700'
-//             } text-white px-8 py-4 rounded-md`}
-//             type="submit"
-//             disabled={isLoading}>
-//             {isLoading ? 'Betting...' : 'Submit'}
-//           </button>
-
-//           {!isParlayMode && (
-//             <button
-//               onClick={handleParlayClick}
-//               className="mt-7 bg-green-600 text-white px-8 py-4 rounded-md"
-//               type="button">
-//               Parlay
-//             </button>
-//           )}
-//         </div>
-//       </form>
-//     </div>
-//   );
-// };
