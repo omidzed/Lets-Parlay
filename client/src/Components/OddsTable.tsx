@@ -110,7 +110,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
             </div>
             <div className="flex-col  w-1/2 md:w-1/3 text-white text-xs">
               <span
-                className={`${style.thead} full-width-border px-2 border border-t-0 border-r-0 border-l-0 border-[#2d2d31e3]`}>
+                className={`${style.thead} full-width-border pl-7 px-2 border border-t-0 border-r-0 border-l-0 border-[#2d2d31e3]`}>
                 MONEYLINE
               </span>
               <span
@@ -126,7 +126,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
             </div>
             <div className="flex-col  w-1/2 md:w-1/3  text-white text-tiny md:text-2xl">
               <span
-                className={`${style.thead} full-width-border border border-t-0 border-r-0 border-l-0 border-[#2d2d31e3]`}>
+                className={`${style.thead} full-width-border pl-4 border border-t-0 border-r-0 border-l-0 border-[#2d2d31e3]`}>
                 ROUNDS +/-
               </span>
               <div

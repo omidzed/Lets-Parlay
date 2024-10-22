@@ -37,9 +37,9 @@ export const Banner = ({ posters }: BannerProps) => {
   };
 
   return (
-    <div className="relative my-3 w-3/4 md:w-2/5">
+    <div className="relative my-3 w-4/5 md:w-2/5">
       <img
-        className="w-full mx-auto h-full rounded-lg object-contain cursor-pointer border border-[#1f1f21]"
+        className="w-full mx-auto h-full rounded-md lg:rounded-xl object-contain cursor-pointer border border-[#1f1f21]"
         src={posters[index]}
         onClick={togglePlayPause}
       />
@@ -54,22 +54,22 @@ export const Banner = ({ posters }: BannerProps) => {
       )}
       <div className="group">
         <RxChevronLeft
-          className={`${chevronStyling} left-2 group-hover:-translate-x-1 transition-transform `}
+          className={`${chevronStyling} left-4 group-hover:-translate-x-1 group-hover:border  group-hover:rounded-full transition-transform `}
           onClick={handlePrevClick}
-          size={40}
+          size={30}
         />
         <div
-          className={`${overlayStyling} h-full left-0 rounded-l-lg`}
+          className={`${overlayStyling} h-full left-0 rounded-l-xl`}
           onClick={handlePrevClick}></div>
       </div>
       <div className="group">
         <RxChevronRight
-          className={`${chevronStyling} right-2 group-hover:translate-x-1 transition-transform`}
+          className={`${chevronStyling} right-4 group-hover:translate-x-1 group-hover:border  group-hover:rounded-full transition-transform`}
           onClick={handleNextClick}
-          size={40}
+          size={30}
         />
         <div
-          className={`${overlayStyling} right-0 h-full rounded-r-lg`}
+          className={`${overlayStyling} right-0 h-full rounded-r-xl`}
           onClick={handleNextClick}></div>
       </div>
       <div className="absolute bottom-[.5rem] md:bottom-[.5rem] left-1/2 transform -translate-x-1/2 flex gap-1 space-x-0">
@@ -96,7 +96,7 @@ export const Banner = ({ posters }: BannerProps) => {
 };
 
 const chevronStyling =
-  'absolute top-1/2  ease-in-out duration-200 transform -translate-y-1/2 z-35 text-[#ffff] opacity-20 group-hover:opacity-100 cursor-pointer group-hover:scale-125';
+  'absolute top-1/2  ease-in-out duration-200 group-hover:text-yellow-400 transform -translate-y-1/2 z-35 text-[#ffff] opacity-25 group-hover:opacity-100 cursor-pointer group-hover:scale-125';
 
 const overlayStyling =
-  'absolute bg-white opacity-0 w-[2.8rem] h-full  group-hover:opacity-15 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';
+  'absolute bg-white opacity-0 w-[3.3rem] h-full  group-hover:opacity-15 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';

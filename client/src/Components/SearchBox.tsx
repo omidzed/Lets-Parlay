@@ -13,6 +13,7 @@ export const SearchBox = ({
   className = '',
 }: SearchBoxProps) => {
   const [inputValueLocal, setInputValueLocal] = useState<string>('');
+   const [previousValue, setPreviousValue] = useState<string>('');
   const [placeholder, setPlaceholder] = useState('Fighters...');
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -20,14 +21,30 @@ export const SearchBox = ({
   const { suggestions } = useFetchEvents();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleClick = () => {
-    setPlaceholder('');
-  };
+ const handleClick = () => {
+   setPreviousValue(inputValueLocal); // Save current value before modifying
+   setPlaceholder('');
+ };
 
-  const handleBlur = () => {
-    setPlaceholder('Fighters...');
-    setTimeout(() => setShowSuggestions(false), 100);
-  };
+ const clearInput = () => {
+   setPreviousValue(''); // Reset previous value when clearing
+   setInputValueLocal('');
+   setInputValue('');
+   setPlaceholder('');
+   setFilteredSuggestions([]);
+   setShowSuggestions(false);
+   inputRef.current?.focus();
+ };
+
+ const handleBlur = () => {
+   // Restore previous state
+   setInputValueLocal(previousValue);
+   setInputValue(previousValue);
+   setPlaceholder('Fighters...');
+   setFilteredSuggestions([]); // Reset suggestions
+   setShowSuggestions(false);
+   setActiveSuggestionIndex(0);
+ };
 
   const onSuggestionClick = (e: React.MouseEvent, suggestion: string) => {
     e.preventDefault();
@@ -89,22 +106,13 @@ export const SearchBox = ({
     // No immediate filtering here; useEffect => debounce the input
   };
 
-  const clearInput = () => {
-    setInputValueLocal('');
-    setInputValue('');
-    setPlaceholder('');
-    setFilteredSuggestions([]);
-    setShowSuggestions(false);
-    inputRef.current?.focus();
-  };
-
   return (
-    <div className={`relative w-3/4 md:w-1/3 lg:w-full ${className}`}>
+    <div className={`relative w-3/4 lg:w-full ${className}`}>
       <div className="relative w-full group">
         <FaMagnifyingGlass className="absolute z-20 text-thead left-4 top-5 text-gray-400 group-focus-within:text-black transition-colors duration-200" />
         <input
           ref={inputRef}
-          className={`w-full border-2 border-[#1F1F21] bg-[#0f0f0f] focus:bg-white text-black text-custom p-2 focus:outline-none
+          className={`w-full bg-black lg:bg-[#0f0f0f] focus:bg-white focus:border-b-rounded-none text-black text-custom p-2 focus:outline-none
              pl-12 md:pl-16 pr-14 py-1 ${
                showSuggestions && filteredSuggestions.length > 0
                  ? 'rounded-t-2xl'
