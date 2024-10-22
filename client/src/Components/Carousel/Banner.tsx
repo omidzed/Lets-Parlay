@@ -26,6 +26,7 @@ export const Banner = ({ posters }: BannerProps) => {
 
   const handleNextClick = () => {
     index < posters.length - 1 ? setIndex(index + 1) : setIndex(0);
+
   };
 
   const handleCircleClick = (idx: number) => {
@@ -39,7 +40,7 @@ export const Banner = ({ posters }: BannerProps) => {
   return (
     <div className="relative my-3 w-4/5 md:w-2/5">
       <img
-        className="w-full mx-auto h-full rounded-md lg:rounded-xl object-contain cursor-pointer border border-[#1f1f21]"
+        className="w-full mx-auto h-full rounded-lg lg:rounded-xl object-contain cursor-pointer border border-[#1f1f21]"
         src={posters[index]}
         onClick={togglePlayPause}
       />
@@ -96,7 +97,7 @@ export const Banner = ({ posters }: BannerProps) => {
 };
 
 const chevronStyling =
-  'absolute top-1/2  ease-in-out duration-200 group-hover:text-yellow-400 transform -translate-y-1/2 z-35 text-[#ffff] opacity-25 group-hover:opacity-100 cursor-pointer group-hover:scale-125';
+  'absolute top-1/2  ease-in-out duration-200 hover:text-yellow-400 transform -translate-y-1/2 z-35 text-[#ffff] opacity-25 group-hover:opacity-100 cursor-pointer group-hover:scale-125';
 
 const overlayStyling =
   'absolute bg-white opacity-0 w-[3.3rem] h-full  group-hover:opacity-15 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer';
