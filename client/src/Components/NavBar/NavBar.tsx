@@ -17,7 +17,7 @@ import { SearchBox } from '../SearchBox';
 import { useEvents } from '../../Hooks/useEvents';
 
 interface NavBarLeftSectionProps {
-  toggleMenu: () => void; // Function that returns nothing
+  toggleMenu: () => void;
 }
 
 export const NavBar = () => {
@@ -177,9 +177,9 @@ const styles = {
   nav: 'flex justify-between py-2 md:py-6 md:pr-2 bg-[#1F1F21] mb-4 pr-2',
   appName:
     'flex justify-start items-center text-custom italic flex md:text-2xl lg:text-3xl xl:text-4xl md:ml-4 lg:ml-8 md:px-10',
-  let: 'text-yellow-400 italic mr-1',
+  let: 'text-yellow-500 italic mr-1',
   s: 'mr-1 text-smallest md:text-xl lg:text-2xl xl:text-3xl flex items-end font-light',
-  parlay: 'text-yellow-400',
+  parlay: 'text-yellow-500',
   buttonsWrapper: 'flex items-center gap-1 md:gap-3 mr-2 md:mr-10',
   login:
     'transition duration-300 ease-in-out hover:font-medium hover:bg-yellow-400 lg:text-small text-black flex gap-1 text-tiny p-1 bg-yellow-500 border border-black hover:border-white rounded-md md:rounded-md px-4 md:px-8 py-1 md:py-2',

@@ -67,7 +67,6 @@ export const OddsTable = ({ filteredEvents }: Props) => {
 
   const odds = filteredEvents?.map((event, index) => {
     const { commenceTime, outcomes, overUnderOdds } = event;
-
     const moneyline = outcomes[0].moneyline;
     const moneylineTwo = outcomes[1].moneyline;
     const formattedDateTime = formatDateTime(commenceTime);

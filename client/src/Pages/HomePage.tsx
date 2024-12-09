@@ -22,7 +22,7 @@ export const HomePage = () => {
       <div className="2xl:w-[60%] w-10/12 mx-auto md:mb-10">
         <OddsTable filteredEvents={filteredEvents} />
       </div>
-      <FaqButton location={location} />;
+      <FaqButton location={location} />
       <ScrollTopButton />
     </div>
   );
