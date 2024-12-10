@@ -107,12 +107,12 @@ export const SearchBox = ({
   };
 
   return (
-    <div className={`relative w-3/4 lg:w-full ${className}`}>
+    <div className={`relative w-3/4 md:w-1/3 xl:w-full ${className}`}>
       <div className="relative w-full group">
         <FaMagnifyingGlass className="absolute z-20 text-thead left-4 top-5 text-gray-400 group-focus-within:text-black transition-colors duration-200" />
         <input
           ref={inputRef}
-          className={`w-full bg-black lg:bg-[#080808] focus:bg-white focus:border-b-rounded-none text-black text-custom p-2 focus:outline-none
+          className={`w-full bg-gray-800 bg-black xl:bg-[#080808] focus:bg-white focus:border-b-rounded-none text-black text-custom p-2 focus:outline-none
              pl-12 md:pl-16 pr-14 py-1 ${
                showSuggestions && filteredSuggestions.length > 0
                  ? 'rounded-t-2xl'

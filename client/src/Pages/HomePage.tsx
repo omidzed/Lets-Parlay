@@ -12,7 +12,7 @@ export const HomePage = () => {
 
   return (
     <div>
-      <div className="block flex justify-center md:hidden">
+      <div className="block flex justify-center xl:hidden">
         <SearchBox
           className=""
           setInputValue={setInputValue}

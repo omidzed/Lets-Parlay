@@ -88,12 +88,12 @@ export const OddsTable = ({ filteredEvents }: Props) => {
               </span>
               <span
                 onClick={() => handleClick(nameOne)}
-                className="flex whitespace-nowrap justify-center gap-2 items-center text-tiny md:text-custom h-[28%] cursor-pointer">
+                className="flex whitespace-nowrap justify-center gap-2 items-center text-tiny md:text-custom h-[28%] cursor-pointer hover:text-[#065994]">
                 {nameOne} <FaExternalLinkAlt color="grey" size={8} />
               </span>
               <span
                 onClick={() => handleClick(nameTwo)}
-                className="flex gap-2 whitespace-nowrap justify-center items-center text-tiny md:text-custom  h-[33%] cursor-pointer">
+                className="flex gap-2 whitespace-nowrap justify-center items-center text-tiny md:text-custom  h-[33%] cursor-pointer hover:text-[#065994]">
                 {nameTwo} <FaExternalLinkAlt color="grey" size={8} />
               </span>
             </div>

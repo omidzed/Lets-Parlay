@@ -119,7 +119,7 @@ const NavBarLeftSection: React.FC<NavBarLeftSectionProps> = ({
           <p className={styles.parlay}>PARLAY</p>
         </Link>
         <SearchBox
-          className="hidden md:block md:relative md:left-56"
+          className="hidden xl:block md:relative md:left-56"
           setInputValue={setInputValue}
         />
       </div>
