@@ -40,7 +40,7 @@ export const Banner = ({ posters }: BannerProps) => {
   return (
     <div className="relative my-3 w-4/5 md:w-2/5">
       <img
-        className="w-full mx-auto h-full rounded-lg lg:rounded-xl object-contain cursor-pointer border border-[#1f1f21]"
+        className="w-full mx-auto h-full rounded-lg lg:rounded-xl object-contain cursor-pointer"
         src={posters[index]}
         onClick={togglePlayPause}
       />
