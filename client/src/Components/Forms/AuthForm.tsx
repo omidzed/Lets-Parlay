@@ -110,7 +110,7 @@ export const AuthForm = ({ action, toggleAction }: Props) => {
     label: 'absolute bottom-8 left-3 z-50 bg-white px-1 text-small',
     input: 'block w-full border border-slate-400 rounded-md mb-1 h-10 px-4',
     blueButton:
-      'transition duration-300 ease-in-out w-full tracking-wider bg-blue-800 hover:bg-blue-600 mt-4 text-white py-1.5 rounded-md cursor-pointer',
+      'transition duration-300 ease-in-out w-full tracking-wider bg-blue-600 hover:bg-blue-800 mt-4 text-white py-1.5 rounded-md cursor-pointer',
     grayButton:
       'transition duration-300 ease-in-out w-full bg-gray-600 hover:bg-gray-500 text-white px-4 py-1.5 rounded-md cursor-pointer',
   };
