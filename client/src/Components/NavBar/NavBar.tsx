@@ -182,7 +182,7 @@ const styles = {
   parlay: 'text-yellow-500',
   buttonsWrapper: 'flex items-center gap-1 md:gap-3 mr-2 md:mr-10',
   login:
-    'transition duration-300 ease-in-out hover:font-medium hover:bg-yellow-400 lg:text-small text-black flex gap-1 text-tiny p-1 bg-yellow-500 border border-black hover:border-white rounded-md md:rounded-md px-4 md:px-8 py-1 md:py-2',
+    'transition duration-200 ease-in-out hover:font-medium hover:bg-yellow-400 lg:text-small text-black flex gap-1 text-tiny p-1 bg-yellow-500 border border-black hover:border-white rounded-md md:rounded-md px-4 md:px-8 py-1 md:py-2',
   logout:
     'hidden xl:block text-tiny md:mr-8 md:text-thead p-1 mx-2 md:mr-0 border border-black hover:border-yellow-500 hover:text-yellow-500 transition duration-300 ease-in-out rounded-sm md:rounded-md bg-[#070707] px-2 md:px-10 md:py-2',
   list: 'flex md:justify-end md:items-end gap-0 md:mr-6 mr-2 flex-nowrap font-thin',
