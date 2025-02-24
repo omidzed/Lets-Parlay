@@ -109,7 +109,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
             </div>
             <div className="flex-col  w-1/2 md:w-1/3 text-white text-xs">
               <span
-                className={`${style.thead} full-width-border pl-7 px-2 border border-t-0 border-r-0 border-l-0 border-[#2d2d31e3]`}>
+                className={`${style.thead} full-width-border pl-7 lg:pl-0 px-2 border border-t-0 border-r-0 border-l-0 border-[#2d2d31e3]`}>
                 MONEYLINE
               </span>
               <span
@@ -125,7 +125,7 @@ export const OddsTable = ({ filteredEvents }: Props) => {
             </div>
             <div className="flex-col  w-1/2 md:w-1/3  text-white text-tiny md:text-2xl">
               <span
-                className={`${style.thead} full-width-border pl-4 border border-t-0 border-r-0 border-l-0 border-[#2d2d31e3]`}>
+                className={`${style.thead} full-width-border pl-3 lg:pl-0 border border-t-0 border-r-0 border-l-0 border-[#2d2d31e3]`}>
                 ROUNDS +/-
               </span>
               <div
@@ -155,7 +155,7 @@ const style = {
   rounds:
     'flex gap-2 pl-2 md:ml-1 mr-1 justify-between items-center text-tiny h-7 group-hover:bg-[#063d64] lg:text-thead justify-center items-center rounded-md bg-[#2e2e31] text-white md:h-[28%]',
   overUnder:
-    'flex whitespace-nowrap w-[80%] text-tiny md:text-thead sm:pl-4 md:pl-1 h-7 mt-2 lg:text-lg md:justify-between hover:bg-[#063d64] items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338] cursor-pointer',
+    'flex whitespace-nowrap w-[80%] text-xs md:text-thead sm:pl-4 md:pl-1 h-7 mt-2 lg:text-lg md:justify-between hover:bg-[#063d64] items-center rounded-md bg-[#2e2e31] md:h-[28%] text-[#54D338] cursor-pointer',
   boxStyling:
     'flex text-xs h-7 m-2 mt-2 md:text-xl w-[80%] justify-center items-center rounded-md bg-[#2e2e31] hover:bg-[#063d64] md:h-[28%] text-[#54D338] cursor-pointer',
   spread:
