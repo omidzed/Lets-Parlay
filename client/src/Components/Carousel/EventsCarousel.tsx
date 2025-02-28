@@ -5,6 +5,7 @@ export const EventsCarousel = () => {
     'images/3-1-25.png',
     'images/3-8-25.png',
     'images/3-15-25.png',
+    'images/3-22-25.png',
   ];
 
   return (
