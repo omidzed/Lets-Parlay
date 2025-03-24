@@ -29,7 +29,8 @@ CREATE TABLE "bets" (
   "betAmount" int NOT NULL,
   "payout" numeric,
   "placedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  "matchId" text
+  "matchId" text,
+  "odds" numeric DEFAULT 1.9
 );
 
 CREATE TABLE "fighters" (
@@ -49,4 +50,26 @@ CREATE TABLE "rankings" (
   "rank" INT,
   "isChampion" BOOLEAN DEFAULT FALSE,
   "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table to log scraped data
+CREATE TABLE IF NOT EXISTS scraped_data_log (
+  id SERIAL PRIMARY KEY,
+  source VARCHAR(50) NOT NULL,
+  event_name TEXT NOT NULL,
+  processed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  fights_count INTEGER,
+  success BOOLEAN DEFAULT TRUE
+);
+
+-- Table to store fight match information
+CREATE TABLE IF NOT EXISTS matches (
+  matchId TEXT PRIMARY KEY,
+  fighter1Id INT REFERENCES fighters("fighterId"),
+  fighter2Id INT REFERENCES fighters("fighterId"),
+  eventName TEXT NOT NULL,
+  eventDate TIMESTAMP,
+  result TEXT,
+  winner INT REFERENCES fighters("fighterId"),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
