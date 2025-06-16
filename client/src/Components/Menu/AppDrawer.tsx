@@ -94,7 +94,7 @@ export const AppDrawer = ({
                   onClick={wrappedHandleLogin}
                   className={styles.login}
                   aria-label="Log in">
-                  Log In | Sign Up
+                  LOG IN | SIGN UP
                 </button>
               )}
             </div>

@@ -16,7 +16,7 @@ import { useBets } from '../../Hooks/useBets';
 import { SearchBox } from '../SearchBox';
 import { useEvents } from '../../Hooks/useEvents';
 
-interface NavBarLeftSectionProps {
+type NavBarLeftSectionProps ={
   toggleMenu: () => void;
 }
 

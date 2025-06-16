@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { ApiEvent, Event } from '../utils/data-types';
 import { apiKey } from '../utils/api-data';
-import { generateRealisticOverUnderOdds } from '../utils/generate-random-odds';
+import { generateOverUnderOdds } from '../utils/generate-random-odds';
 
 export const useFetchEvents = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -38,25 +38,31 @@ export const useFetchEvents = () => {
             const eventTime = new Date(event.commence_time).getTime();
             return eventTime > now;
           })
-          .map((event: ApiEvent) => ({
-            id: event.id,
-            commenceTime: event.commence_time,
-            outcomes:
-              event.bookmakers?.[0]?.markets?.[0]?.outcomes.map((outcome) => ({
-                name: outcome.name,
-                moneyline: outcome.price,
-              })) || [],
-            overUnderOdds: [
-              {
-                name: 'O 2.5',
-                overUnderOdds: generateRealisticOverUnderOdds(true),
-              },
-              {
-                name: 'U 2.5',
-                overUnderOdds: generateRealisticOverUnderOdds(false),
-              },
-            ],
-          }));
+          .map((event: ApiEvent) => {
+            const [over, under] = generateOverUnderOdds();
+
+            return {
+              id: event.id,
+              commenceTime: event.commence_time,
+              outcomes:
+                event.bookmakers?.[0]?.markets?.[0]?.outcomes.map(
+                  (outcome) => ({
+                    name: outcome.name,
+                    moneyline: outcome.price,
+                  })
+                ) || [],
+              overUnderOdds: [
+                {
+                  name: 'O 2.5',
+                  overUnderOdds: over,
+                },
+                {
+                  name: 'U 2.5',
+                  overUnderOdds: under,
+                },
+              ],
+            };
+          });
 
         localStorage.setItem(
           'events',
@@ -76,7 +82,7 @@ export const useFetchEvents = () => {
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 86400000); // Every 3 days
+    const interval = setInterval(fetchData, 86400000); // Every 24 hours
     return () => clearInterval(interval);
   }, []);
 

@@ -6,7 +6,6 @@ import { formatLongName } from '../utils/format-names';
 import { AlertModal } from './AlertModal';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { useUser } from '../Hooks/useUser';
-//import { ParlayForm } from "./Forms/ParlayForm";
 
 type Props = {
   filteredEvents: Event[] | undefined;
@@ -132,7 +131,9 @@ export const OddsTable = ({ filteredEvents }: Props) => {
                 className={`group ${style.overUnder}`}
                 onClick={() => betSlip(event, '', 'O 2.5')}>
                 <span className={style.rounds}>{over}</span>
-                <span className="md:pr-4">{overOdds}</span>
+                <span className="md:pr-4">
+                  {overOdds > 0 ? `+${overOdds}` : overOdds}
+                </span>
               </div>
               <div
                 className={`group ${style.overUnder}`}
