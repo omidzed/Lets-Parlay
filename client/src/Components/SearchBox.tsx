@@ -13,7 +13,6 @@ export const SearchBox = ({
   className = '',
 }: SearchBoxProps) => {
   const [inputValueLocal, setInputValueLocal] = useState<string>('');
-   const [previousValue, setPreviousValue] = useState<string>('');
   const [placeholder, setPlaceholder] = useState('Fighters...');
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -21,30 +20,25 @@ export const SearchBox = ({
   const { suggestions } = useFetchEvents();
   const inputRef = useRef<HTMLInputElement>(null);
 
- const handleClick = () => {
-   setPreviousValue(inputValueLocal); // Save current value before modifying
-   setPlaceholder('');
- };
+  const handleClick = () => {
+    setPlaceholder('');
+  };
 
- const clearInput = () => {
-   setPreviousValue(''); // Reset previous value when clearing
-   setInputValueLocal('');
-   setInputValue('');
-   setPlaceholder('');
-   setFilteredSuggestions([]);
-   setShowSuggestions(false);
-   inputRef.current?.focus();
- };
+  const clearInput = () => {
+    setInputValueLocal('');
+    setInputValue('');
+    setPlaceholder('');
+    setFilteredSuggestions([]);
+    setShowSuggestions(false);
+    inputRef.current?.focus();
+  };
 
- const handleBlur = () => {
-   // Restore previous state
-   setInputValueLocal(previousValue);
-   setInputValue(previousValue);
-   setPlaceholder('Fighters...');
-   setFilteredSuggestions([]); // Reset suggestions
-   setShowSuggestions(false);
-   setActiveSuggestionIndex(0);
- };
+  const handleBlur = () => {
+    setPlaceholder('Fighters...');
+    setShowSuggestions(false);
+    setFilteredSuggestions([]);
+    setActiveSuggestionIndex(0);
+  };
 
   const onSuggestionClick = (e: React.MouseEvent, suggestion: string) => {
     e.preventDefault();
