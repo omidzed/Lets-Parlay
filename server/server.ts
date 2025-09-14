@@ -15,56 +15,45 @@ import {
 } from './lib/index.js';
 import type { User, Auth, Bet } from '../client/src/utils/data-types.js';
 
-// const connectionString =
-//   process.env.DATABASE_URL ||
-//   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
-
-// const db = new pg.Pool({
-//   connectionString,
-//   ssl: {
-//     rejectUnauthorized: false,
-//   },
-// });
-
 const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
   throw new Error('DATABASE_URL not found in .env');
 }
 
+console.log('🔗 Attempting to connect to database...');
+
 const db = new pg.Pool({
   connectionString,
   ssl: {
     rejectUnauthorized: false,
   },
-  // Add connection pooling settings
-  max: 20,
-  connectionTimeoutMillis: 10000,
+  // Reduced pool settings for better connection handling
+  max: 10,
+  connectionTimeoutMillis: 15000,
   idleTimeoutMillis: 30000,
 });
 
-// Test connection immediately
-(async () => {
+// Simple connection test that doesn't exit on failure
+db.on('error', (err) => {
+  console.error('❌ Unexpected database error:', err);
+});
+
+// Test connection but don't exit if it fails
+const testConnection = async () => {
   try {
     const client = await db.connect();
     console.log('✅ Database connected successfully on startup');
     await client.query('SELECT NOW()');
     console.log('✅ Database query test successful');
     client.release();
+    return true;
   } catch (err) {
     console.error('❌ Database connection failed on startup:', err);
-    process.exit(1); // Exit if DB connection fails
+    console.log('⚠️  Server will continue but database operations may fail');
+    return false;
   }
-})();
-// connection test
-db.connect()
-  .then(client => {
-    console.log('✅ Database connected successfully');
-    client.release();
-  })
-  .catch(err => {
-    console.error('❌ Database connection failed:', err);
-  });
+};
 
 const hashKey = process.env.TOKEN_SECRET;
 if (!hashKey) throw new Error('TOKEN_SECRET not found in .env');
@@ -100,6 +89,7 @@ app.post('/api/auth/sign-up', async (req, res, next) => {
     const [user] = result.rows;
     res.status(201).json(user);
   } catch (err) {
+    console.error('Sign-up error:', err);
     next(err);
   }
 });
@@ -133,28 +123,34 @@ app.post('/api/auth/login', async (req, res, next) => {
     const token = jwt.sign(payload, hashKey, { expiresIn: '2h' });
     res.json({ token, user: payload });
   } catch (err) {
+    console.error('Login error:', err);
     next(err);
   }
 });
 
 app.post('/api/auth/guest-check-in', async (req, res, next) => {
   try {
+    console.log('🔍 Guest check-in attempt started');
     const { username, password } = req.body as Partial<Auth>;
 
     if (!username || !password) {
       throw new ClientError(400, 'Username and password are required');
     }
 
+    console.log('🔍 About to query database for user:', username);
     const sql = `
       SELECT "userId",
              "name",
              "hashedPassword",
-             "funds"
+             "funds",
+             "isAdmin"
       FROM   "users"
       WHERE  "username" = $1
     `;
     const params = [username];
     const result = await db.query<User>(sql, params);
+    console.log('🔍 Database query completed, rows found:', result.rows.length);
+
     const user = result.rows[0];
 
     if (!user) {
@@ -171,6 +167,7 @@ app.post('/api/auth/guest-check-in', async (req, res, next) => {
     const token = jwt.sign(payload, hashKey, { expiresIn: '2h' });
     res.json({ token, user: payload });
   } catch (err) {
+    console.error('❌ Guest check-in error details:', err);
     next(err);
   }
 });
@@ -351,6 +348,20 @@ app.use(defaultMiddleware(reactStaticDir));
 
 app.use(errorMiddleware);
 
-app.listen(process.env.PORT, () => {
-  process.stdout.write(`\n\napp listening on port ${process.env.PORT}\n\n`);
-});
+// Start server and test database connection
+const startServer = async () => {
+  try {
+    // Test database connection
+    await testConnection();
+
+    // Start the server
+    app.listen(process.env.PORT, () => {
+      console.log(`\n\n✅ Server listening on port ${process.env.PORT}\n\n`);
+    });
+  } catch (err) {
+    console.error('❌ Failed to start server:', err);
+    process.exit(1);
+  }
+};
+
+startServer();
