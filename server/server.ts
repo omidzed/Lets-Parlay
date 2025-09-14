@@ -15,15 +15,39 @@ import {
 } from './lib/index.js';
 import type { User, Auth, Bet } from '../client/src/utils/data-types.js';
 
-const connectionString =
-  process.env.DATABASE_URL ||
-  `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
+// const connectionString =
+//   process.env.DATABASE_URL ||
+//   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
+
+// const db = new pg.Pool({
+//   connectionString,
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
+
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  throw new Error('DATABASE_URL not found in .env');
+}
+
 const db = new pg.Pool({
   connectionString,
   ssl: {
     rejectUnauthorized: false,
   },
 });
+
+// connection test
+db.connect()
+  .then(client => {
+    console.log('✅ Database connected successfully');
+    client.release();
+  })
+  .catch(err => {
+    console.error('❌ Database connection failed:', err);
+  });
 
 const hashKey = process.env.TOKEN_SECRET;
 if (!hashKey) throw new Error('TOKEN_SECRET not found in .env');
