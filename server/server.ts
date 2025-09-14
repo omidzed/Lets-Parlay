@@ -1,6 +1,10 @@
 import { setDefaultResultOrder } from 'dns';
 setDefaultResultOrder('ipv4first');
 
+import dns from 'node:dns/promises';
+import { URL } from 'url';
+
+
 import 'dotenv/config';
 import express from 'express';
 import pg from 'pg';
@@ -15,31 +19,32 @@ import {
 } from './lib/index.js';
 import type { User, Auth, Bet } from '../client/src/utils/data-types.js';
 
-const connectionString = process.env.DATABASE_URL;
+const rawConn =
+  process.env.DATABASE_URL ??
+  `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
+if (!rawConn) throw new Error('DATABASE_URL not found in .env');
 
-if (!connectionString) {
-  throw new Error('DATABASE_URL not found in .env');
+let db: pg.Pool; // will be assigned before server starts
+
+async function createPool(): Promise<pg.Pool> {
+  console.log('🔗 Attempting to connect to database (forcing IPv4)…');
+
+  // Parse the URL, resolve hostname to IPv4, keep original hostname for TLS SNI
+  const url = new URL(rawConn);
+  const sniHost = url.hostname;              // original host (used for TLS SNI)
+  const [ipv4] = await dns.resolve4(sniHost); // pick an A record (IPv4)
+  url.hostname = ipv4;                        // connect to IPv4
+
+  return new pg.Pool({
+    connectionString: url.toString(),
+    ssl: { rejectUnauthorized: false, servername: sniHost }, // keep SNI = original host
+    max: 10,
+    connectionTimeoutMillis: 15000,
+    idleTimeoutMillis: 30000,
+  });
 }
 
-console.log('🔗 Attempting to connect to database...');
 
-const db = new pg.Pool({
-  connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-  // Reduced pool settings for better connection handling
-  max: 10,
-  connectionTimeoutMillis: 15000,
-  idleTimeoutMillis: 30000,
-});
-
-// Simple connection test that doesn't exit on failure
-db.on('error', (err) => {
-  console.error('❌ Unexpected database error:', err);
-});
-
-// Test connection but don't exit if it fails
 const testConnection = async () => {
   try {
     const client = await db.connect();
@@ -348,20 +353,45 @@ app.use(defaultMiddleware(reactStaticDir));
 
 app.use(errorMiddleware);
 
-// Start server and test database connection
+// // Start server and test database connection
+// const startServer = async () => {
+//   try {
+//     // Test database connection
+//     await testConnection();
+
+//     // Start the server
+//     app.listen(process.env.PORT, () => {
+//       console.log(`\n\n✅ Server listening on port ${process.env.PORT}\n\n`);
+//     });
+//   } catch (err) {
+//     console.error('❌ Failed to start server:', err);
+//     process.exit(1);
+//   }
+// };
+
 const startServer = async () => {
   try {
-    // Test database connection
+    // 1) Create pool
+    db = await createPool();
+
+    // 2) NOW it exists — register error handler safely
+    db.on('error', (err) => {
+      console.error('❌ Unexpected database error:', err);
+    });
+
+    // 3) Optional connection test
     await testConnection();
 
-    // Start the server
-    app.listen(process.env.PORT, () => {
-      console.log(`\n\n✅ Server listening on port ${process.env.PORT}\n\n`);
+    // 4) Start server
+    const port = Number(process.env.PORT ?? 8080);
+    app.listen(port, () => {
+      console.log(`\n\n✅ Server listening on port ${port}\n\n`);
     });
   } catch (err) {
     console.error('❌ Failed to start server:', err);
     process.exit(1);
   }
 };
+
 
 startServer();
