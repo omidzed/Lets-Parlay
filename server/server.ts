@@ -1,10 +1,6 @@
 import { setDefaultResultOrder } from 'dns';
 setDefaultResultOrder('ipv4first');
 
-import dns from 'node:dns/promises';
-import { URL } from 'url';
-
-
 import 'dotenv/config';
 import express from 'express';
 import pg from 'pg';
@@ -19,46 +15,56 @@ import {
 } from './lib/index.js';
 import type { User, Auth, Bet } from '../client/src/utils/data-types.js';
 
-const rawConn =
-  process.env.DATABASE_URL ??
-  `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
-if (!rawConn) throw new Error('DATABASE_URL not found in .env');
+// const connectionString =
+//   process.env.DATABASE_URL ||
+//   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
 
-let db: pg.Pool; // will be assigned before server starts
+// const db = new pg.Pool({
+//   connectionString,
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
 
-async function createPool(): Promise<pg.Pool> {
-  console.log('🔗 Attempting to connect to database (forcing IPv4)…');
+const connectionString = process.env.DATABASE_URL;
 
-  // Parse the URL, resolve hostname to IPv4, keep original hostname for TLS SNI
-  const url = new URL(rawConn);
-  const sniHost = url.hostname;              // original host (used for TLS SNI)
-  const [ipv4] = await dns.resolve4(sniHost); // pick an A record (IPv4)
-  url.hostname = ipv4;                        // connect to IPv4
-
-  return new pg.Pool({
-    connectionString: url.toString(),
-    ssl: { rejectUnauthorized: false, servername: sniHost }, // keep SNI = original host
-    max: 10,
-    connectionTimeoutMillis: 15000,
-    idleTimeoutMillis: 30000,
-  });
+if (!connectionString) {
+  throw new Error('DATABASE_URL not found in .env');
 }
 
+const db = new pg.Pool({
+  connectionString,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+  // Add connection pooling settings
+  max: 20,
+  connectionTimeoutMillis: 10000,
+  idleTimeoutMillis: 30000,
+});
 
-const testConnection = async () => {
+// Test connection immediately
+(async () => {
   try {
     const client = await db.connect();
     console.log('✅ Database connected successfully on startup');
     await client.query('SELECT NOW()');
     console.log('✅ Database query test successful');
     client.release();
-    return true;
   } catch (err) {
     console.error('❌ Database connection failed on startup:', err);
-    console.log('⚠️  Server will continue but database operations may fail');
-    return false;
+    process.exit(1); // Exit if DB connection fails
   }
-};
+})();
+// connection test
+db.connect()
+  .then(client => {
+    console.log('✅ Database connected successfully');
+    client.release();
+  })
+  .catch(err => {
+    console.error('❌ Database connection failed:', err);
+  });
 
 const hashKey = process.env.TOKEN_SECRET;
 if (!hashKey) throw new Error('TOKEN_SECRET not found in .env');
@@ -94,7 +100,6 @@ app.post('/api/auth/sign-up', async (req, res, next) => {
     const [user] = result.rows;
     res.status(201).json(user);
   } catch (err) {
-    console.error('Sign-up error:', err);
     next(err);
   }
 });
@@ -128,34 +133,28 @@ app.post('/api/auth/login', async (req, res, next) => {
     const token = jwt.sign(payload, hashKey, { expiresIn: '2h' });
     res.json({ token, user: payload });
   } catch (err) {
-    console.error('Login error:', err);
     next(err);
   }
 });
 
 app.post('/api/auth/guest-check-in', async (req, res, next) => {
   try {
-    console.log('🔍 Guest check-in attempt started');
     const { username, password } = req.body as Partial<Auth>;
 
     if (!username || !password) {
       throw new ClientError(400, 'Username and password are required');
     }
 
-    console.log('🔍 About to query database for user:', username);
     const sql = `
       SELECT "userId",
              "name",
              "hashedPassword",
-             "funds",
-             "isAdmin"
+             "funds"
       FROM   "users"
       WHERE  "username" = $1
     `;
     const params = [username];
     const result = await db.query<User>(sql, params);
-    console.log('🔍 Database query completed, rows found:', result.rows.length);
-
     const user = result.rows[0];
 
     if (!user) {
@@ -172,7 +171,6 @@ app.post('/api/auth/guest-check-in', async (req, res, next) => {
     const token = jwt.sign(payload, hashKey, { expiresIn: '2h' });
     res.json({ token, user: payload });
   } catch (err) {
-    console.error('❌ Guest check-in error details:', err);
     next(err);
   }
 });
@@ -353,45 +351,6 @@ app.use(defaultMiddleware(reactStaticDir));
 
 app.use(errorMiddleware);
 
-// // Start server and test database connection
-// const startServer = async () => {
-//   try {
-//     // Test database connection
-//     await testConnection();
-
-//     // Start the server
-//     app.listen(process.env.PORT, () => {
-//       console.log(`\n\n✅ Server listening on port ${process.env.PORT}\n\n`);
-//     });
-//   } catch (err) {
-//     console.error('❌ Failed to start server:', err);
-//     process.exit(1);
-//   }
-// };
-
-const startServer = async () => {
-  try {
-    // 1) Create pool
-    db = await createPool();
-
-    // 2) NOW it exists — register error handler safely
-    db.on('error', (err) => {
-      console.error('❌ Unexpected database error:', err);
-    });
-
-    // 3) Optional connection test
-    await testConnection();
-
-    // 4) Start server
-    const port = Number(process.env.PORT ?? 8080);
-    app.listen(port, () => {
-      console.log(`\n\n✅ Server listening on port ${port}\n\n`);
-    });
-  } catch (err) {
-    console.error('❌ Failed to start server:', err);
-    process.exit(1);
-  }
-};
-
-
-startServer();
+app.listen(process.env.PORT, () => {
+  process.stdout.write(`\n\napp listening on port ${process.env.PORT}\n\n`);
+});
