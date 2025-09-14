@@ -37,8 +37,25 @@ const db = new pg.Pool({
   ssl: {
     rejectUnauthorized: false,
   },
+  // Add connection pooling settings
+  max: 20,
+  connectionTimeoutMillis: 10000,
+  idleTimeoutMillis: 30000,
 });
 
+// Test connection immediately
+(async () => {
+  try {
+    const client = await db.connect();
+    console.log('✅ Database connected successfully on startup');
+    await client.query('SELECT NOW()');
+    console.log('✅ Database query test successful');
+    client.release();
+  } catch (err) {
+    console.error('❌ Database connection failed on startup:', err);
+    process.exit(1); // Exit if DB connection fails
+  }
+})();
 // connection test
 db.connect()
   .then(client => {
