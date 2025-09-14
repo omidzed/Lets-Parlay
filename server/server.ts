@@ -15,39 +15,23 @@ import {
 } from './lib/index.js';
 import type { User, Auth, Bet } from '../client/src/utils/data-types.js';
 
-// const connectionString =
-//   process.env.DATABASE_URL ||
-//   `postgresql://${process.env.RDS_USERNAME}:${process.env.RDS_PASSWORD}@${process.env.RDS_HOSTNAME}:${process.env.RDS_PORT}/${process.env.RDS_DB_NAME}`;
-
-// const db = new pg.Pool({
-//   connectionString,
-//   ssl: {
-//     rejectUnauthorized: false,
-//   },
-// });
-
 const connectionString = process.env.DATABASE_URL;
+if (!connectionString) throw new Error('DATABASE_URL missing');
 
-if (!connectionString) {
-  throw new Error('DATABASE_URL not found in .env');
-}
-
-const db = new pg.Pool({
+export const db = new pg.Pool({
   connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl: { rejectUnauthorized: false },
+  max: 10,
+  connectionTimeoutMillis: 15000,
+  idleTimeoutMillis: 30000,
 });
 
-// connection test
-db.connect()
-  .then(client => {
-    console.log('✅ Database connected successfully');
-    client.release();
-  })
-  .catch(err => {
-    console.error('❌ Database connection failed:', err);
-  });
+// one line to prove what we actually use (password masked)
+try {
+  const u = new URL(connectionString);
+  console.log('DB ->', `${u.protocol}//${u.username}:***@${u.host}${u.pathname}`);
+} catch { }
+
 
 const hashKey = process.env.TOKEN_SECRET;
 if (!hashKey) throw new Error('TOKEN_SECRET not found in .env');
